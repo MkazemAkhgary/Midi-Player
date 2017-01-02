@@ -17,10 +17,10 @@
                 <MenuItem Header="Exit" Click="MenuItem_Exit"/>
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Device Info" Click="MenuItem_Click"/>
+                <MenuItem Header="Device Info" Click="MenuItem_DeviceInfo"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About"/>
+                <MenuItem Header="About" Click="MenuItem_About"/>
             </MenuItem>
         </Menu>
     </Grid>

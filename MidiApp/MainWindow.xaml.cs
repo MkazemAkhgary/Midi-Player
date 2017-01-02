@@ -44,13 +44,29 @@ namespace MidiUI
             PlayerControl.Dispose();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_DeviceInfo(object sender, RoutedEventArgs e)
         {
             string info = PlayerControl.Player.GetMidiOutputDeviceInfo;
 
             MessageBox.Show(
-                this, info, "Midi Output Device Info",
-                MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                this,
+                info,
+                "Midi Output Device Info",
+                MessageBoxButton.OK, 
+                MessageBoxImage.Information,
+                MessageBoxResult.OK);
+        }
+
+        private void MenuItem_About(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                this,
+                "Developer : " +
+                "L.van.Beethoven9@gmail.com",
+                "About",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information,
+                MessageBoxResult.OK);
         }
     }
 }
