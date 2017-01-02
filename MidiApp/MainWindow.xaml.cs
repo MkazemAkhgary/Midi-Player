@@ -46,7 +46,11 @@ namespace MidiUI
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
+            string info = PlayerControl.Player.GetMidiOutputDeviceInfo;
 
+            MessageBox.Show(
+                this, info, "Midi Output Device Info",
+                MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
     }
 }

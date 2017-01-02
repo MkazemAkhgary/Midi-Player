@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.InteropServices;
 using static MidiStream.Helpers.Extension.Enumerations;
 
@@ -119,8 +120,7 @@ namespace Midi.Device.Output.Managed
 
         public override string ToString()
         {
-            string formatted = $@"
-Manufacturer Id : {wMid}
+            string formatted = $@"Manufacturer Id : {wMid}
 Product Id : {wPid}
 Driver Version : {vDriverVersion}
 Product Name : {szPname}
@@ -128,8 +128,10 @@ Midi Output Device Type : {GetAttribute<DescriptionAttribute>(wTechnology).Descr
 Number of voices supported : {wVoices}
 Maximum number of simultaneous notes : {wNotes}
 Channel Mask : {Convert.ToString(wChannelMask, 2)}
-{string.Join(Environment.NewLine, GetAllFlags(dwSupport))}
-";
+{string.Join(Environment.NewLine,
+                GetAllFlags(dwSupport)
+                    .Select(GetAttribute<DescriptionAttribute>)
+                    .Select(a => a.Description))}";
 
             return formatted;
         }
