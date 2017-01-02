@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Midi.Device.Output.Managed;
 using MidiStream.Components.Containers.Tracks;
 using MidiStream.Enums;
 
@@ -16,6 +17,8 @@ namespace Midi.PlaybackComponents
         private IReadOnlyCollection<Playback> _tracks;
         private readonly PlaybackData _data;
         private readonly Lazy<MidiOutput> _output;
+
+        internal MIDIOUTCAPS GetOutputCapabilities => _output.Value.OutputCapabilities;
 
         public PlaybackControl(PlaybackData data)
         {

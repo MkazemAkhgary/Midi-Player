@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using static MidiStream.Helpers.Extension.Enumerations;
 
 namespace Midi.Device.Output.Managed
 {
@@ -15,50 +16,50 @@ namespace Midi.Device.Output.Managed
         /// <summary>
         /// Manufacturer identifier of the device driver for the MIDI output device.
         /// </summary>
-        public ushort wMid;
+        private ushort wMid;
 
         /// <summary>
         /// Product identifier of the MIDI output device.
         /// </summary>
-        public ushort wPid;
+        private ushort wPid;
 
         /// <summary>
         /// Version number of the device driver for the MIDI output device.
         /// </summary>
-        public uint vDriverVersion; //MMVERSION
+        private uint vDriverVersion; //MMVERSION
 
         /// <summary>
         /// Product name in a null-terminated string.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string szPname;
+        private string szPname;
 
         /// <summary>
         /// Type of the MIDI output device.
         /// </summary>
-        public Technology wTechnology;
+        private Technology wTechnology;
 
         /// <summary>
         /// Number of voices supported by an internal synthesizer device. 
         /// </summary>
-        public ushort wVoices;
+        private ushort wVoices;
 
         /// <summary>
         /// Maximum number of simultaneous notes that can be played by an internal synthesizer device.
         /// </summary>
-        public ushort wNotes;
+        private ushort wNotes;
 
         /// <summary>
         /// Channels that an internal synthesizer device responds to, where the least significant bit refers to channel 0 and the most significant bit to channel 15.
         /// </summary>
-        public ushort wChannelMask;
+        private ushort wChannelMask;
 
         /// <summary>
         /// Optional functionality supported by the device.
         /// </summary>
-        public Support dwSupport;
+        private Support dwSupport;
 
-        internal enum Technology : ushort
+        private enum Technology : ushort
         {
             /// <summary>
             /// output port
@@ -104,7 +105,7 @@ namespace Midi.Device.Output.Managed
         }
 
         [Flags]
-        internal enum Support : uint
+        private enum Support : uint
         {
             [Description("Supports patch caching.")]
             MIDICAPS_CACHE = 1,
@@ -114,6 +115,23 @@ namespace Midi.Device.Output.Managed
             MIDICAPS_STREAM = 4,
             [Description("Supports volume control.")]
             MIDICAPS_VOLUME = 8 
+        }
+
+        public override string ToString()
+        {
+            string formatted = $@"
+Manufacturer Id : {wMid}
+Product Id : {wPid}
+Driver Version : {vDriverVersion}
+Product Name : {szPname}
+Midi Output Device Type : {GetAttribute<DescriptionAttribute>(wTechnology).Description}
+Number of voices supported : {wVoices}
+Maximum number of simultaneous notes : {wNotes}
+Channel Mask : {Convert.ToString(wChannelMask, 2)}
+{string.Join(Environment.NewLine, GetAllFlags(dwSupport))}
+";
+
+            return formatted;
         }
     }
 }

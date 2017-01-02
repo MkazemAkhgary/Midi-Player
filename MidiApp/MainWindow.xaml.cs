@@ -43,5 +43,10 @@ namespace MidiUI
         {
             PlayerControl.Dispose();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Midi.PlayerComponents
     {
         private readonly PlayerControl _control;
         public PlayerVM Context { get; }
+        public string GetMidiOutputDeviceInfo => _control.GetOutputCapabilities.ToString();
 
         public bool IsLoaded { get; private set; }
 

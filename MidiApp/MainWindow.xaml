@@ -17,7 +17,7 @@
                 <MenuItem Header="Exit" Click="MenuItem_Exit"/>
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Device Info"/>
+                <MenuItem Header="Device Info" Click="MenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="About"/>

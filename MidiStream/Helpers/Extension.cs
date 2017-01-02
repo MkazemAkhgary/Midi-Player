@@ -57,6 +57,17 @@ namespace MidiStream.Helpers
                    .GetMember(value.ToString())[0]
                    .GetCustomAttribute<TAttribute>();
             }
+
+            public static IEnumerable<Enum> GetAllFlags(Enum values)
+            {
+                foreach (Enum value in Enum.GetValues(values.GetType()))
+                {
+                    if (values.HasFlag(value))
+                    {
+                        yield return value;
+                    }
+                }
+            }
         }
         
         public static class IntConverter

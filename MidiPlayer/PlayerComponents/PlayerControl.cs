@@ -1,4 +1,6 @@
-﻿namespace Midi.PlayerComponents
+﻿using Midi.Device.Output.Managed;
+
+namespace Midi.PlayerComponents
 {
     using PlaybackComponents;
     using System;
@@ -10,6 +12,8 @@
         private bool _isPlaying;
         private readonly MidiTimer _timer;
         private readonly PlaybackControl _control;
+
+        internal MIDIOUTCAPS GetOutputCapabilities => _control.GetOutputCapabilities;
 
         internal PlayerControl(PlaybackData data)
         {
