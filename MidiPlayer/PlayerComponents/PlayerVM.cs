@@ -17,6 +17,12 @@ namespace Midi.PlayerComponents
 
         private PlaybackData Data { get; }
 
+        public bool IsPlaybackLoaded
+        {
+            get { return Data.IsPlaybackLoaded; }
+            set { Data.IsPlaybackLoaded = value; }
+        }
+
         public double StaticDuration
         {
             get { return Data.StaticDuration; }

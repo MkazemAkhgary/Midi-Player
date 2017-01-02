@@ -82,7 +82,7 @@ namespace Midi.Timers
         {
             _stopwatch.Stop();
             _timer.Stop();
-            lock (this) { }
+            lock (this) { } // this ensures timer is fully stopped.
         }
 
         public void Dispose()

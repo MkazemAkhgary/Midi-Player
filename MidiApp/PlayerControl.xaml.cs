@@ -15,7 +15,7 @@ namespace MidiUI
 
         private void PlayButton_Open(object sender, RoutedEventArgs e)
         {
-            if (!Player.IsLoaded)
+            if (!Player.Context.IsPlaybackLoaded)
                 App.OpenFile();
         }
         

@@ -48,6 +48,7 @@
                           Style="{DynamicResource ToggleStyle}"
                           IsChecked="{Binding IsPlaying}"
                           Command="{Binding Toggle}"
+                          CommandParameter="{Binding IsPlaybackLoaded}"
                           Click="PlayButton_Open">
                 <ToggleButton.Resources>
                     <Style x:Key="ToggleStyle" TargetType="ToggleButton">

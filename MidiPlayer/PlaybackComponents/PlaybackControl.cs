@@ -14,15 +14,22 @@ namespace Midi.PlaybackComponents
 
     internal partial class PlaybackControl : IDisposable
     {
+        private static readonly IReadOnlyCollection<Playback> NoPlayback;
+
         private IReadOnlyCollection<Playback> _tracks;
         private readonly PlaybackData _data;
         private readonly Lazy<MidiOutput> _output;
 
         internal MIDIOUTCAPS GetOutputCapabilities => _output.Value.OutputCapabilities;
 
+        static PlaybackControl()
+        {
+            NoPlayback = Enumerable.Empty<Playback>().ToList().AsReadOnly();
+        }
+
         public PlaybackControl(PlaybackData data)
         {
-            _tracks = Enumerable.Empty<Playback>().ToList().AsReadOnly();
+            _tracks = NoPlayback;
             _data = data;
             _output = new Lazy<MidiOutput>(() => new MidiOutput());
         }
@@ -84,7 +91,7 @@ namespace Midi.PlaybackComponents
 
         public void Close()
         {
-            _tracks = null;
+            _tracks = NoPlayback;
             _output.Value.Reset();
             _data.Reset();
         }

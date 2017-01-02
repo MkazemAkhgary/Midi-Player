@@ -20,6 +20,7 @@ namespace Midi.PlaybackComponents
         }
 
         private bool _play = false;
+        private bool _load = false;
 
         private double _stadur = 1;
         private double _rundur = 1;
@@ -94,6 +95,7 @@ namespace Midi.PlaybackComponents
 
                 _pbspeed = value;
                 TempoChanged?.Invoke(_mspb/_pbspeed);
+                OnPropertyChanged();
             }
         }
 
@@ -104,6 +106,7 @@ namespace Midi.PlaybackComponents
             {
                 _mspb = value;
                 TempoChanged?.Invoke(_mspb/_pbspeed);
+                OnPropertyChanged();
             }
         }
 
@@ -114,6 +117,17 @@ namespace Midi.PlaybackComponents
             {
                 if(value == _play) return;
                 _play = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsPlaybackLoaded
+        {
+            get { return _load; }
+            set
+            {
+                if (value == _load) return;
+                _load = value;
                 OnPropertyChanged();
             }
         }

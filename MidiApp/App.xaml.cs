@@ -10,26 +10,34 @@ namespace MidiUI
     /// </summary>
     public partial class App
     {
+        private static readonly Lazy<PlayerControl> Ctrl;
+        private static PlayerControl Control => Ctrl.Value;
+
+        static App()
+        {
+            Ctrl = new Lazy<PlayerControl>(() => (Current.MainWindow as MainWindow)?.PlayerControl);
+        }
+
         internal static void OpenFile()
         {
-            (Current.FindResource("FileDialog") as OpenFileDialog)?.ShowDialog(Current.MainWindow);
+            if ((Current.FindResource("FileDialog") as OpenFileDialog)?.ShowDialog(Current.MainWindow) != true)
+            {
+                Control.Player.Close();
+            }
         }
 
         internal static void LoadStream(string filename)
         {
-            var ctrl = (Current.MainWindow as MainWindow)?.PlayerControl;
-
-            if(ctrl == null) return;
-            
-            ctrl.Player.Close();
+            Control.Player.Close();
 
             try
             {
-                ctrl.Player.Open(filename);
+                Control.Player.Open(filename);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
+                Control.Player.Close();
             }
         }
 

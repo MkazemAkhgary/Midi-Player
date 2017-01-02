@@ -15,26 +15,24 @@ namespace Midi.PlayerComponents
         public PlayerVM Context { get; }
         public string GetMidiOutputDeviceInfo => _control.GetOutputCapabilities.ToString();
 
-        public bool IsLoaded { get; private set; }
-
         public Player()
         {
             var data = new PlaybackData();
             Context = new PlayerVM(data);
             _control = new PlayerControl(data);
 
-            Context.Toggle = DelegateCommand.Create(_control.Toggle);
+            Context.Toggle = DelegateCommand.Create(_control.Toggle, o => o as bool? ?? true);
             Context.SeekTo = DelegateCommand.Create<double>(_control.SeekTo);
         }
 
         public void Stop()
         {
-            _control.Stop();
+            if (Context.IsPlaybackLoaded) _control.Stop();
         }
 
         public void Start()
         {
-            _control.Start();
+            if (Context.IsPlaybackLoaded) _control.Start();
         }
 
         public void Open(string path)
@@ -42,14 +40,14 @@ namespace Midi.PlayerComponents
             using (var reader = new MidiStreamReader(path))
             {
                 _control?.Initialize(reader.GetStream());
-                IsLoaded = true;
+                Context.IsPlaybackLoaded = true;
             }
         }
 
         public void Close()
         {
             _control?.Close();
-            IsLoaded = false;
+            Context.IsPlaybackLoaded = false;
         }
 
         public void Dispose()
