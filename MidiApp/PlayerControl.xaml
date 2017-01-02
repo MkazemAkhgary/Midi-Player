@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="MidiUI.PlayerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:MidiUI.Converters"
+             xmlns:playerComponents="clr-namespace:Midi.PlayerComponents;assembly=MidiPlayer"
+             xmlns:c="clr-namespace:MidiUI.Controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:bs="clr-namespace:MidiUI.Behaviors.Slider"
+             mc:Ignorable="d"
+             d:DesignHeight="67.593" d:DesignWidth="312.037">
+    <UserControl.Resources>
+        <converters:TimeSpanConverter x:Key="TimeSpanConverter" />
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <playerComponents:Player x:Name="Player"/>
+    </UserControl.DataContext>
+    <Grid>
+        <StackPanel DataContext="{Binding Context}">
+            <c:RatioSlider x:Name="PlaybackSlider" Height="20" Margin="10,10,10,5"
+                    IsMoveToPointEnabled="True"
+                    Maximum="{Binding RuntimeDuration}">
+                <i:Interaction.Behaviors>
+                    <bs:FreeSlideBehavior/>
+                    <bs:LockOnDragBehavior SourceValue="{Binding RuntimePosition}"/>
+                    <bs:CommandOnDragCompletedBehavior DragCompletedCommand="{Binding SeekTo}"/>
+                </i:Interaction.Behaviors>
+            </c:RatioSlider>
+            <Slider x:Name="SpeedSlider" Margin="0,0,10,-26" Height="20" HorizontalAlignment="Right"
+                    Maximum="1.6" Minimum="0.4" TickFrequency="0.05"
+                    IsSnapToTickEnabled="True"
+                    Value="{Binding PlaybackSpeed}"
+                    IsMoveToPointEnabled="True" Width="60">
+                <i:Interaction.Behaviors>
+                    <bs:FreeSlideBehavior />
+                </i:Interaction.Behaviors>
+            </Slider>
+            <TextBlock x:Name="TimeDisplay" HorizontalAlignment="Left" Margin="10,2,0,-23">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="Value" ElementName="PlaybackSlider" Converter="{StaticResource TimeSpanConverter}"/>
+                        <Binding Path="Maximum" ElementName="PlaybackSlider" Converter="{StaticResource TimeSpanConverter}"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <ToggleButton x:Name="PlayButton" Width="90"
+                          Style="{DynamicResource ToggleStyle}"
+                          IsChecked="{Binding IsPlaying}"
+                          Command="{Binding Toggle}"
+                          Click="PlayButton_Open">
+                <ToggleButton.Resources>
+                    <Style x:Key="ToggleStyle" TargetType="ToggleButton">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=PlayButton}" Value="False">
+                                <Setter Property="Content" Value="Play" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=PlayButton}" Value="True">
+                                <Setter Property="Content" Value="Pause" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Resources>
+            </ToggleButton>
+        </StackPanel>
+    </Grid>
+</UserControl>

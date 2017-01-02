@@ -1,0 +1,12 @@
+﻿<Application x:Class="MidiUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:win32="clr-namespace:Microsoft.Win32;assembly=PresentationFramework"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <win32:OpenFileDialog x:Key="FileDialog" 
+                              Multiselect="False" FileName="" DefaultExt="*.mid"
+                              Filter="Midi(*.mid)|*.mid|All Files(*.*)|*.*" 
+                              FileOk="FileDialog_OnFileOk"/>
+    </Application.Resources>
+</Application>
