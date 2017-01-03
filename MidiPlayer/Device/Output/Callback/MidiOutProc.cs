@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Midi.Device.Output.Callback
+namespace MidiPlayer.Device.Output.Callback
 {
     /// <summary>
     /// callback function for handling outgoing MIDI messages.

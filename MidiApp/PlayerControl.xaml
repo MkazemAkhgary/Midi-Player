@@ -1,39 +1,39 @@
-﻿<UserControl x:Class="MidiUI.PlayerControl"
+﻿<UserControl x:Class="MidiApp.PlayerControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:MidiUI.Converters"
-             xmlns:playerComponents="clr-namespace:Midi.PlayerComponents;assembly=MidiPlayer"
-             xmlns:c="clr-namespace:MidiUI.Controls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:bs="clr-namespace:MidiUI.Behaviors.Slider"
+             xmlns:cnvt="clr-namespace:MidiApp.Converters"
+             xmlns:cmpn="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
+             xmlns:ctrl="clr-namespace:MidiApp.Controls"
+             xmlns:slid="clr-namespace:MidiApp.Behaviors.Slider"
              mc:Ignorable="d"
              d:DesignHeight="67.593" d:DesignWidth="312.037">
     <UserControl.Resources>
-        <converters:TimeSpanConverter x:Key="TimeSpanConverter" />
+        <cnvt:TimeSpanConverter x:Key="TimeSpanConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
-        <playerComponents:Player x:Name="Player"/>
+        <cmpn:Player x:Name="Player"/>
     </UserControl.DataContext>
     <Grid>
         <StackPanel DataContext="{Binding Context}">
-            <c:RatioSlider x:Name="PlaybackSlider" Height="20" Margin="10,10,10,5"
+            <ctrl:RatioSlider x:Name="PlaybackSlider" Height="20" Margin="10,10,10,5"
                     IsMoveToPointEnabled="True"
                     Maximum="{Binding RuntimeDuration}">
                 <i:Interaction.Behaviors>
-                    <bs:FreeSlideBehavior/>
-                    <bs:LockOnDragBehavior SourceValue="{Binding RuntimePosition}"/>
-                    <bs:CommandOnDragCompletedBehavior DragCompletedCommand="{Binding SeekTo}"/>
+                    <slid:FreeSlideBehavior/>
+                    <slid:LockOnDragBehavior SourceValue="{Binding RuntimePosition}"/>
+                    <slid:CommandOnDragCompletedBehavior DragCompletedCommand="{Binding SeekTo}"/>
                 </i:Interaction.Behaviors>
-            </c:RatioSlider>
+            </ctrl:RatioSlider>
             <Slider x:Name="SpeedSlider" Margin="0,0,10,-26" Height="20" HorizontalAlignment="Right"
                     Maximum="1.6" Minimum="0.4" TickFrequency="0.05"
                     IsSnapToTickEnabled="True"
                     Value="{Binding PlaybackSpeed}"
                     IsMoveToPointEnabled="True" Width="60">
                 <i:Interaction.Behaviors>
-                    <bs:FreeSlideBehavior />
+                    <slid:FreeSlideBehavior />
                 </i:Interaction.Behaviors>
             </Slider>
             <TextBlock x:Name="TimeDisplay" HorizontalAlignment="Left" Margin="10,2,0,-23">

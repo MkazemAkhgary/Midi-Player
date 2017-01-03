@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace MidiUI
+namespace MidiApp
 {
     /// <summary>
     /// Interaction logic for PlayerControl.xaml

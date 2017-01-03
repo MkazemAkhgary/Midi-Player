@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 
-namespace MidiUI.Behaviors.Slider
+namespace MidiApp.Behaviors.Slider
 {
     /// <summary>
     /// provides seperate binding for slider. 

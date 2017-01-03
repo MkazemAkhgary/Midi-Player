@@ -1,13 +1,13 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using MidiStream.Properties;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using Utilities.Properties;
 
-namespace Midi.VMComponents
+namespace MidiPlayer.VMComponents
 {
     public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MidiStream.Helpers
+namespace Utilities
 {
     /// <summary>
     /// Provides <see cref="IEqualityComparer{T}"/> for an array of <see cref="T"/>.

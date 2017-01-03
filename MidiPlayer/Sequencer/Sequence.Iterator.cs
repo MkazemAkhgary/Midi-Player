@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using MidiStream.Components.Containers;
 using MidiStream.Components.Containers.Events;
+using Utilities.Collections;
 
-namespace Midi.Sequencer
+namespace MidiPlayer.Sequencer
 {
     internal partial class Sequence<TKey, TValue>
     {

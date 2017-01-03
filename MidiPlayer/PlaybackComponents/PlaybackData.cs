@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using MidiStream.Components.Header;
 
-namespace Midi.PlaybackComponents
+namespace MidiPlayer.PlaybackComponents
 {
     using Extensions;
     using VMComponents;

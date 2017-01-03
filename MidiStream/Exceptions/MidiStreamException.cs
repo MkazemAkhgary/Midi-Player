@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Utilities;
 
 namespace MidiStream.Exceptions
 {
     using Enums;
-    using static Helpers.Extension.Enumerations;
     [Serializable]
     public sealed class MidiStreamException : Exception
     {
@@ -16,7 +16,7 @@ namespace MidiStream.Exceptions
             string caller = null,
             int? line = null)
         {
-            return $@"{GetAttribute<DescriptionAttribute>(exception).Description}.
+            return $@"{exception.GetAttribute<DescriptionAttribute>().Description}.
 Exception occured at ""{caller}"" in ""{path}"" within line ""{line}""";
         }
 
@@ -29,7 +29,7 @@ Exception occured at ""{caller}"" in ""{path}"" within line ""{line}""";
         {
         }
 #else
-        internal MidiStreamException(MidiException exception) : base(GetAttribute<DescriptionAttribute>(exception).Description)
+        internal MidiStreamException(MidiException exception) : base(exception.GetAttribute<DescriptionAttribute>().Description)
         {
         }
 #endif

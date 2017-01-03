@@ -1,4 +1,4 @@
-﻿namespace Midi.Extensions
+﻿namespace MidiPlayer.Extensions
 {
     internal delegate void EventArgs();
 

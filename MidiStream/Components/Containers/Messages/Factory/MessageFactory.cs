@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Utilities;
+using Utilities.Collections;
+using Utilities.Properties;
 
 namespace MidiStream.Components.Containers.Messages.Factory
 {
-    using Helpers;
-    using Properties;
-
     /// <summary>
     /// Provides access to factory methods for creating Midi <see cref="MidiMessage"/>'s using singeleton pattern.
     /// </summary>

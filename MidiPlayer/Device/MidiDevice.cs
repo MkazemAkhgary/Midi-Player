@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Text;
-using Midi.Extensions;
+using System.Runtime.InteropServices;
 
-namespace Midi.Device
+namespace MidiPlayer.Device
 {
-    using static NativeMethods.MidiOutput;
+    using Extensions;
 
     /// <summary>
     /// Provides a safe handle for midi devices.
@@ -30,7 +29,7 @@ namespace Midi.Device
                 if (value == MMRESULT.MMSYSERR_NOERROR) return;
                 const int maxlength = 256;
                 var builder = new StringBuilder(maxlength);
-                LastError = (MMRESULT)midiOutGetErrorText(value, builder, maxlength);
+                LastError = (MMRESULT)NativeMethods.MidiOutput.midiOutGetErrorText(value, builder, maxlength);
                 throw new ApplicationException(builder.ToString());
             }
         }

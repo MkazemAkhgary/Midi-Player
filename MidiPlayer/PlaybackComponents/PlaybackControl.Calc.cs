@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using MidiStream.Enums;
 
-namespace Midi.PlaybackComponents
+namespace MidiPlayer.PlaybackComponents
 {
     using Dispatchers;
 

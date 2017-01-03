@@ -1,15 +1,15 @@
-﻿<Window x:Class="MidiUI.MainWindow"
+﻿<Window x:Class="MidiApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:midiUi="clr-namespace:MidiUI"
+        xmlns:midiApp="clr-namespace:MidiApp"
         d:DataContext="{d:DesignInstance midiUi:MainWindow}"
         mc:Ignorable="d"
         Closing="MainWindow_OnClosing"
         Title="MainWindow" Height="300" Width="300" MinHeight="300" MinWidth="300">
     <Grid AllowDrop="True" Drop="UIElement_OnDrop" Background="#eeffff">
-        <midiUi:PlayerControl x:Name="PlayerControl" Margin="10,0" Height="70" VerticalAlignment="Bottom"/>
+        <midiApp:PlayerControl x:Name="PlayerControl" Margin="10,0" Height="70" VerticalAlignment="Bottom"/>
         <Menu x:Name="Menu" VerticalAlignment="Top" IsMainMenu="True">
             <MenuItem Header="File">
                 <MenuItem Header="Open" Click="MenuItem_Open"/>

@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Specialized;
+using Utilities.Properties;
 
-namespace MidiStream.Helpers
+namespace Utilities.Collections
 {
-    using Properties;
     /// <summary>
     /// Generic wrapper for <see cref="ListDictionary"/>
     /// </summary>

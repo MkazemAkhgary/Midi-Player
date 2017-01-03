@@ -1,7 +1,8 @@
-﻿namespace MidiStream.Components.Containers.Events
+﻿using Utilities.Properties;
+
+namespace MidiStream.Components.Containers.Events
 {
     using Messages;
-    using Properties;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MidiEvent{TMessage}"/> which containins data required to sent over MIDI device at a certain time.

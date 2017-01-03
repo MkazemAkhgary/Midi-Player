@@ -2,7 +2,7 @@
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace MidiUI.Behaviors.Slider
+namespace MidiApp.Behaviors.Slider
 {
     /// <summary>
     /// Executes a command after slider drag completed.

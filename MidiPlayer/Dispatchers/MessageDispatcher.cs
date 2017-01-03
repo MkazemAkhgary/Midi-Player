@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
-using static MidiStream.Helpers.Extension.IntConverter;
+using Utilities;
 
-namespace Midi.Dispatchers
+namespace MidiPlayer.Dispatchers
 {
     using Device.Output;
     using PlaybackComponents;
@@ -77,7 +77,7 @@ namespace Midi.Dispatchers
 
         public static int ReadTempo(byte[] data)
         {
-            return ByteArrayToInt(data.Skip(2).ToArray());
+            return IntConverter.ByteArrayToInt(data.Skip(2).ToArray());
         }
     }
 }

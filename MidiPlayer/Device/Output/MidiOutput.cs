@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using MidiStream.Enums;
 using MidiStream.Components.Containers.Messages;
-using Midi.Extensions;
+using MidiStream.Enums;
 
-namespace Midi.Device.Output
+namespace MidiPlayer.Device.Output
 {
     using Managed;
-    using static NativeMethods.MidiOutput;
+    using Extensions;
 
     /// <summary>
     /// Midi out-put device.
@@ -30,24 +29,24 @@ namespace Midi.Device.Output
 
         static MidiOutput()
         {
-            NumberOfDevices = midiOutGetNumDevs();
+            NumberOfDevices = NativeMethods.MidiOutput.midiOutGetNumDevs();
         }
 
         internal MidiOutput()
         {
             lock (Lock)
             {
-                LastError = midiOutOpen(out handle, NumberOfDevices - 1, null, IntPtr.Zero, 0);
+                LastError = NativeMethods.MidiOutput.midiOutOpen(out handle, NumberOfDevices - 1, null, IntPtr.Zero, 0);
 
                 // get id
                 IntPtr pointer;
-                LastError = midiOutGetID(handle, out pointer);
+                LastError = NativeMethods.MidiOutput.midiOutGetID(handle, out pointer);
                 Id = (uint)pointer.ToInt32();
 
                 // get device capabilities
                 var size = Marshal.SizeOf(typeof(MIDIOUTCAPS));
                 var moc = default(MIDIOUTCAPS);
-                LastError = midiOutGetDevCaps(handle, ref moc, (uint)size);
+                LastError = NativeMethods.MidiOutput.midiOutGetDevCaps(handle, ref moc, (uint)size);
                 OutputCapabilities = moc;
             }
         }
@@ -60,7 +59,7 @@ namespace Midi.Device.Output
         {
             lock (Lock)
             {
-                LastError = midiOutShortMsg(handle, msg);
+                LastError = NativeMethods.MidiOutput.midiOutShortMsg(handle, msg);
             }
         }
 
@@ -68,7 +67,7 @@ namespace Midi.Device.Output
         {
             lock (Lock)
             {
-                LastError = midiOutReset(handle);
+                LastError = NativeMethods.MidiOutput.midiOutReset(handle);
             }
         }
 
@@ -98,7 +97,7 @@ namespace Midi.Device.Output
             {
                 try
                 {
-                    LastError = midiOutClose(handle);
+                    LastError = NativeMethods.MidiOutput.midiOutClose(handle);
                     return true;
                 }
                 catch

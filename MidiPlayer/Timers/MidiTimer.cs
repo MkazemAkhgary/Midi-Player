@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Timers;
 using MidiStream.Components.Header;
 
-namespace Midi.Timers
+namespace MidiPlayer.Timers
 {
     using Extensions;
 

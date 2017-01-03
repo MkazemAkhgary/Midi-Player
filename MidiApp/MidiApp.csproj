@@ -7,7 +7,7 @@
     <ProjectGuid>{C18313AB-1BD4-4541-B1CD-A2FFC2EECDDE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MidiUI</RootNamespace>
+    <RootNamespace>MidiApp</RootNamespace>
     <AssemblyName>MidiApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -39,7 +39,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>MidiUI.App</StartupObject>
+    <StartupObject>MidiApp.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

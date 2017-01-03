@@ -1,7 +1,8 @@
-﻿namespace MidiStream.Components.Containers.Messages
+﻿using Utilities.Properties;
+
+namespace MidiStream.Components.Containers.Messages
 {
     using Enums;
-    using Properties;
 
     /// <summary>
     /// Initializes new instance of Midi <see cref="MetaMessage"/> Message.

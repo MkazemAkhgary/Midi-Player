@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace MidiUI.Converters
+namespace MidiApp.Converters
 {
     /// <summary>
     /// Converts double in milliseconds into well fromatted timespan.

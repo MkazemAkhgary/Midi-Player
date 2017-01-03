@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Midi.Device.Output.Callback
+namespace MidiPlayer.Device.Output.Callback
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [Flags]

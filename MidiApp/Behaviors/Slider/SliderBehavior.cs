@@ -2,13 +2,12 @@
 using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
 
-namespace MidiUI.Behaviors.Slider
+namespace MidiApp.Behaviors.Slider
 {
-    using System.Windows.Controls;
     /// <summary>
     /// provides base class for silder behaviors.
     /// </summary>
-    public abstract class SliderBehavior : Behavior<Slider>
+    public abstract class SliderBehavior : Behavior<System.Windows.Controls.Slider>
     {
         protected static readonly DependencyProperty ThumbProperty =
             DependencyProperty.Register("Thumb", typeof(Thumb), typeof(SliderBehavior));

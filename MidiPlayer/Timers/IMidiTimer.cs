@@ -1,4 +1,4 @@
-﻿namespace Midi.Timers
+﻿namespace MidiPlayer.Timers
 {
     using Extensions;
 

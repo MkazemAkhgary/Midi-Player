@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using Utilities.Properties;
 
 namespace MidiStream
 {
     using Components.Containers.Tracks;
     using Components.Header;
-    using Properties;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MidiStream"></see> with given list of <see cref="MidiTrack"/>'s and <see cref="MidiFormat"/>

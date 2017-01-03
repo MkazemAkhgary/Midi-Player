@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 
-namespace MidiUI
+namespace MidiApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

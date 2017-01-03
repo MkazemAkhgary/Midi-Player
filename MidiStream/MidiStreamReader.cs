@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Utilities;
 
 namespace MidiStream
 {
@@ -13,7 +14,7 @@ namespace MidiStream
     using Exceptions;
     using Enums;
     using static Components.Containers.Messages.Factory.MessageFactory;
-    using static Helpers.Extension.IntConverter;
+    using static IntConverter;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MidiStreamReader"/> with specified path.
@@ -50,7 +51,7 @@ namespace MidiStream
             if (_stream != null) return _stream;
 
             var name = Path.GetFileNameWithoutExtension(FullPath);
-
+             
             // read header
             var header = _reader.ReadChars(4);
             var length = Reverse(_reader.ReadInt32());

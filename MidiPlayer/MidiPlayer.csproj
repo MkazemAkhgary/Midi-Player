@@ -7,7 +7,7 @@
     <ProjectGuid>{E4E712DD-BE28-437B-B3DE-E50BFB5F2413}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Midi</RootNamespace>
+    <RootNamespace>MidiPlayer</RootNamespace>
     <AssemblyName>MidiPlayer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -67,6 +67,10 @@
     <ProjectReference Include="..\MidiStream\MidiStream.csproj">
       <Project>{a574ed4f-d369-4890-b478-b6eb9d7a23e5}</Project>
       <Name>MidiStream</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{3ee21c4c-57e6-40a1-8ece-abd0971c9a2d}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

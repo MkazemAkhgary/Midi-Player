@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace MidiUI.Behaviors.Slider
+namespace MidiApp.Behaviors.Slider
 {
     /// <summary>
     /// Hooked mouse event when dragging on slider.

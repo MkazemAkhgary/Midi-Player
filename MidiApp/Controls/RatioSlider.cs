@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MidiUI.Controls
+namespace MidiApp.Controls
 {
     /// <summary>
     /// Slider that corrects ratio of it's value when ever it's boundary changes.

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using Microsoft.Win32;
 
-namespace MidiUI
+namespace MidiApp
 {
     /// <summary>
     /// Interaction logic for App.xaml

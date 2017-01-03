@@ -5,7 +5,7 @@ using MidiStream.Components.Containers.Messages;
 using MidiStream.Components.Containers.Tracks;
 using MidiStream.Enums;
 
-namespace Midi.PlaybackComponents
+namespace MidiPlayer.PlaybackComponents
 {
     using Sequencer;
 

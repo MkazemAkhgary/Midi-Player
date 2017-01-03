@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Runtime.InteropServices;
-using static MidiStream.Helpers.Extension.Enumerations;
+using Utilities;
 
-namespace Midi.Device.Output.Managed
+namespace MidiPlayer.Device.Output.Managed
 {
     /// <summary>
     /// describes the capabilities of a MIDI output device.
@@ -124,13 +124,13 @@ namespace Midi.Device.Output.Managed
 Product Id : {wPid}
 Driver Version : {vDriverVersion}
 Product Name : {szPname}
-Midi Output Device Type : {GetAttribute<DescriptionAttribute>(wTechnology).Description}
+Midi Output Device Type : {wTechnology.GetAttribute<DescriptionAttribute>().Description}
 Number of voices supported : {wVoices}
 Maximum number of simultaneous notes : {wNotes}
 Channel Mask : {Convert.ToString(wChannelMask, 2)}
 {string.Join(Environment.NewLine,
-                GetAllFlags(dwSupport)
-                    .Select(GetAttribute<DescriptionAttribute>)
+                dwSupport.GetAllFlags()
+                    .Select(Enumerations.GetAttribute<DescriptionAttribute>)
                     .Select(a => a.Description))}";
 
             return formatted;

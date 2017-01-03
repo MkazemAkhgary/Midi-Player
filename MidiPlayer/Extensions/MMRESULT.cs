@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Midi.Extensions
+namespace MidiPlayer.Extensions
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal enum MMRESULT : uint

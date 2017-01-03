@@ -1,8 +1,8 @@
-﻿namespace MidiStream.Components.Containers.Messages
-{
-    using Helpers;
-    using Properties;
+﻿using Utilities;
+using Utilities.Properties;
 
+namespace MidiStream.Components.Containers.Messages
+{
     /// <summary>
     /// Base class for all midi messages. 
     /// </summary>

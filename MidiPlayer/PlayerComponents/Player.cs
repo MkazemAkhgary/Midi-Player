@@ -1,7 +1,7 @@
 ﻿using System;
 using MidiStream;
 
-namespace Midi.PlayerComponents
+namespace MidiPlayer.PlayerComponents
 {
     using Commands;
     using PlaybackComponents;

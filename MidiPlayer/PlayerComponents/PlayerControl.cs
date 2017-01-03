@@ -1,11 +1,10 @@
-﻿using Midi.Device.Output.Managed;
+﻿using System;
 
-namespace Midi.PlayerComponents
+namespace MidiPlayer.PlayerComponents
 {
+    using Device.Output.Managed;
     using PlaybackComponents;
-    using System;
     using Timers;
-    using MidiStream;
 
     public sealed class PlayerControl : IDisposable
     {
@@ -28,7 +27,7 @@ namespace Midi.PlayerComponents
             _timer.Beat += _control.Move;
         }
 
-        internal void Initialize(MidiStream stream)
+        internal void Initialize(MidiStream.MidiStream stream)
         {
             _timer.Initialize(stream.Format.TimeDivision);
             _control.Initialize(stream.Tracks);

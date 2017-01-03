@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Midi.Device.Output.Managed;
 using MidiStream.Components.Containers.Tracks;
 using MidiStream.Enums;
+using Utilities;
 
-namespace Midi.PlaybackComponents
+namespace MidiPlayer.PlaybackComponents
 {
-    using Extensions;
-    using Dispatchers;
+    using EventArgs = Extensions.EventArgs;
     using Device.Output;
-    using MidiStream.Helpers;
+    using Device.Output.Managed;
+    using Dispatchers;
 
     internal partial class PlaybackControl : IDisposable
     {

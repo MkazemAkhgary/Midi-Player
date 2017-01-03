@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Utilities;
+using Utilities.Collections;
+using Utilities.Properties;
 
 namespace MidiStream.Components.Containers.Tracks
 {
     using Events;
     using Messages;
     using Enums;
-    using Helpers;
-    using Properties;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MidiTrack"/>.

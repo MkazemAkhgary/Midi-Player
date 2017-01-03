@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace MidiStream.Components.Containers
+namespace Utilities.Collections
 {
-    using Helpers;
     using Properties;
-    using static Helpers.Extension;
 
     #region Interface
     public interface IGrouping<in TKey, TValue> : IList<TValue> where TValue : IComparable<TValue>
@@ -56,7 +54,7 @@ namespace MidiStream.Components.Containers
             _includes = cloning._includes;
             _excludes = cloning._excludes;
 
-            var rolist = ToFunc<IList<TValue>>(val => new ReadOnlyCollection<TValue>(val));
+            var rolist = Extension.ToFunc<IList<TValue>>(val => new ReadOnlyCollection<TValue>(val));
 
             var grouping = cloning._grouping.ToDictionary(kvp => kvp.Key, kvp => rolist(kvp.Value), EqualityComparer);
             _grouping = new ReadOnlyDictionary<TKey, IList<TValue>>(grouping);

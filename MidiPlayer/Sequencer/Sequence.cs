@@ -4,11 +4,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using MidiStream.Components.Containers.Events;
 using MidiStream.Components.Containers.Messages;
+using UtilCollection = Utilities.Collections;
 
-namespace Midi.Sequencer
+namespace MidiPlayer.Sequencer
 {
-    using Containers = MidiStream.Components.Containers;
-
     /// <summary>
     /// Provides basic iteration over sequence of events, seeking and querying specific filtered events.
     /// </summary>
@@ -18,7 +17,7 @@ namespace Midi.Sequencer
 
         public bool Ends => _enumerator.Ends;
 
-        public Sequence(Containers::IGrouping<TKey, MidiEvent<TValue>>  source)
+        public Sequence(UtilCollection.IGrouping<TKey, MidiEvent<TValue>>  source)
         {
             _enumerator = new Enumerator(source);
             _enumerator.MoveNext();
