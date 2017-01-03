@@ -9,60 +9,92 @@
              xmlns:ctrl="clr-namespace:MidiApp.Controls"
              xmlns:slid="clr-namespace:MidiApp.Behaviors.Slider"
              mc:Ignorable="d"
-             d:DesignHeight="67.593" d:DesignWidth="312.037">
+             d:DesignHeight="60" 
+             d:DesignWidth="300">
     <UserControl.Resources>
         <cnvt:TimeSpanConverter x:Key="TimeSpanConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
         <cmpn:Player x:Name="Player"/>
     </UserControl.DataContext>
-    <Grid>
-        <StackPanel DataContext="{Binding Context}">
-            <ctrl:RatioSlider x:Name="PlaybackSlider" Height="20" Margin="10,10,10,5"
-                    IsMoveToPointEnabled="True"
-                    Maximum="{Binding RuntimeDuration}">
-                <i:Interaction.Behaviors>
-                    <slid:FreeSlideBehavior/>
-                    <slid:LockOnDragBehavior SourceValue="{Binding RuntimePosition}"/>
-                    <slid:CommandOnDragCompletedBehavior DragCompletedCommand="{Binding SeekTo}"/>
-                </i:Interaction.Behaviors>
-            </ctrl:RatioSlider>
-            <Slider x:Name="SpeedSlider" Margin="0,0,10,-26" Height="20" HorizontalAlignment="Right"
-                    Maximum="1.6" Minimum="0.4" TickFrequency="0.05"
-                    IsSnapToTickEnabled="True"
-                    Value="{Binding PlaybackSpeed}"
-                    IsMoveToPointEnabled="True" Width="60">
-                <i:Interaction.Behaviors>
-                    <slid:FreeSlideBehavior />
-                </i:Interaction.Behaviors>
-            </Slider>
-            <TextBlock x:Name="TimeDisplay" HorizontalAlignment="Left" Margin="10,2,0,-23">
+    <Grid DataContext="{Binding Context}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <ctrl:RatioSlider x:Name="PlaybackSlider"
+                          Grid.Row="0"
+                          Margin="10,0"
+                          VerticalAlignment="Center"
+                          IsMoveToPointEnabled="True" 
+                          Maximum="{Binding RuntimeDuration}">
+            <i:Interaction.Behaviors>
+                <slid:FreeSlideBehavior/>
+                <slid:LockOnDragBehavior SourceValue="{Binding RuntimePosition}"/>
+                <slid:CommandOnDragCompletedBehavior DragCompletedCommand="{Binding SeekTo}"/>
+            </i:Interaction.Behaviors>
+        </ctrl:RatioSlider>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="TimeDisplay"
+                       Grid.Column="0"
+                       Margin="10,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1}">
-                        <Binding Path="Value" ElementName="PlaybackSlider" Converter="{StaticResource TimeSpanConverter}"/>
-                        <Binding Path="Maximum" ElementName="PlaybackSlider" Converter="{StaticResource TimeSpanConverter}"/>
+                        <Binding Path="Value" 
+                                 ElementName="PlaybackSlider" 
+                                 Converter="{StaticResource TimeSpanConverter}"/>
+                        <Binding Path="Maximum"
+                                 ElementName="PlaybackSlider"
+                                 Converter="{StaticResource TimeSpanConverter}"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <ToggleButton x:Name="PlayButton" Width="90"
+            <ToggleButton x:Name="PlayButton"
+                          Grid.Column="1"
+                          VerticalAlignment="Center"
                           Style="{DynamicResource ToggleStyle}"
+                          Click="PlayButton_Open"
                           IsChecked="{Binding IsPlaying}"
                           Command="{Binding Toggle}"
-                          CommandParameter="{Binding IsPlaybackLoaded}"
-                          Click="PlayButton_Open">
+                          CommandParameter="{Binding IsPlaybackLoaded}">
                 <ToggleButton.Resources>
-                    <Style x:Key="ToggleStyle" TargetType="ToggleButton">
+                    <Style x:Key="ToggleStyle" TargetType="{x:Type ToggleButton}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=PlayButton}" Value="False">
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=PlayButton}" 
+                                         Value="False">
                                 <Setter Property="Content" Value="Play" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=PlayButton}" Value="True">
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=PlayButton}" 
+                                         Value="True">
                                 <Setter Property="Content" Value="Pause" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ToggleButton.Resources>
             </ToggleButton>
-        </StackPanel>
+            <Slider x:Name="SpeedSlider" 
+                    Grid.Column="2"
+                    Width="60"
+                    Margin="10,0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Maximum="1.6" 
+                    Minimum="0.4" 
+                    TickFrequency="0.05"
+                    IsSnapToTickEnabled="True"
+                    Value="{Binding PlaybackSpeed}"
+                    IsMoveToPointEnabled="True">
+                <i:Interaction.Behaviors>
+                    <slid:FreeSlideBehavior />
+                </i:Interaction.Behaviors>
+            </Slider>
+        </Grid>
     </Grid>
 </UserControl>

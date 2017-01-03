@@ -1,5 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using Application = System.Windows.Application;
+using DataFormats = System.Windows.DataFormats;
+using DragEventArgs = System.Windows.DragEventArgs;
+using MessageBox = System.Windows.MessageBox;
 
 namespace MidiApp
 {
@@ -12,7 +16,7 @@ namespace MidiApp
         {
             InitializeComponent();
         }
-
+        
         private void UIElement_OnDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))

@@ -4,13 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:midiApp="clr-namespace:MidiApp"
-        d:DataContext="{d:DesignInstance midiUi:MainWindow}"
+        xmlns:pcmpn="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
         mc:Ignorable="d"
         Closing="MainWindow_OnClosing"
-        Title="MainWindow" Height="300" Width="300" MinHeight="300" MinWidth="300">
-    <Grid AllowDrop="True" Drop="UIElement_OnDrop" Background="#eeffff">
-        <midiApp:PlayerControl x:Name="PlayerControl" Margin="10,0" Height="70" VerticalAlignment="Bottom"/>
-        <Menu x:Name="Menu" VerticalAlignment="Top" IsMainMenu="True">
+        Title="MainWindow" 
+        Height="320" 
+        Width="300"
+        MinHeight="320" 
+        MinWidth="300">
+    <DockPanel AllowDrop="True" 
+               Drop="UIElement_OnDrop" 
+               Background="#eeffff">
+        <Menu DockPanel.Dock="Top"
+              x:Name="MainMenu" 
+              VerticalAlignment="Top" 
+              IsMainMenu="True"
+              Height="18">
             <MenuItem Header="File">
                 <MenuItem Header="Open" Click="MenuItem_Open"/>
                 <MenuItem Header="Stop" Click="MenuItem_Stop"/>
@@ -23,5 +32,41 @@
                 <MenuItem Header="About" Click="MenuItem_About"/>
             </MenuItem>
         </Menu>
-    </Grid>
+        <midiApp:PlayerControl x:Name="PlayerControl" 
+                               DockPanel.Dock="Bottom"
+                               Height="75"/>
+        <StackPanel x:Name="DebugPanel"
+                    Margin="5"
+                    Background="White"
+                    DataContext="{Binding DataContext.(pcmpn:Player.Context), ElementName=PlayerControl}">
+            <Grid Margin="10,0">
+                <TextBlock Text="IsPlaybackLoaded :" />
+                <TextBlock Text="{Binding IsPlaybackLoaded}" HorizontalAlignment="Right" />
+            </Grid>
+            <Grid Margin="10,0">
+                <TextBlock Text="IsPlaying :" />
+                <TextBlock Text="{Binding IsPlaying}" HorizontalAlignment="Right" />
+            </Grid>
+            <Grid Margin="10,0">
+                <TextBlock Text="PlaybackSpeed :" />
+                <TextBlock Text="{Binding PlaybackSpeed, StringFormat=0.##}" HorizontalAlignment="Right" />
+            </Grid>
+            <Grid Margin="10,0">
+                <TextBlock Text="RuntimeDuration :" />
+                <TextBlock Text="{Binding RuntimeDuration , StringFormat=0.##}" HorizontalAlignment="Right" />
+            </Grid>
+            <Grid Margin="10,0">
+                <TextBlock Text="RuntimePosition :" />
+                <TextBlock Text="{Binding RuntimePosition, StringFormat=0.##}" HorizontalAlignment="Right" />
+            </Grid>
+            <Grid Margin="10,0">
+                <TextBlock Text="StaticDuration :" />
+                <TextBlock Text="{Binding StaticDuration, StringFormat=0.##}" HorizontalAlignment="Right" />
+            </Grid>
+            <Grid Margin="10,0">
+                <TextBlock Text="StaticPosition :" />
+                <TextBlock Text="{Binding StaticPosition, StringFormat=0.##}" HorizontalAlignment="Right" />
+            </Grid>
+        </StackPanel>
+    </DockPanel>
 </Window>
