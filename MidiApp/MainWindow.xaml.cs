@@ -61,7 +61,7 @@ namespace MidiUI
         {
             MessageBox.Show(
                 this,
-                "Developer : " +
+                "Programmer : " +
                 "L.van.Beethoven9@gmail.com",
                 "About",
                 MessageBoxButton.OK,
