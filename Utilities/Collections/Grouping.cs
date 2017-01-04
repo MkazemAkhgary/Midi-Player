@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Utilities.Collections
 {
+    using Helpers;
     using Properties;
 
     #region Interface

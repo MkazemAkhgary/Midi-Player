@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Utilities
+namespace Utilities.Helpers
 {
     /// <summary>
     /// Provides <see cref="IEqualityComparer{T}"/> for an array of <see cref="T"/>.
@@ -9,6 +9,9 @@ namespace Utilities
     /// <typeparam name="T">the type of the elements of the array.</typeparam>
     public sealed class ArrayComparer<T> : IEqualityComparer<T[]>
     {
+        private static readonly ArrayComparer<T> Singleton = new ArrayComparer<T>();
+
+        private readonly IEqualityComparer<T> _comparer;
 
         private ArrayComparer()
         {
@@ -19,11 +22,6 @@ namespace Utilities
         {
             return Singleton;
         }
-
-        #region Properties 
-        private static readonly ArrayComparer<T> Singleton = new ArrayComparer<T>();
-        private readonly IEqualityComparer<T> _comparer;
-        #endregion Properties
 
         #region Implemented Methods
 

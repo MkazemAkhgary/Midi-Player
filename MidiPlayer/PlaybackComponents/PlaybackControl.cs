@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MidiStream.Components.Containers.Tracks;
 using MidiStream.Enums;
-using Utilities;
+using Utilities.Helpers;
 
 namespace MidiPlayer.PlaybackComponents
 {
@@ -15,6 +15,8 @@ namespace MidiPlayer.PlaybackComponents
     internal partial class PlaybackControl : IDisposable
     {
         private static readonly IReadOnlyCollection<Playback> NoPlayback;
+
+        public event EventArgs OnPlaybackEnds;
 
         private IReadOnlyCollection<Playback> _tracks;
         private readonly PlaybackData _data;
@@ -81,24 +83,13 @@ namespace MidiPlayer.PlaybackComponents
                 track.NextMetaMessages(_data.StaticPosition).DispatchTo(this);
             }
 
-            if (_tracks.All(t => t.Ends)) OnPlaybackEnds?.Invoke();
+            if (_tracks.All(t => t.Ends))
+                OnPlaybackEnds?.Invoke();
         }
         
         public void SetPlaybackSpeed(double mspb)
         {
             _data.MicrosecondsPerBeat = mspb;
-        }
-
-        public void Close()
-        {
-            _tracks = NoPlayback;
-            _output.Value.Reset();
-            _data.Reset();
-        }
-
-        public void Dispose()
-        {
-            _output.Value.Dispose();
         }
 
         public void Pause()
@@ -118,6 +109,17 @@ namespace MidiPlayer.PlaybackComponents
             _data.IsPlaying = true;
         }
 
-        public event EventArgs OnPlaybackEnds;
+        public void Close()
+        {
+            _tracks = NoPlayback;
+            _output.Value.Reset();
+            _data.Reset();
+        }
+
+        public void Dispose()
+        {
+            _output.Value.Dispose();
+            _data.Dispose();
+        }
     }
 }

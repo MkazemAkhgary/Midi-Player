@@ -1,4 +1,4 @@
-﻿using Utilities;
+﻿using Utilities.Helpers;
 using Utilities.Properties;
 
 namespace MidiStream.Components.Containers.Messages

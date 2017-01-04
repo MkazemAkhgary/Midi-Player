@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Timers;
 using MidiStream.Components.Header;
+using Utilities.Threading;
 
 namespace MidiPlayer.Timers
 {
@@ -12,15 +13,11 @@ namespace MidiPlayer.Timers
     /// </summary>
     internal sealed class MidiTimer : IMidiTimer, IDisposable
     {
-        public double Interval => _timer.Interval;
-
         #region Fields
 
         private TimeDivision _division;
-        private readonly Timer _timer;
+        private readonly SafeTimer _timer;
         private readonly Stopwatch _stopwatch;
-
-        private volatile bool _gaurd;
 
         private double _intervalunit;
 
@@ -32,7 +29,7 @@ namespace MidiPlayer.Timers
         public MidiTimer()
         {
             _stopwatch = new Stopwatch();
-            _timer = new Timer();
+            _timer = new SafeTimer();
             _timer.Elapsed += OnTimerTick;
             Initialize(TimeDivision.Default);
         }
@@ -46,17 +43,8 @@ namespace MidiPlayer.Timers
 
         private void OnTimerTick(object sender, ElapsedEventArgs e)
         {
-            if (_gaurd) return;
-            lock (this)
-            {
-                if (!_timer.Enabled) return;
-                _gaurd = true;
-
-                Beat?.Invoke(ElapsedStaticTime, ElapsedRunTime);
-
-                _stopwatch.Restart();
-                _gaurd = false;
-            }
+            Beat?.Invoke(ElapsedStaticTime, ElapsedRunTime);
+            _stopwatch.Restart();
         }
 
         public event EventArgs<double, double> Beat;
@@ -82,13 +70,12 @@ namespace MidiPlayer.Timers
         {
             _stopwatch.Stop();
             _timer.Stop();
-            lock (this) { } // this ensures timer is fully stopped.
         }
 
         public void Dispose()
         {
-            _timer.Dispose();
             _stopwatch.Stop();
+            _timer.Dispose();
         }
     }
 }

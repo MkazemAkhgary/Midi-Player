@@ -53,6 +53,7 @@ namespace MidiPlayer.PlayerComponents
         public void Dispose()
         {
             _control.Dispose();
+            Context.Dispose();
         }
     }
 }

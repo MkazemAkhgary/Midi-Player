@@ -2,7 +2,7 @@
 using System.Linq;
 using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
-using Utilities;
+using Utilities.Helpers;
 
 namespace MidiPlayer.Dispatchers
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Utilities;
 using Utilities.Collections;
+using Utilities.Helpers;
 using Utilities.Properties;
 
 namespace MidiStream.Components.Containers.Messages.Factory

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Utilities;
+using Utilities.Helpers;
 
 namespace MidiStream.Exceptions
 {

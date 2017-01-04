@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Utilities;
 using Utilities.Collections;
+using Utilities.Helpers;
 using Utilities.Properties;
 
 namespace MidiStream.Components.Containers.Tracks

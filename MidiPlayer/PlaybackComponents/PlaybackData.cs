@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using MidiStream.Components.Header;
 
 namespace MidiPlayer.PlaybackComponents
@@ -19,6 +18,8 @@ namespace MidiPlayer.PlaybackComponents
         {
         }
 
+        #region Fields
+
         private bool _play = false;
         private bool _load = false;
 
@@ -28,27 +29,20 @@ namespace MidiPlayer.PlaybackComponents
         private double _runpos = 0;
 
         private double _pbspeed = 1;
-        private double _tlen = TimeDivision.Default.GetResolution()/1000;
+        private double _tlen = TimeDivision.Default.GetResolution() / 1000;
         private double _mspb = TimeDivision.Default.MicroSecondsPerBeat;
+
+        #endregion
+
+        #region Duration
 
         public double StaticDuration
         {
             get { return _stadur; }
             set
             {
-                if(_stadur == value) return;
                 _stadur = value;
-                OnPropertyChanged();
-            }
-        }
 
-        public double StaticPosition
-        {
-            get { return _stapos; }
-            set
-            {
-                if (_stapos == value) return;
-                _stapos = value;
                 OnPropertyChanged();
             }
         }
@@ -58,9 +52,24 @@ namespace MidiPlayer.PlaybackComponents
             get { return _rundur; }
             set
             {
-                if (_rundur == value) return;
                 _rundur = value;
+
                 OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Position
+
+        public double StaticPosition
+        {
+            get { return _stapos; }
+            set
+            {
+                _stapos = value;
+
+                OnPropertyChanged(500); // every 500 ms
             }
         }
 
@@ -69,19 +78,23 @@ namespace MidiPlayer.PlaybackComponents
             get { return _runpos; }
             set
             {
-                if (Math.Abs(_runpos - value) < 5) return; // every 500ms
                 _runpos = value;
-                OnPropertyChanged();
+
+                OnPropertyChanged(500); // every 500 ms
             }
         }
+
+        #endregion
+
+        #region Streaming
 
         public double TickLength
         {
             get { return _tlen; }
             set
             {
-                if (_tlen == value) return;
                 _tlen = value;
+
                 OnPropertyChanged();
             }
         }
@@ -94,7 +107,8 @@ namespace MidiPlayer.PlaybackComponents
                 RuntimeDuration /= value / _pbspeed; // correction
 
                 _pbspeed = value;
-                TempoChanged?.Invoke(_mspb/_pbspeed);
+                TempoChanged?.Invoke(_mspb / _pbspeed);
+
                 OnPropertyChanged();
             }
         }
@@ -105,7 +119,8 @@ namespace MidiPlayer.PlaybackComponents
             set
             {
                 _mspb = value;
-                TempoChanged?.Invoke(_mspb/_pbspeed);
+                TempoChanged?.Invoke(_mspb / _pbspeed);
+
                 OnPropertyChanged();
             }
         }
@@ -115,8 +130,8 @@ namespace MidiPlayer.PlaybackComponents
             get { return _play; }
             set
             {
-                if(value == _play) return;
                 _play = value;
+
                 OnPropertyChanged();
             }
         }
@@ -126,12 +141,14 @@ namespace MidiPlayer.PlaybackComponents
             get { return _load; }
             set
             {
-                if (value == _load) return;
                 _load = value;
+
                 OnPropertyChanged();
             }
         }
 
+        #endregion
+        
         public void SetTempo(double tempo)
         {
             TickLength = tempo;
@@ -144,6 +161,9 @@ namespace MidiPlayer.PlaybackComponents
             MicrosecondsPerBeat = TimeDivision.Default.MicroSecondsPerBeat;
             TickLength = TimeDivision.Default.GetResolution() / 1000;
             IsPlaying = false;
+
+            OnPropertyChangedForceReset(nameof(StaticPosition));
+            OnPropertyChangedForceReset(nameof(RuntimePosition));
         }
     }
 }
