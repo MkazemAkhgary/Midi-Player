@@ -1,15 +1,21 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Interactivity;
 
 namespace MidiApp.Behaviors.Slider
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// provides seperate binding for slider. 
     /// prevents updating value from source when thumb is being dragged.
     /// source value is updated when dragging is completed.
     /// </summary>
-    public sealed class LockOnDragBehavior : SliderBehavior
+    public sealed class LockOnDragBehavior : Behavior<Slider>
     {
+        private DependencyPropertyProvider<Thumb, Slider> ThumbProperty { get; set; }
+
         public double SourceValue
         {
             get { return (double)GetValue(SourceValueProperty); }
@@ -24,16 +30,22 @@ namespace MidiApp.Behaviors.Slider
                     new PropertyChangedCallback(OnSourceValueChanged)
                 ));
 
-        private bool IsFree => !Thumb.IsDragging;
+        private bool IsFree => !ThumbProperty.ProvidedProperty.IsDragging;
 
-        protected override void OnSliderAttached()
+        protected override void OnAttached()
         {
+            ThumbProperty = DependencyPropertyProvider<Thumb, Slider>.Create(AssociatedObject, InitializeThumb);
+
+            AssociatedObject.Loaded += ThumbProperty.Initialize;
+
             AssociatedObject.ValueChanged += AssociatedObjectOnValueChanged;
         }
 
-        protected override void OnSliderLoaded()
+        private Thumb InitializeThumb(Slider slider)
         {
-            Thumb.DragCompleted += OnThumbDragCompleted;
+            var thumb = ((Track)slider.Template.FindName("PART_Track", slider)).Thumb;
+            thumb.DragCompleted += OnThumbDragCompleted;
+            return thumb;
         }
         
         private static void OnSourceValueChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)

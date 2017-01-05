@@ -57,9 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\DependencyPropertyProvider.cs" />
     <Compile Include="Behaviors\Slider\CommandOnDragCompletedBehavior.cs" />
     <Compile Include="Behaviors\Slider\FreeSlideBehavior.cs" />
-    <Compile Include="Behaviors\Slider\SliderBehavior.cs" />
     <Compile Include="Behaviors\Slider\LockOnDragBehavior.cs" />
     <Compile Include="Controls\RatioSlider.cs" />
     <Compile Include="Converters\TimeSpanConverter.cs" />
