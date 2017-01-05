@@ -1,8 +1,8 @@
 ﻿using System;
+using Synthesizer.Device.Output.Managed;
 
 namespace MidiPlayer.PlayerComponents
 {
-    using Device.Output.Managed;
     using PlaybackComponents;
     using Timers;
 

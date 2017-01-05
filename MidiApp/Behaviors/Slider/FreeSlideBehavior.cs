@@ -1,47 +1,38 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls.Primitives;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interactivity;
 
 namespace MidiApp.Behaviors.Slider
 {
-    using System.Windows.Controls;
-
     /// <summary>
-    /// Hooked mouse event when dragging on slider.
+    /// Provides easy sliding for the target slider.
     /// </summary>
-    public sealed class FreeSlideBehavior : Behavior<Slider>
+    public sealed class FreeSlideBehavior : SliderBehavior
     {
-        private DependencyPropertyProvider<Thumb, Slider> ThumbProperty { get; set; }
-        
         private bool _isThumbGrabbed;
 
-        private static Thumb InitializeThumb(Slider slider)
+        private readonly RoutedEventHandler _previewLeftButtonDown;
+        private readonly RoutedEventHandler _previewLeftButtonUp;
+        private readonly MouseEventHandler _previewMouseMove;
+
+        public FreeSlideBehavior()
         {
-            return ((Track)slider.Template.FindName("PART_Track", slider)).Thumb;
+            _previewLeftButtonDown = OnPreviewLeftButtonDown;
+            _previewLeftButtonUp = OnPreviewLeftButtonUp;
+            _previewMouseMove = OnPreviewMouseMove;
         }
 
-        protected override void OnAttached()
+        protected override void OnBehaviorAttached()
         {
-            ThumbProperty = DependencyPropertyProvider<Thumb, Slider>.Create(AssociatedObject, InitializeThumb);
+            AssociatedObject.AddHandler(UIElement.PreviewMouseLeftButtonDownEvent, _previewLeftButtonDown, true);
+            AssociatedObject.AddHandler(UIElement.PreviewMouseLeftButtonUpEvent, _previewLeftButtonUp, true);
+            AssociatedObject.AddHandler(UIElement.PreviewMouseMoveEvent, _previewMouseMove, false);
+        }
 
-            AssociatedObject.Loaded += ThumbProperty.Initialize;
-
-            AssociatedObject.AddHandler(
-                UIElement.PreviewMouseLeftButtonDownEvent, 
-                new RoutedEventHandler(OnPreviewLeftButtonDown), 
-                true);
-
-            AssociatedObject.AddHandler(
-                UIElement.PreviewMouseLeftButtonUpEvent,
-                new RoutedEventHandler(OnPreviewLeftButtonUp), 
-                true);
-
-            AssociatedObject.AddHandler(
-                UIElement.PreviewMouseMoveEvent, 
-                new MouseEventHandler(OnPreviewMouseMove), 
-                false);
+        protected override void OnBehaviorDetaching()
+        {
+            AssociatedObject.RemoveHandler(UIElement.PreviewMouseLeftButtonDownEvent, _previewLeftButtonDown);
+            AssociatedObject.RemoveHandler(UIElement.PreviewMouseLeftButtonUpEvent, _previewLeftButtonUp);
+            AssociatedObject.RemoveHandler(UIElement.PreviewMouseMoveEvent, _previewMouseMove);
         }
 
         private void OnPreviewMouseMove(object sender, MouseEventArgs args)
@@ -55,7 +46,7 @@ namespace MidiApp.Behaviors.Slider
                     Source = args.Source
                 };
 
-                ThumbProperty.ProvidedProperty.RaiseEvent(mbArgs);
+                Thumb.RaiseEvent(mbArgs);
             }
         }
 

@@ -21,9 +21,6 @@ namespace MidiPlayer.Timers
 
         private double _intervalunit;
 
-        private double ElapsedStaticTime => _stopwatch.ElapsedMilliseconds*_intervalunit;
-        private double ElapsedRunTime => _stopwatch.ElapsedMilliseconds;
-
         #endregion Fields
 
         public MidiTimer()
@@ -43,7 +40,10 @@ namespace MidiPlayer.Timers
 
         private void OnTimerTick(object sender, ElapsedEventArgs e)
         {
-            Beat?.Invoke(ElapsedStaticTime, ElapsedRunTime);
+            var runtime = _stopwatch.ElapsedMilliseconds;
+            var fixedtime = runtime * _intervalunit;
+
+            Beat?.Invoke(fixedtime, runtime);
             _stopwatch.Restart();
         }
 

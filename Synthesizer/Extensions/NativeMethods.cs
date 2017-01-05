@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
 
-namespace MidiPlayer.Extensions
+namespace Synthesizer.Extensions
 {
     using Device.Output.Callback;
     using Device.Output.Managed;

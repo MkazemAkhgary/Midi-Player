@@ -4,12 +4,12 @@ using System.Linq;
 using MidiStream.Components.Containers.Tracks;
 using MidiStream.Enums;
 using Utilities.Helpers;
+using Synthesizer.Device.Output;
+using Synthesizer.Device.Output.Managed;
 
 namespace MidiPlayer.PlaybackComponents
 {
     using EventArgs = Extensions.EventArgs;
-    using Device.Output;
-    using Device.Output.Managed;
     using Dispatchers;
 
     internal partial class PlaybackControl : IDisposable

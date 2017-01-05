@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace MidiPlayer.Device.Output.Managed
+namespace Synthesizer.Device.Output.Managed
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [StructLayout(LayoutKind.Sequential)]

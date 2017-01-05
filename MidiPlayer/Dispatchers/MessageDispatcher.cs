@@ -2,11 +2,11 @@
 using System.Linq;
 using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
+using Synthesizer.Device.Output;
 using Utilities.Helpers;
 
 namespace MidiPlayer.Dispatchers
 {
-    using Device.Output;
     using PlaybackComponents;
 
     internal static class MessageDispatcher

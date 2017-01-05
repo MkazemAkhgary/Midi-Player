@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
 
-namespace MidiPlayer.Device
+namespace Synthesizer.Device
 {
     using Extensions;
 
     /// <summary>
     /// Provides a safe handle for midi devices.
     /// </summary>
-    internal abstract class MidiDevice : SafeHandle
+    public abstract class MidiDevice : SafeHandle
     {
         private readonly IntPtr _invalidHandle;
 

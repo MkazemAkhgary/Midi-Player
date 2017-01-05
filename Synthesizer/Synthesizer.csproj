@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4E712DD-BE28-437B-B3DE-E50BFB5F2413}</ProjectGuid>
+    <ProjectGuid>{F7CB1BE6-D506-41A7-B858-D1C3964B31F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MidiPlayer</RootNamespace>
-    <AssemblyName>MidiPlayer</AssemblyName>
+    <RootNamespace>Synthesizer</RootNamespace>
+    <AssemblyName>Synthesizer</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,8 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,47 +29,32 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dispatchers\MessageDispatcher.cs" />
-    <Compile Include="Extensions\Delegates.cs" />
-    <Compile Include="PlayerComponents\PlayerControl.cs" />
-    <Compile Include="PlaybackComponents\PlaybackData.cs" />
-    <Compile Include="Commands\DelegateCommand.cs" />
-    <Compile Include="PlaybackComponents\PlaybackControl.cs" />
-    <Compile Include="Timers\IMidiTimer.cs" />
-    <Compile Include="VMComponents\NotifyPropertyChanged.cs" />
-    <Compile Include="Sequencer\Sequence.cs" />
-    <Compile Include="Sequencer\Sequence.Iterator.cs" />
-    <Compile Include="PlaybackComponents\Playback.cs" />
-    <Compile Include="Timers\MidiTimer.cs" />
-    <Compile Include="PlayerComponents\Player.cs" />
+    <Compile Include="Extensions\MMRESULT.cs" />
+    <Compile Include="Extensions\NativeMethods.cs" />
+    <Compile Include="Device\MidiDevice.cs" />
+    <Compile Include="Device\Output\Callback\CALLBACK.cs" />
+    <Compile Include="Device\Output\Callback\MidiOutProc.cs" />
+    <Compile Include="Device\Output\Managed\MidiHdr.cs" />
+    <Compile Include="Device\Output\Managed\MidiOutCaps.cs" />
+    <Compile Include="Device\Output\MidiOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PlayerComponents\PlayerVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MidiStream\MidiStream.csproj">
       <Project>{a574ed4f-d369-4890-b478-b6eb9d7a23e5}</Project>
       <Name>MidiStream</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Synthesizer\Synthesizer.csproj">
-      <Project>{f7cb1be6-d506-41a7-b858-d1c3964b31f3}</Project>
-      <Name>Synthesizer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{3ee21c4c-57e6-40a1-8ece-abd0971c9a2d}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="PlaybackComponents\PlaybackControl.Calc.cs" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

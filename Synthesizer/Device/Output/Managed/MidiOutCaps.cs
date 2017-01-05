@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Utilities.Helpers;
 
-namespace MidiPlayer.Device.Output.Managed
+namespace Synthesizer.Device.Output.Managed
 {
     /// <summary>
     /// describes the capabilities of a MIDI output device.
     /// </summary>
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MIDIOUTCAPS
+    public struct MIDIOUTCAPS
     {
         /// <summary>
         /// Manufacturer identifier of the device driver for the MIDI output device.

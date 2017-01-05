@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MidiPlayer.Extensions
+namespace Synthesizer.Extensions
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal enum MMRESULT : uint
+    public enum MMRESULT : uint
     {
         MMSYSERR_NOERROR = 0,
         MMSYSERR_ERROR = 1,

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
 
-namespace MidiPlayer.Device.Output
+namespace Synthesizer.Device.Output
 {
     using Managed;
     using Extensions;
@@ -11,7 +11,7 @@ namespace MidiPlayer.Device.Output
     /// <summary>
     /// Midi out-put device.
     /// </summary>
-    internal sealed class MidiOutput : MidiDevice
+    public sealed class MidiOutput : MidiDevice
     {
         private static readonly object Lock = new object();
 
@@ -21,7 +21,7 @@ namespace MidiPlayer.Device.Output
 
         internal uint Id { get; }
 
-        internal MIDIOUTCAPS OutputCapabilities { get; }
+        public MIDIOUTCAPS OutputCapabilities { get; }
 
         #endregion Properties
 
@@ -32,7 +32,7 @@ namespace MidiPlayer.Device.Output
             NumberOfDevices = NativeMethods.MidiOutput.midiOutGetNumDevs();
         }
 
-        internal MidiOutput()
+        public MidiOutput()
         {
             lock (Lock)
             {
