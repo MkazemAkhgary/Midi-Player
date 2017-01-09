@@ -18,7 +18,7 @@ namespace MidiApp.Behaviors
 
         public static readonly DependencyProperty BehaviorCollectionProperty =
             DependencyProperty.Register(
-                $"{nameof(CompositeBehavior<T>)}",
+                $"{nameof(CompositeBehavior<T>)}<{typeof(T).Name}>",
                 typeof(ObservableCollection<Behavior<T>>),
                 typeof(CompositeBehavior<T>),
                 new FrameworkPropertyMetadata(
