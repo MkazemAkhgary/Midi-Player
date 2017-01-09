@@ -57,11 +57,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Behaviors\Slider\DragCompletedCommandBehavior.cs" />
-    <Compile Include="Behaviors\Slider\FreeSlideBehavior.cs" />
-    <Compile Include="Behaviors\Slider\KeepRatioBehavior.cs" />
-    <Compile Include="Behaviors\Slider\LockOnDragBehavior.cs" />
-    <Compile Include="Behaviors\Slider\SliderBehavior.cs" />
+    <Compile Include="Behaviors\SliderCompositeBehavior.cs" />
+    <Compile Include="Behaviors\CompositeBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehaviors\CancellableDragBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehaviors\DragCompletedCommandBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehaviors\FreeSlideBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehaviors\KeepRatioBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehaviors\LockOnDragBehavior.cs" />
     <Compile Include="Converters\TimeSpanConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

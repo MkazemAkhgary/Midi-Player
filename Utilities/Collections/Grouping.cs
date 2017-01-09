@@ -14,6 +14,7 @@ namespace Utilities.Collections
     {
         IEnumerable<TValue> Including(params TKey[] keys);
         IEnumerable<TValue> Excluding(params TKey[] keys);
+        int BinarySearch(TValue item, IComparer<TValue> comparer = null);
         void ReleaseBuffer();
     }
     #endregion Interface
@@ -27,14 +28,14 @@ namespace Utilities.Collections
     {
         #region Fields
 
-        private readonly IList<TValue> _list;
+        private readonly List<TValue> _list;
 
         private readonly Func<TValue, TKey> _keyselector;
-        private readonly IDictionary<TKey, IList<TValue>> _grouping;
+        private readonly Dictionary<TKey, List<TValue>> _grouping;
 
         // buffers used to speed up querying Including and Excluding methods.
-        private readonly IDictionary<TKey[], IList<TValue>> _includes;
-        private readonly IDictionary<TKey[], IList<TValue>> _excludes;
+        private readonly Dictionary<TKey[], ReadOnlyCollection<TValue>> _includes;
+        private readonly Dictionary<TKey[], ReadOnlyCollection<TValue>> _excludes;
 
         private static readonly IEqualityComparer<TKey> EqualityComparer = EqualityComparer<TKey>.Default;
         private static readonly IComparer<TValue> Comparer = Comparer<TValue>.Default;
@@ -43,45 +44,27 @@ namespace Utilities.Collections
 
         #region Constructors
 
-        /// <summary>
-        /// this constructor is used for making read-only version of <see cref="Grouping{TKey, TValue}"/>
-        /// </summary>
-        /// <param name="cloning">instance to clone as read-only.</param>
-        private Grouping(Grouping<TKey, TValue> cloning)
-        {
-            _keyselector = cloning._keyselector;
-            _list = new ReadOnlyCollection<TValue>(cloning._list);
-
-            _includes = cloning._includes;
-            _excludes = cloning._excludes;
-
-            var rolist = Extension.ToFunc<IList<TValue>>(val => new ReadOnlyCollection<TValue>(val));
-
-            var grouping = cloning._grouping.ToDictionary(kvp => kvp.Key, kvp => rolist(kvp.Value), EqualityComparer);
-            _grouping = new ReadOnlyDictionary<TKey, IList<TValue>>(grouping);
-        }
-
         public Grouping(Func<TValue, TKey> key)
         {
             _keyselector = key;
             _list = new List<TValue>();
             
-            _includes = new Dictionary<TKey[], IList<TValue>>(ArrayComparer<TKey>.Create());
-            _excludes = new Dictionary<TKey[], IList<TValue>>(ArrayComparer<TKey>.Create());
+            _includes = new Dictionary<TKey[], ReadOnlyCollection<TValue>>(ArrayComparer<TKey>.Create());
+            _excludes = new Dictionary<TKey[], ReadOnlyCollection<TValue>>(ArrayComparer<TKey>.Create());
 
-            _grouping = new Dictionary<TKey, IList<TValue>>(EqualityComparer);
+            _grouping = new Dictionary<TKey, List<TValue>>(EqualityComparer);
         }
 
         #endregion Constructors
 
         #region Methods
 
-        private IList<TValue> PrepareBuffer(TKey[] inkeys)
+        private ReadOnlyCollection<TValue> PrepareBuffer(TKey[] inkeys)
         {
             // filter, flatten, order.
             return _grouping.Where(val => inkeys.Contains(val.Key, EqualityComparer))
                 .SelectMany(val => val.Value)
-                .OrderBy(v => v, Comparer).ToList();
+                .OrderBy(v => v, Comparer).ToList().AsReadOnly();
         }
 
         /// <summary>
@@ -89,7 +72,7 @@ namespace Utilities.Collections
         /// </summary>
         public ReadOnlyGrouping<TKey, TValue> AsReadOnly()
         {
-            return new ReadOnlyGrouping<TKey, TValue>(new Grouping<TKey, TValue>(this));
+            return new ReadOnlyGrouping<TKey, TValue>(this);
         }
 
         #endregion Methods
@@ -102,7 +85,7 @@ namespace Utilities.Collections
         /// <returns>Ordered enumerable of TValues from selected collections.</returns>
         public IEnumerable<TValue> Including([NotNull]params TKey[] keys)
         {
-            IList<TValue> list;
+            ReadOnlyCollection<TValue> list;
             if (!_includes.TryGetValue(keys, out list))
             {
                 var exkey = _grouping.Keys.Except(keys).ToArray();
@@ -122,7 +105,7 @@ namespace Utilities.Collections
         /// <returns>Ordered enumerable of TValues from rest of collections.</returns>
         public IEnumerable<TValue> Excluding([NotNull]params TKey[] keys)
         {
-            IList<TValue> list;
+            ReadOnlyCollection<TValue> list;
             if (!_excludes.TryGetValue(keys, out list))
             {
                 var inkey = _grouping.Keys.Except(keys).ToArray();
@@ -134,6 +117,11 @@ namespace Utilities.Collections
                 _excludes.Add(keys, list);
             }
             return list;
+        }
+
+        public int BinarySearch(TValue item, IComparer<TValue> comparer = null)
+        {
+            return _list.BinarySearch(item, comparer ?? Comparer);
         }
 
         public void ReleaseBuffer()
@@ -162,7 +150,7 @@ namespace Utilities.Collections
 
         public void Add(TValue item)
         {
-            IList<TValue> list;
+            List<TValue> list;
             var key = _keyselector(item);
             if(!_grouping.TryGetValue(key, out list))
             {
@@ -174,17 +162,14 @@ namespace Utilities.Collections
 
         public void Clear()
         {
-            foreach (var list in _grouping.Values)
-            {
-                list.Clear();
-            }
+            ReleaseBuffer();
             _grouping.Clear();
             _list.Clear();
         }
 
         public bool Contains(TValue item)
         {
-            IList<TValue> list;
+            List<TValue> list;
             return _grouping.TryGetValue(_keyselector(item), out list) && list.Contains(item);
         }
 
@@ -195,14 +180,14 @@ namespace Utilities.Collections
 
         public bool Remove(TValue item)
         {
-            IList<TValue> list;
+            List<TValue> list;
             _list.Remove(item);
             return _grouping.TryGetValue(_keyselector(item), out list) && list.Remove(item);
         }
 
         public int Count => _list.Count;
 
-        public bool IsReadOnly => _grouping.IsReadOnly;
+        public bool IsReadOnly => false;
 
         #endregion ICollection Impl
 
@@ -268,6 +253,11 @@ namespace Utilities.Collections
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public int BinarySearch(TValue item, IComparer<TValue> comparer = null)
+        {
+            return _source.BinarySearch(item, comparer);
         }
 
         public void ReleaseBuffer()

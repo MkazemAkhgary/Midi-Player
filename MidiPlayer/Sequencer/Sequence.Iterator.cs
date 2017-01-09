@@ -27,7 +27,7 @@ namespace MidiPlayer.Sequencer
             object IEnumerator.Current => Current;
             public bool MoveNext() => ++_ind < _source.Count;
             public void Reset() => _ind = 0;
-            public void Dispose() => _source = null;
+            public void Dispose() => _source.Clear();
             #endregion IEnumerator Imp
 
             public bool Ends => _ind >= _source.Count;

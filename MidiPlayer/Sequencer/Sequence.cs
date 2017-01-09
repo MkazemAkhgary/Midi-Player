@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using MidiStream.Components.Containers.Events;
 using MidiStream.Components.Containers.Messages;
 using UtilCollection = Utilities.Collections;
@@ -57,37 +56,13 @@ namespace MidiPlayer.Sequencer
         {
             _enumerator.Reset();
 
-            if (target == 0 || !this.Any()) return;
+            var dummy = MidiEvent<TValue>.CreateEmpty((long) target);
+            var index = _enumerator.GetSource().BinarySearch(dummy);
 
-            if (target > this.Last().AbsoluteTicks) // track ends
-            {
-                _enumerator.Seek(this.Count());
-                return;
-            }
+            if(index < 0) index = ~index - 1;
+            if(index < 0) return;
 
-            int limiter = this.Count();
-            int expander = 0;
-
-            while (expander <= limiter) // binary search
-            {
-                int midpoint = (expander + limiter) / 2;
-                var element = this.ElementAt(midpoint);
-                if (target > element.AbsoluteTicks)
-                {
-                    expander = midpoint + 1;
-                }
-                else if (target < element.AbsoluteTicks)
-                {
-                    limiter = midpoint - 1;
-                }
-                else if (target - element.AbsoluteTicks == 0)
-                {
-                    _enumerator.Seek(midpoint);
-                    return;
-                }
-            }
-
-            _enumerator.Seek(limiter);
+            _enumerator.Seek(index);
         }
 
         #endregion Delegatees

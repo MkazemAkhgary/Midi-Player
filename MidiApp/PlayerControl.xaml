@@ -4,34 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:cnvt="clr-namespace:MidiApp.Converters"
-             xmlns:cmpn="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
-             xmlns:slid="clr-namespace:MidiApp.Behaviors.Slider"
+             xmlns:cn="clr-namespace:MidiApp.Converters"
+             xmlns:cp="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
+             xmlns:b="clr-namespace:MidiApp.Behaviors"
+             xmlns:sb="clr-namespace:MidiApp.Behaviors.SliderBehaviors"
              mc:Ignorable="d"
              d:DesignHeight="60" 
              d:DesignWidth="300">
     <UserControl.Resources>
-        <cnvt:TimeSpanConverter x:Key="TimeSpanConverter" />
+        <cn:TimeSpanConverter x:Key="TimeSpanConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
-        <cmpn:Player x:Name="Player"/>
+        <cp:Player x:Name="Player"/>
     </UserControl.DataContext>
     <Grid DataContext="{Binding Context}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Slider x:Name="PlaybackSlider"
+        <Slider x:Name="PlaybackSlider" 
                           Grid.Row="0"
                           Margin="10,0"
                           VerticalAlignment="Center"
                           IsMoveToPointEnabled="True" 
                           Maximum="{Binding RuntimeDuration}">
             <i:Interaction.Behaviors>
-                <slid:FreeSlideBehavior/>
-                <slid:KeepRatioBehavior/>
-                <slid:LockOnDragBehavior SourceValue="{Binding RuntimePosition}"/>
-                <slid:DragCompletedCommandBehavior Command="{Binding SeekTo}"/>
+                <b:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}">
+                    <sb:FreeSlideBehavior/>
+                    <sb:LockOnDragBehavior/>
+                    <sb:CancellableDragBehavior/>
+                    <sb:KeepRatioBehavior/>
+                    <sb:DragCompletedCommandBehavior Command="{Binding SeekTo}"/>
+                </b:SliderCompositeBehavior>
             </i:Interaction.Behaviors>
         </Slider>
         <Grid Grid.Row="1">
@@ -92,7 +96,7 @@
                     Value="{Binding PlaybackSpeed}"
                     IsMoveToPointEnabled="True">
                 <i:Interaction.Behaviors>
-                    <slid:FreeSlideBehavior />
+                    <sb:FreeSlideBehavior/>
                 </i:Interaction.Behaviors>
             </Slider>
         </Grid>

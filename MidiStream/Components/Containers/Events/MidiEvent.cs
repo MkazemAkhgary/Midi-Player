@@ -63,5 +63,10 @@ namespace MidiStream.Components.Containers.Events
         }
 
         #endregion Implemented Methods
+
+        public static MidiEvent<TMessage> CreateEmpty(long ticks)
+        {
+            return new MidiEvent<TMessage>(ticks, null);
+        }
     }
 }
