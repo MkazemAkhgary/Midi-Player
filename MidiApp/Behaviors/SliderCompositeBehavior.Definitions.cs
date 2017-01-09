@@ -5,7 +5,7 @@ namespace MidiApp.Behaviors
 {
     public sealed partial class SliderCompositeBehavior
     {
-        private static readonly DependencyPropertyKey ThumbProperty =
+        private static readonly DependencyPropertyKey ThumbKey =
             DependencyProperty.RegisterAttachedReadOnly(
                 $"{nameof(SliderCompositeBehavior)}{nameof(Thumb)}",
                 typeof(Thumb),
@@ -13,7 +13,18 @@ namespace MidiApp.Behaviors
                 new FrameworkPropertyMetadata(
                     default(Thumb),
                     FrameworkPropertyMetadataOptions.NotDataBindable));
-        
+
+        public static readonly DependencyProperty ThumbProperty = ThumbKey.DependencyProperty;
+
+        public static readonly DependencyProperty BindValueWithSourceProperty =
+            DependencyProperty.RegisterAttached(
+                nameof(ValueBindsWithSource),
+                typeof(bool),
+                typeof(SliderCompositeBehavior),
+                new FrameworkPropertyMetadata(
+                    true,
+                    FrameworkPropertyMetadataOptions.NotDataBindable));
+
         public static readonly DependencyProperty SourceValueProperty =
             DependencyProperty.Register(
                 nameof(SourceValue),
@@ -23,14 +34,5 @@ namespace MidiApp.Behaviors
                     0d,
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                     OnSourceValueChanged));
-        
-        public static readonly DependencyProperty BindValueToSourceValue =
-            DependencyProperty.Register(
-                nameof(BindValueToSource),
-                typeof(bool),
-                typeof(SliderCompositeBehavior),
-                new FrameworkPropertyMetadata(
-                    true,
-                    FrameworkPropertyMetadataOptions.NotDataBindable));
     }
 }

@@ -44,6 +44,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
         {
             if (Maximum > Value) _oldVal = Value; // use new value if Value is not limited to maximum.
             Value = _oldVal * (Maximum - Minimum) / (_oldMax - Minimum);
+            SliderCompositeBehavior.SetSourceValue(Host, Value);
             _oldMax = Maximum;
         }
 
@@ -51,6 +52,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
         {
             if (Minimum < Value) _oldVal = Value;
             Value = _oldVal * (Maximum - Minimum) / (Maximum - _oldMin);
+            SliderCompositeBehavior.SetSourceValue(Host, Value);
             _oldMin = Minimum;
         }
 

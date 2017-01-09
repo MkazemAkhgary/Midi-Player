@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+// ReSharper disable UnusedMember.Global
 
 namespace MidiApp.Behaviors
 {
@@ -27,12 +29,12 @@ namespace MidiApp.Behaviors
             if (host == null)
                 throw new ArgumentNullException(nameof(host), $@"{nameof(host)} cant be null.");
 
-            var thumb = (Thumb)host.GetValue(ThumbProperty.DependencyProperty);
+            var thumb = (Thumb)host.GetValue(ThumbProperty);
 
             if (thumb == null)
             {
                 thumb = ((Track)host.Template?.FindName("PART_Track", host))?.Thumb;
-                if (thumb != null) host.SetValue(ThumbProperty, thumb);
+                if (thumb != null) host.SetValue(ThumbKey, thumb);
             }
 
             return thumb;
@@ -40,7 +42,7 @@ namespace MidiApp.Behaviors
 
         #endregion
 
-        #region Source Value
+        #region SourceValue
         
         public double SourceValue
         {
@@ -62,7 +64,9 @@ namespace MidiApp.Behaviors
         {
             var soruce = (SliderCompositeBehavior)dpo;
 
-            if (soruce.BindValueToSource)
+            //soruce.SourceValue = (double)args.NewValue;
+
+            if (ValueBindsWithSource(soruce.Host))
             {
                 soruce.Host.Value = (double)args.NewValue;
             }
@@ -70,22 +74,16 @@ namespace MidiApp.Behaviors
 
         #endregion
 
-        #region Bind Value to Source
+        #region SourceValue-Value Binding
 
-        public bool BindValueToSource
+        public static void BindValueWithSource(Slider host, bool value)
         {
-            get { return (bool)Host.GetValue(BindValueToSourceValue); }
-            set { Host.SetValue(BindValueToSourceValue, value); }
+            host.SetValue(BindValueWithSourceProperty, value);
         }
 
-        public static void SetBindValueToSource(Slider host, bool value)
+        public static bool ValueBindsWithSource(Slider host)
         {
-            host.SetValue(BindValueToSourceValue, value);
-        }
-
-        public static bool GetBindValueToSource(Slider host)
-        {
-            return (bool)host.GetValue(BindValueToSourceValue);
+            return (bool)host.GetValue(BindValueWithSourceProperty);
         }
 
         #endregion

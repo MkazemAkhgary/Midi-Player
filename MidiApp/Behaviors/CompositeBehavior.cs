@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Markup;
@@ -46,7 +44,7 @@ namespace MidiApp.Behaviors
             }
         }
 
-        private void OnCollectionChanged(object sender, EventArgs eventArgs)
+        private void OnCollectionChanged(object sender, EventArgs args)
         {
             var hashset = new HashSet<Type>();
 
