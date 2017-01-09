@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Markup;
@@ -13,28 +14,31 @@ namespace MidiApp.Behaviors
         where T : DependencyObject
     {
         #region Behavior Collection
-
-        private readonly HashSet<Type> _behaviors = new HashSet<Type>();
-
+        
         public static readonly DependencyProperty BehaviorCollectionProperty =
             DependencyProperty.Register(
                 $"{nameof(CompositeBehavior<T>)}<{typeof(T).Name}>",
-                typeof(ObservableCollection<Behavior<T>>),
+                typeof(BehaviorCollection),
                 typeof(CompositeBehavior<T>),
                 new FrameworkPropertyMetadata(
                     null,
                     FrameworkPropertyMetadataOptions.NotDataBindable));
 
-        public ObservableCollection<Behavior<T>> BehaviorCollection
+        public BehaviorCollection BehaviorCollection
         {
             get
             {
-                var collection = GetValue(BehaviorCollectionProperty) as ObservableCollection<Behavior<T>>;
+                var collection = GetValue(BehaviorCollectionProperty) as BehaviorCollection;
 
                 if (collection == null)
                 {
-                    collection = new ObservableCollection<Behavior<T>>();
-                    collection.CollectionChanged += OnCollectionChanged;
+                    var constructor = typeof(BehaviorCollection)
+                        .GetConstructor(
+                            BindingFlags.NonPublic | BindingFlags.Instance,
+                            null, Type.EmptyTypes, null);
+
+                    collection = (BehaviorCollection) constructor.Invoke(null);
+                    collection.Changed += OnCollectionChanged;
                     SetValue(BehaviorCollectionProperty, collection);
                 }
 
@@ -42,27 +46,19 @@ namespace MidiApp.Behaviors
             }
         }
 
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        private void OnCollectionChanged(object sender, EventArgs eventArgs)
         {
-            if (args.OldItems != null)
-            {
-                foreach (var behavior in args.OldItems)
-                {
-                    if (_behaviors.Remove(behavior.GetType()) == false)
-                    {
-                        throw new InvalidOperationException($"{behavior.GetType().Name} could not be located.");
-                    }
-                }
-            }
+            var hashset = new HashSet<Type>();
 
-            if (args.NewItems != null)
+            foreach (var behavior in BehaviorCollection)
             {
-                foreach (var behavior in args.NewItems)
+                if (behavior is Behavior<T> == false)
                 {
-                    if (_behaviors.Add(behavior.GetType()) == false)
-                    {
-                        throw new InvalidOperationException($"{behavior.GetType().Name} is set more than once.");
-                    }
+                    throw new InvalidOperationException($"{behavior.GetType().Name} does not inherit from {typeof(Behavior<T>).Name}.");
+                }
+                if (hashset.Add(behavior.GetType()) == false)
+                {
+                    throw new InvalidOperationException($"{behavior.GetType().Name} is set more than once.");
                 }
             }
         }
