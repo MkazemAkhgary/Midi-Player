@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\SliderCompositeBehavior.Definitions.cs" />
     <Compile Include="Behaviors\SliderCompositeBehavior.cs" />
     <Compile Include="Behaviors\CompositeBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\CancellableDragBehavior.cs" />
