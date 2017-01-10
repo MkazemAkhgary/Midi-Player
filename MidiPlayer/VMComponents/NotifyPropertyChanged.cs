@@ -106,15 +106,23 @@ namespace MidiPlayer.VMComponents
 
         private readonly Action[] _resetters;
         private readonly HybridDictionary _buffer;
-
+        
         public void Dispose()
         {
-            foreach (BlockingContainer<PropertyChangedEventArgs> bc in _buffer.Values)
-            {
-                bc.Dispose();
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            _buffer.Clear();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                foreach (BlockingContainer<PropertyChangedEventArgs> bc in _buffer.Values)
+                {
+                    bc.Dispose();
+                }
+                _buffer.Clear();
+            }
         }
     }
 }

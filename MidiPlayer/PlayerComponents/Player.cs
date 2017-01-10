@@ -12,13 +12,16 @@ namespace MidiPlayer.PlayerComponents
     public sealed class Player : IDisposable
     {
         private readonly PlayerControl _control;
-        public PlayerVM Context { get; }
+        private readonly PlayerVM _context;
+
+        public PlayerVM Context{ get { return _context; } }
+
         public string GetMidiOutputDeviceInfo => _control.GetOutputCapabilities.ToString();
 
         public Player()
         {
             var data = new PlaybackData();
-            Context = new PlayerVM(data);
+            _context = new PlayerVM(data);
             _control = new PlayerControl(data);
 
             Context.Toggle = DelegateCommand.Create(_control.Toggle, o => o as bool? ?? true);
@@ -52,6 +55,7 @@ namespace MidiPlayer.PlayerComponents
 
         public void Dispose()
         {
+            _context.Dispose();
             _control.Dispose();
             Context.Dispose();
         }
