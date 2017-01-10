@@ -18,7 +18,7 @@ namespace MidiApp.Behaviors.Composite
 
         private static readonly DependencyPropertyKey ReferenceKey =
             DependencyProperty.RegisterReadOnly(
-                "Reference",
+                $"{nameof(CompositeBehavior<T>)}<{typeof(T).Name}>.Reference",
                 typeof(CompositeBehavior<T>),
                 typeof(CompositeBehavior<T>),
                 new PropertyMetadata(null));
