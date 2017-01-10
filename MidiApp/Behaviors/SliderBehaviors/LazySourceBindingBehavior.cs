@@ -7,22 +7,23 @@ using MidiApp.Behaviors.Composite;
 
 namespace MidiApp.Behaviors.SliderBehaviors
 {
-    /// <summary>
-    /// Provides binding for a command that executes after dragging slider is completed.
-    /// </summary>
-    public sealed class DragCompletedCommandBehavior : Behavior<Slider>
+    public sealed class LazySourceBindingBehavior : Behavior<Slider>
     {
         private Slider Host => AssociatedObject;
         private Thumb Thumb => SliderCompositeBehavior.GetThumb(Host);
-
+        
         protected override void OnAttached()
         {
+            SliderCompositeBehavior.SetSourceBindsToValue(Host, false);
+
             Host.Loaded += OnLoaded;
             Host.MouseLeftButtonUp += OnLeftButtonUp;
         }
 
         protected override void OnDetaching()
         {
+            SliderCompositeBehavior.SetSourceBindsToValue(Host, true);
+
             Host.Loaded -= OnLoaded;
             Host.MouseLeftButtonUp -= OnLeftButtonUp;
             Thumb.DragCompleted -= OnThumbDragCompleted;
@@ -35,29 +36,13 @@ namespace MidiApp.Behaviors.SliderBehaviors
 
         private void OnLeftButtonUp(object sender, MouseButtonEventArgs args)
         {
-            RaiseCommand(Host.Value);
+            SliderCompositeBehavior.SetSourceValue(Host, Host.Value);
         }
 
         private void OnThumbDragCompleted(object sender, DragCompletedEventArgs args)
         {
-            RaiseCommand(Host.Value);
+            SliderCompositeBehavior.SetSourceValue(Host, Host.Value);
         }
 
-        private void RaiseCommand(double value)
-        {
-            if (Command?.CanExecute(value) ?? false) Command.Execute(value);
-        }
-        
-        public ICommand Command
-        {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
-        
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(
-                nameof(Command),
-                typeof(ICommand),
-                typeof(DragCompletedCommandBehavior));
     }
 }

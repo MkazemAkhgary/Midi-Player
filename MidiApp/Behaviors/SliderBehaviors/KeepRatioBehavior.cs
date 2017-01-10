@@ -33,14 +33,18 @@ namespace MidiApp.Behaviors.SliderBehaviors
             set { Host.Value = value; }
         }
 
-        private double _oldMax = 10;
-        private double _oldMin = 0;
-        private double _oldVal = 0;
+        private double _oldMax;
+        private double _oldMin;
+        private double _oldVal;
 
         protected override void OnAttached()
         {
             MaximumPropertyDescriptor.AddValueChanged(Host, OnMaximumChanged);
             MinimumPropertyDescriptor.AddValueChanged(Host, OnMinimumChanged);
+
+            _oldMax = Host.Maximum;
+            _oldMin = Host.Minimum;
+            _oldVal = Host.Value;
 
             Host.ValueChanged += OnValueChanged;
         }

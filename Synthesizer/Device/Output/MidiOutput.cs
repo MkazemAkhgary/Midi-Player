@@ -21,7 +21,7 @@ namespace Synthesizer.Device.Output
 
         internal uint Id { get; }
 
-        public MIDIOUTCAPS OutputCapabilities { get; }
+        public MIDIOUTCAPS Capabilities { get; }
 
         #endregion Properties
 
@@ -47,7 +47,7 @@ namespace Synthesizer.Device.Output
                 var size = Marshal.SizeOf(typeof(MIDIOUTCAPS));
                 var moc = default(MIDIOUTCAPS);
                 LastError = NativeMethods.MidiOutput.midiOutGetDevCaps(handle, ref moc, (uint)size);
-                OutputCapabilities = moc;
+                Capabilities = moc;
             }
         }
 

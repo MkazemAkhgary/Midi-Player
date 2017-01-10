@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-
 // ReSharper disable UnusedMember.Global
 
 namespace MidiApp.Behaviors.Composite
@@ -16,14 +14,6 @@ namespace MidiApp.Behaviors.Composite
         protected override void OnSelfDetaching()
         {
             Host.ValueChanged -= OnValueChanged;
-        }
-
-        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs args)
-        {
-            Thumb.RaiseEvent(new MouseButtonEventArgs(args.MouseDevice, args.Timestamp, MouseButton.Left)
-            {
-                RoutedEvent = UIElement.MouseLeftButtonDownEvent
-            });
         }
 
         private static void OnSourceValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

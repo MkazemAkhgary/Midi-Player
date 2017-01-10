@@ -7,6 +7,7 @@ namespace Utilities.Threading
         private readonly Lazy<SafeTimer> _timer;
         private volatile bool _isFree = true;
         private readonly T _item;
+        private readonly Action<T> _callback;
 
         private SafeTimer Timer => _timer.Value;
         private bool IsTimerInitialized => _timer.IsValueCreated;
@@ -17,9 +18,16 @@ namespace Utilities.Threading
             private set { _isFree = value; }
         }
 
-        public BlockingContainer(T item)
+        /// <summary>
+        /// blocks access to item for specified amount of time.
+        /// if another wait is requested current wait is ignored and runs callback after wait period is elapsed.
+        /// </summary>
+        /// <param name="item">encapsulating item.</param>
+        /// <param name="callback">callback to run after wait period is elapsed.</param>
+        public BlockingContainer(T item, Action<T> callback = null)
         {
             _item = item;
+            _callback = callback;
             _timer = new Lazy<SafeTimer>(InitializeTimer);
         }
 
@@ -30,49 +38,38 @@ namespace Utilities.Threading
                 AutoReset = false
             };
 
-            timer.Elapsed += (o, args) => IsFree = true;
+            timer.Elapsed += (o, args) =>
+            {
+                IsFree = true;
+                _callback?.Invoke(_item);
+            };
 
             return timer;
         }
 
-        public T GetItem()
+
+        /// <summary>
+        /// returns encapsulated item if container is free.
+        /// </summary>
+        public T RequestItem()
         {
             return IsFree ? _item : null;
         }
 
-        public T GetItem(int duration)
+        /// <summary>
+        /// reserves the callback after specified amount of time.
+        /// </summary>
+        public void Reserve(int duration)
         {
-            if (IsFree)
-            {
-                Block(duration);
-                return _item;
-            }
-
-            return null;
+            if (IsFree) Block(duration);
         }
-
-        public void Block(int duration)
+        
+        private void Block(int duration)
         {
             IsFree = false;
             Timer.Stop();
             Timer.Interval = duration;
             Timer.Start();
-        }
-
-        public T ForceGetItem()
-        {
-            return _item;
-        }
-
-        public T FreeItem()
-        {
-            if (IsTimerInitialized)
-            {
-                Timer.Stop();
-                IsFree = true;
-            }
-
-            return _item;
         }
 
         public void Dispose()

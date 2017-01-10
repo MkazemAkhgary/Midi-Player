@@ -65,6 +65,7 @@
     <Compile Include="Behaviors\SliderBehaviors\DragCompletedCommandBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\FreeSlideBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\KeepRatioBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehaviors\LazySourceBindingBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\LockOnDragBehavior.cs" />
     <Compile Include="Converters\TimeSpanConverter.cs" />
     <Page Include="MainWindow.xaml">

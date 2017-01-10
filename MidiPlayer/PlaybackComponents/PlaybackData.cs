@@ -33,70 +33,37 @@ namespace MidiPlayer.PlaybackComponents
         private double _mspb = TimeDivision.Default.MicroSecondsPerBeat;
 
         #endregion
-
-        #region Duration
-
+        
         public double StaticDuration
         {
             get { return _stadur; }
-            set
-            {
-                _stadur = value;
-
-                OnPropertyChanged();
-            }
+            set { SetValue(ref _stadur, value); }
         }
 
         public double RuntimeDuration
         {
             get { return _rundur; }
-            set
-            {
-                _rundur = value;
-
-                OnPropertyChanged();
-            }
+            set { SetValue(ref _rundur, value); }
         }
-
-        #endregion
-
-        #region Position
-
+        
         public double StaticPosition
         {
             get { return _stapos; }
-            set
-            {
-                _stapos = value;
-
-                OnPropertyChanged(500); // every 500 ms
-            }
+            set { SetValueDelayed(ref _stapos, value, delay: 500); }
         }
 
         public double RuntimePosition
         {
             get { return _runpos; }
-            set
-            {
-                _runpos = value;
-
-                OnPropertyChanged(500); // every 500 ms
-            }
+            set { SetValueDelayed(ref _runpos, value, delay: 500); }
         }
-
-        #endregion
 
         #region Streaming
 
         public double TickLength
         {
             get { return _tlen; }
-            set
-            {
-                _tlen = value;
-
-                OnPropertyChanged();
-            }
+            set { SetValue(ref _tlen, value); }
         }
 
         public double PlaybackSpeed
@@ -105,11 +72,8 @@ namespace MidiPlayer.PlaybackComponents
             set
             {
                 RuntimeDuration /= value / _pbspeed; // correction
-
-                _pbspeed = value;
-                TempoChanged?.Invoke(_mspb / _pbspeed);
-
-                OnPropertyChanged();
+                TempoChanged?.Invoke(_mspb / value); // reset tempo
+                SetValue(ref _pbspeed, value);
             }
         }
 
@@ -118,33 +82,21 @@ namespace MidiPlayer.PlaybackComponents
             get { return _mspb; }
             set
             {
-                _mspb = value;
-                TempoChanged?.Invoke(_mspb / _pbspeed);
-
-                OnPropertyChanged();
+                TempoChanged?.Invoke(value / _pbspeed);
+                SetValue(ref _mspb, value);
             }
         }
 
         public bool IsPlaying
         {
             get { return _play; }
-            set
-            {
-                _play = value;
-
-                OnPropertyChanged();
-            }
+            set { SetValue(ref _play, value); }
         }
 
         public bool IsPlaybackLoaded
         {
             get { return _load; }
-            set
-            {
-                _load = value;
-
-                OnPropertyChanged();
-            }
+            set { SetValue(ref _load, value); }
         }
 
         #endregion
@@ -161,9 +113,6 @@ namespace MidiPlayer.PlaybackComponents
             MicrosecondsPerBeat = TimeDivision.Default.MicroSecondsPerBeat;
             TickLength = TimeDivision.Default.GetResolution() / 1000;
             IsPlaying = false;
-
-            OnPropertyChangedForceReset(nameof(StaticPosition));
-            OnPropertyChangedForceReset(nameof(RuntimePosition));
         }
     }
 }

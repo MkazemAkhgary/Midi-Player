@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Utilities.Collections;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using Utilities.Helpers;
 using Utilities.Properties;
 
@@ -11,24 +13,13 @@ namespace MidiStream.Components.Containers.Messages.Factory
     /// </summary>
     public static class MessageFactory
     {
-        private static readonly ListDictionary<Type, Func<byte[], MidiMessage>> Initialize;
-
-        static MessageFactory()
-        {
-            Initialize = new ListDictionary<Type, Func<byte[], MidiMessage>>
-            {
-                {typeof(VoiceMessage), data => new VoiceMessage(data)},
-                {typeof(MetaMessage), data => new MetaMessage(data)}
-            };
-        }
-
         public static TMessage CreateMessage<TMessage>([NotNull]byte[] data) where TMessage : MidiMessage
         {
             TMessage msg;
 
             if (!Containers<TMessage>.Container.TryGetValue(data, out msg))
             {
-                Containers<TMessage>.Container[data] = msg = (TMessage) Initialize[typeof(TMessage)](data);
+                Containers<TMessage>.Container[data] = msg = Containers<TMessage>.Initializer(data);
             }
 
             return msg;
@@ -39,14 +30,27 @@ namespace MidiStream.Components.Containers.Messages.Factory
         /// <summary>
         /// container for each message of each type.
         /// </summary>
-        /// <typeparam name="TMessage"></typeparam>
         private static class Containers<TMessage> where TMessage : MidiMessage
         {
-            internal static readonly Dictionary<byte[], TMessage> Container;
+            public static Dictionary<byte[], TMessage> Container { get; }
+
+            public static Func<byte[], TMessage> Initializer { get; }
 
             static Containers()
             {
                 Container = new Dictionary<byte[], TMessage>(ArrayComparer<byte>.Create());
+
+                var ctor = typeof(TMessage)
+                    .GetConstructor(
+                        BindingFlags.NonPublic | BindingFlags.Instance,
+                        null, CallingConventions.HasThis,
+                        new[] {typeof(byte[])}, null);
+
+                var param = Expression.Parameter(typeof(byte[]), "data");
+                var expr = Expression.New(ctor, param);
+                var name = Regex.Match(typeof(TMessage).Name, @".*(.*)").Value;
+                var lambda = Expression.Lambda<Func<byte[], TMessage>>(expr, name, new[] {param});
+                Initializer = lambda.Compile();
             }
         }
 

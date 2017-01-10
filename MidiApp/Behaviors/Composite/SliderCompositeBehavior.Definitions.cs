@@ -30,13 +30,13 @@ namespace MidiApp.Behaviors.Composite
             DependencyProperty.RegisterAttached(
                 "ValueBindsToSource",
                 typeof(bool),
-                typeof(SliderCompositeBehavior));
+                typeof(SliderCompositeBehavior), new PropertyMetadata(true));
 
         public static readonly DependencyProperty SourceBindsToValueProperty =
             DependencyProperty.RegisterAttached(
                 "SourceBindsToValue",
                 typeof(bool),
-                typeof(SliderCompositeBehavior));
+                typeof(SliderCompositeBehavior), new PropertyMetadata(true));
 
     }
 }

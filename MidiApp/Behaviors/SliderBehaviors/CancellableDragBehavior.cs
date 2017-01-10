@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interactivity;
@@ -14,20 +15,40 @@ namespace MidiApp.Behaviors.SliderBehaviors
         private Slider Host => AssociatedObject;
         private Thumb Thumb => SliderCompositeBehavior.GetThumb(Host);
 
+        private double _oldVal;
+
         protected override void OnAttached()
         {
-            Host.MouseRightButtonUp += OnMouseRightButtonUp;
+            Host.MouseRightButtonUp += OnRightButtonUp;
+            Host.Loaded += OnLoaded;
         }
 
         protected override void OnDetaching()
         {
-            Host.MouseRightButtonUp -= OnMouseRightButtonUp;
+            Host.MouseRightButtonUp -= OnRightButtonUp;
+            Thumb.DragStarted -= OnDragStarted;
+            Host.Loaded -= OnLoaded;
         }
 
-        private void OnMouseRightButtonUp(object sender, MouseButtonEventArgs args)
+        private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            Host.Value = SliderCompositeBehavior.GetSourceValue(Host);
-            Thumb.CancelDrag();
+            Thumb.DragStarted += OnDragStarted;
+        }
+
+        private void OnDragStarted(object sender, DragStartedEventArgs args)
+        {
+            _oldVal = Host.Value;
+        }
+
+        private void OnRightButtonUp(object sender, MouseButtonEventArgs args)
+        {
+            if(Thumb.IsDragging)
+            {
+                Host.Value = SliderCompositeBehavior.GetSourceBindsToValue(Host)
+                ? _oldVal
+                : SliderCompositeBehavior.GetSourceValue(Host);
+                Thumb.CancelDrag();
+            }
         }
     }
 }

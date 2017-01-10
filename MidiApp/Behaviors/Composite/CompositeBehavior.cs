@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Markup;
+// ReSharper disable StaticMemberInGenericType
 
 namespace MidiApp.Behaviors.Composite
 {
@@ -11,8 +12,36 @@ namespace MidiApp.Behaviors.Composite
     public abstract class CompositeBehavior<T> : Behavior<T>
         where T : DependencyObject
     {
-        #region Behavior Collection
+        protected T Host => AssociatedObject;
+
+        #region Reference Holder
+
+        private static readonly DependencyPropertyKey ReferenceKey =
+            DependencyProperty.RegisterReadOnly(
+                "Reference",
+                typeof(CompositeBehavior<T>),
+                typeof(CompositeBehavior<T>),
+                new PropertyMetadata(null));
+
+        private static readonly DependencyProperty ReferenceProperty = ReferenceKey.DependencyProperty;
+
+        protected static CompositeBehavior<T> GetReference(T host)
+        {
+            var reference = (CompositeBehavior<T>)host.GetValue(ReferenceProperty);
+
+            if (reference == null)
+            {
+                reference = new DefaultCompositeBehavior();
+                host.SetValue(ReferenceKey, reference);
+            }
+
+            return reference;
+        }
+
+        #endregion
         
+        #region Behavior Collection
+
         public static readonly DependencyProperty BehaviorCollectionProperty =
             DependencyProperty.Register(
                 $"{nameof(CompositeBehavior<T>)}<{typeof(T).Name}>",
@@ -33,7 +62,8 @@ namespace MidiApp.Behaviors.Composite
                     var constructor = typeof(BehaviorCollection)
                         .GetConstructor(
                             BindingFlags.NonPublic | BindingFlags.Instance,
-                            null, Type.EmptyTypes, null);
+                            null, CallingConventions.HasThis,
+                            Type.EmptyTypes, null);
 
                     collection = (BehaviorCollection) constructor.Invoke(null);
                     collection.Changed += OnCollectionChanged;
@@ -65,16 +95,20 @@ namespace MidiApp.Behaviors.Composite
 
         protected sealed override void OnAttached()
         {
+            Host.SetValue(ReferenceKey, this);
+
             OnSelfAttached();
 
             foreach (var behavior in BehaviorCollection)
             {
-                behavior.Attach(AssociatedObject);
+                behavior.Attach(Host);
             }
         }
 
         protected sealed override void OnDetaching()
         {
+            Host.ClearValue(ReferenceKey);
+
             OnSelfDetaching();
 
             foreach (var behavior in BehaviorCollection)
@@ -88,6 +122,10 @@ namespace MidiApp.Behaviors.Composite
         }
 
         protected virtual void OnSelfDetaching()
+        {
+        }
+
+        private sealed class DefaultCompositeBehavior : CompositeBehavior<T>
         {
         }
     }

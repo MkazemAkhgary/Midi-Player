@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -21,51 +21,50 @@ namespace MidiPlayer.VMComponents
             return (BlockingContainer<PropertyChangedEventArgs>)_buffer[name];
         }
 
-
-        /// <summary>
-        /// Notifies property changed, and frees notifying target.
-        /// </summary>
-        [NotifyPropertyChangedInvocator]
-        protected void OnPropertyChangedForceReset(string name)
+        protected void SetValue<T>(ref T field, T value, [CallerMemberName] string name = "")
         {
-            var container = GetEventArgsContainer(name);
-            PropertyChanged?.Invoke(this, container.FreeItem());
+            if (EqualityComparer<T>.Default.Equals(field, value)) return;
+            field = value;
+            OnPropertyChanged(name);
+        }
+
+        protected void SetValueDelayed<T>(ref T field, T value, int delay, [CallerMemberName] string name = "")
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return;
+            field = value;
+            OnPropertyChangedDelayed(delay, name);
         }
 
         /// <summary>
         /// Notifies property changed.
         /// </summary>
-        [NotifyPropertyChangedInvocator]
-        protected void OnPropertyChanged([CallerMemberName] string name = "")
+        private void OnPropertyChanged(string caller)
         {
-            var container = GetEventArgsContainer(name);
-            PropertyChanged?.Invoke(this, container.ForceGetItem());
+            RaisePropertyChanged(GetEventArgsContainer(caller).RequestItem());
         }
 
         /// <summary>
-        /// Notifies property changed, and blocks notifying target for specified amount of time.
+        /// Notifies property changed after specified amount of time. incoming notifications are ignored until current notification is sent.
         /// </summary>
-        [NotifyPropertyChangedInvocator]
-        protected void OnPropertyChanged(int waitPeriod, [CallerMemberName] string name = "")
+        private void OnPropertyChangedDelayed(int delay, string caller)
         {
-            var container = GetEventArgsContainer(name);
-
-            if (container.IsFree)
-            {
-                PropertyChanged?.Invoke(this, container.GetItem(waitPeriod));
-            }
+            GetEventArgsContainer(caller).Reserve(delay);
         }
 
         /// <summary>
         /// Notifies property changed.
         /// </summary>
-        [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            PropertyChanged?.Invoke(this, args);
+            RaisePropertyChanged(args);
         }
 
-        [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
+        [NotifyPropertyChangedInvocator]
+        private void RaisePropertyChanged(PropertyChangedEventArgs args)
+        {
+            if (args != null) PropertyChanged?.Invoke(this, args);
+        }
+        
         protected NotifyPropertyChanged(bool useDefaultsOnReset)
         {
             // prepare property event args from inheriting class for life time use.
@@ -84,8 +83,8 @@ namespace MidiPlayer.VMComponents
 
             foreach (var pInfo in props)
             {
-                var eventArgs = new PropertyChangedEventArgs(pInfo.Name);
-                var container = new BlockingContainer<PropertyChangedEventArgs>(eventArgs);
+                var args = new PropertyChangedEventArgs(pInfo.Name);
+                var container = new BlockingContainer<PropertyChangedEventArgs>(args, RaisePropertyChanged);
                 _buffer.Add(pInfo.Name, container);
             }
         }

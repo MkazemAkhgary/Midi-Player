@@ -36,7 +36,11 @@ namespace MidiApp
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                MessageBox.Show(
+$@"{exception.Message}
+
+{exception.InnerException?.Message}", "Internal Error!");
+
                 Control.Player.Close();
             }
         }

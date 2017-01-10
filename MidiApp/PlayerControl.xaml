@@ -30,6 +30,7 @@
                           Maximum="{Binding RuntimeDuration}">
             <i:Interaction.Behaviors>
                 <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}">
+                    <sb:LazySourceBindingBehavior/>
                     <sb:FreeSlideBehavior/>
                     <sb:LockOnDragBehavior/>
                     <sb:CancellableDragBehavior/>
@@ -51,7 +52,7 @@
                        VerticalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1}">
-                        <Binding Path="Value" 
+                        <Binding Path="Value"
                                  ElementName="PlaybackSlider" 
                                  Converter="{StaticResource TimeSpanConverter}"/>
                         <Binding Path="Maximum"

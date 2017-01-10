@@ -20,9 +20,11 @@ namespace MidiPlayer.PlaybackComponents
 
         private IReadOnlyCollection<Playback> _tracks;
         private readonly PlaybackData _data;
-        private readonly Lazy<MidiOutput> _output;
+        private readonly Lazy<MidiOutput> _outputInit;
 
-        internal MIDIOUTCAPS GetOutputCapabilities => _output.Value.OutputCapabilities;
+        private MidiOutput Output => _outputInit.Value;
+
+        internal MIDIOUTCAPS GetOutputCapabilities => Output.Capabilities;
 
         static PlaybackControl()
         {
@@ -33,7 +35,7 @@ namespace MidiPlayer.PlaybackComponents
         {
             _tracks = NoPlayback;
             _data = data;
-            _output = new Lazy<MidiOutput>(() => new MidiOutput());
+            _outputInit = new Lazy<MidiOutput>(() => new MidiOutput());
         }
 
         public void Initialize(IReadOnlyList<MidiTrack> tracks)
@@ -58,12 +60,12 @@ namespace MidiPlayer.PlaybackComponents
                     seq => seq.GetVoiceEvents(include: false, keys: new[] {VoiceType.NoteOn, VoiceType.NoteOff}))
                 .TakeWhile(e => e.AbsoluteTicks <= _data.StaticPosition)
                 .OrderBy(e => e.AbsoluteTicks)
-                .Select(e => e.Message).DispatchTo(_output.Value);
+                .Select(e => e.Message).DispatchTo(Output);
         }
 
         public void Reset()
         {
-            _output.Value.Reset();
+            Output.Reset();
             _data.ResetPosition();
 
             foreach (var track in _tracks)
@@ -79,7 +81,7 @@ namespace MidiPlayer.PlaybackComponents
 
             foreach (var track in _tracks)
             {
-                track.NextVoiceMessages(_data.StaticPosition).DispatchTo(_output.Value);
+                track.NextVoiceMessages(_data.StaticPosition).DispatchTo(Output);
                 track.NextMetaMessages(_data.StaticPosition).DispatchTo(this);
             }
 
@@ -95,7 +97,7 @@ namespace MidiPlayer.PlaybackComponents
         public void Pause()
         {
             _data.IsPlaying = false;
-            _output.Value.Mute();
+            Output.Mute();
         }
 
         public void Stop()
@@ -112,13 +114,13 @@ namespace MidiPlayer.PlaybackComponents
         public void Close()
         {
             _tracks = NoPlayback;
-            _output.Value.Reset();
+            Output.Reset();
             _data.Reset();
         }
 
         public void Dispose()
         {
-            _output.Value.Dispose();
+            if(_outputInit.IsValueCreated) Output.Dispose();
             _data.Dispose();
         }
     }
