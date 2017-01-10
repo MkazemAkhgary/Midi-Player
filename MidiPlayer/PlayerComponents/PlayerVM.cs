@@ -1,11 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+// ReSharper disable InconsistentNaming
+// ReSharper disable ArgumentsStyleLiteral
+
 namespace MidiPlayer.PlayerComponents
 {
     using PlaybackComponents;
     using VMComponents;
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    
     public class PlayerVM : NotifyPropertyChanged
     {
         internal PlayerVM(PlaybackData data) : base(useDefaultsOnReset: false)

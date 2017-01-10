@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using MidiStream.Components.Containers.Events;
 using MidiStream.Components.Containers.Messages;
 using UtilCollection = Utilities.Collections;
@@ -51,7 +50,6 @@ namespace MidiPlayer.Sequencer
         /// <summary>
         /// Seeks enumerator to nearest event to target using binary search.
         /// </summary>
-        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
         public void Seek(double target)
         {
             _enumerator.Reset();
