@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
 
 namespace Synthesizer.Device.Output.Callback
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     [Flags]
     internal enum CALLBACK : uint
     {

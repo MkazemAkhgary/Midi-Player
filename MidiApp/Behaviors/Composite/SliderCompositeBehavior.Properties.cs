@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 // ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace MidiApp.Behaviors.Composite
 {

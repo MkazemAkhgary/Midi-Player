@@ -1,5 +1,6 @@
 ﻿using System;
 using Synthesizer.Device.Output.Managed;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace MidiPlayer.PlayerComponents
 {

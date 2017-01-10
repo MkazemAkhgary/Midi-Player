@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Utilities.Properties;
+using JetBrains.Annotations;
 using Utilities.Threading;
 
 namespace MidiPlayer.VMComponents
@@ -113,16 +113,15 @@ namespace MidiPlayer.VMComponents
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposing) return;
+
+            foreach (BlockingContainer<PropertyChangedEventArgs> bc in _buffer.Values)
             {
-                foreach (BlockingContainer<PropertyChangedEventArgs> bc in _buffer.Values)
-                {
-                    bc.Dispose();
-                }
-                _buffer.Clear();
+                bc.Dispose();
             }
+            _buffer.Clear();
         }
     }
 }

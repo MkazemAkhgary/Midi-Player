@@ -13,7 +13,7 @@ namespace MidiPlayer.Sequencer
         /// </summary>
         private struct Enumerator : IEnumerator<MidiEvent<TValue>>
         {
-            private IGrouping<TKey, MidiEvent<TValue>> _source;
+            private readonly IGrouping<TKey, MidiEvent<TValue>> _source;
             private int _ind;
 
             public Enumerator(IGrouping<TKey, MidiEvent<TValue>> source)

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Utilities.Helpers;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace MidiStream
 {
@@ -134,15 +135,8 @@ namespace MidiStream
             
             byte[] data;
 
-            if (status == 0xFF) // meta message
-            {
-                var type = _reader.ReadByte();
-                var length = _reader.ReadByte();
-                var content = _reader.ReadBytes(length);
-                data = new[] { status, type }.Concat(content).ToArray();
-                return new MidiEvent<MetaMessage>(totalTicks, CreateMessage<MetaMessage>(data));
-            }
-            else if (status >= 0x80 && status <= 0xEF) // voice message
+
+            if (status >= 0x80 && status <= 0xEF) // voice message. most common
             {
                 data = new byte[] { status, _reader.ReadByte(), 0 };
 
@@ -152,6 +146,18 @@ namespace MidiStream
                 }
 
                 return new MidiEvent<VoiceMessage>(totalTicks, CreateMessage<VoiceMessage>(data));
+            }
+            else if (status == 0xFF) // meta message. 
+            {
+                var type = _reader.ReadByte();
+                var length = _reader.ReadByte();
+                var content = _reader.ReadBytes(length);
+                data = new[] { status, type }.Concat(content).ToArray();
+                return new MidiEvent<MetaMessage>(totalTicks, CreateMessage<MetaMessage>(data));
+            }
+            else if(status == 0xF0)
+            {
+                
             }
 
             throw new MidiStreamException(MidiException.NotSupported);

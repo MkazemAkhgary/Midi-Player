@@ -1,4 +1,5 @@
-﻿using Utilities.Properties;
+﻿using JetBrains.Annotations;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace MidiStream.Components.Containers.Messages
 {

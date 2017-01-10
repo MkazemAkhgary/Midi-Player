@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
+// ReSharper disable UnusedMember.Global
 
 namespace MidiPlayer.Commands
 {
     /// <summary>
-    /// An <see cref="ICommand"/> whose delegates can be attached for <see cref="Execute(T)"/> and <see cref="CanExecute(T)"/>.
+    /// An <see cref="ICommand"/> whose delegates can be attached for Execute and CanExecute.
     /// </summary>
     internal class DelegateCommand : ICommand
     {
@@ -13,8 +14,8 @@ namespace MidiPlayer.Commands
 
         private DelegateCommand(Action<object> execute, Predicate<object> applicant)
         {
-            this._execute = execute;
-            this._applicant = applicant;
+            _execute = execute;
+            _applicant = applicant;
         }
 
         public static DelegateCommand Create<T>(Action<T> execute, Predicate<T> applicant = null)

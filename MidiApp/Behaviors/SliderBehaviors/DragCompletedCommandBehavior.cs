@@ -4,6 +4,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using MidiApp.Behaviors.Composite;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace MidiApp.Behaviors.SliderBehaviors
 {

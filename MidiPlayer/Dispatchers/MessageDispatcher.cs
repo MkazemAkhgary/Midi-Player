@@ -4,6 +4,8 @@ using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
 using Synthesizer.Device.Output;
 using Utilities.Helpers;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable RedundantEmptyDefaultSwitchBranch
 
 namespace MidiPlayer.Dispatchers
 {

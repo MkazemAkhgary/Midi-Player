@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using JetBrains.Annotations;
+// ReSharper disable UnusedMemberInSuper.Global
 
 namespace Utilities.Collections
 {
     using Helpers;
-    using Properties;
 
     #region Interface
     public interface IGrouping<in TKey, TValue> : IList<TValue> where TValue : IComparable<TValue>

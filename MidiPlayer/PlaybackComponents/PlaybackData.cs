@@ -1,5 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using MidiStream.Components.Header;
+﻿using MidiStream.Components.Header;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable ArgumentsStyleLiteral
 
 namespace MidiPlayer.PlaybackComponents
 {
@@ -9,7 +11,6 @@ namespace MidiPlayer.PlaybackComponents
     /// <summary>
     /// Model for keeping playback data.
     /// </summary>
-    [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
     internal sealed class PlaybackData : NotifyPropertyChanged
     {
         internal event EventArgs<double> TempoChanged;

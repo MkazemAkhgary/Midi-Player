@@ -1,6 +1,6 @@
-﻿// ReSharper disable InconsistentNaming
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
 
 namespace MidiStream.Enums
 {

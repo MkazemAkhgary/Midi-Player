@@ -1,8 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
 
 namespace Synthesizer.Extensions
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum MMRESULT : uint
     {
         MMSYSERR_NOERROR = 0,

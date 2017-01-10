@@ -14,7 +14,7 @@ namespace MidiPlayer.PlayerComponents
         private readonly PlayerControl _control;
         private readonly PlayerVM _context;
 
-        public PlayerVM Context{ get { return _context; } }
+        public PlayerVM Context => _context;
 
         public string GetMidiOutputDeviceInfo => _control.GetOutputCapabilities.ToString();
 

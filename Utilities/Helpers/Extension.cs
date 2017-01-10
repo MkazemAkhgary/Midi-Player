@@ -24,11 +24,6 @@ namespace Utilities.Helpers
                 else yield return val;
             }
         }
-        
-        /// <summary>
-        /// Infers function from anonymously typed lambda or delegate.
-        /// </summary>
-        public static Func<T, T> ToFunc<T>(Func<T, T> f) { return f; }
 
         public static ReadOnlyCollection<TResult> ToReadOnlyCollection<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {

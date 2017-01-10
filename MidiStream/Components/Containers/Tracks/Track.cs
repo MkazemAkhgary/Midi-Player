@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using JetBrains.Annotations;
 using Utilities.Collections;
 using Utilities.Helpers;
-using Utilities.Properties;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace MidiStream.Components.Containers.Tracks
 {
@@ -17,6 +20,8 @@ namespace MidiStream.Components.Containers.Tracks
     public class MidiTrack
     {
         #region Properties
+
+        public ReadOnlyCollection<IMidiEvent<MidiMessage>> UnknownEvents { get; }
 
         /// <summary>
         /// Gets a read-only branched list of voice events.
@@ -45,8 +50,8 @@ namespace MidiStream.Components.Containers.Tracks
             var metaEvents = new Grouping<MetaType, MidiEvent<MetaMessage>>(k => k.Message.MetaType);
 
             // filter different events into their respective collection.
-            var rest = events.Sieve(voiceEvents).Sieve(metaEvents).ToList();
-
+            UnknownEvents = events.Sieve(voiceEvents).Sieve(metaEvents).ToReadOnlyCollection(x => x);
+            
             // calculate total duration.
             var e1 = voiceEvents.LastOrDefault()?.AbsoluteTicks ?? 0;
             var e2 = metaEvents.LastOrDefault()?.AbsoluteTicks ?? 0;

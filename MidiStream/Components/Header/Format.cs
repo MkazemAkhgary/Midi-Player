@@ -1,4 +1,6 @@
-﻿namespace MidiStream.Components.Header
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
+namespace MidiStream.Components.Header
 {
     using Enums;
 

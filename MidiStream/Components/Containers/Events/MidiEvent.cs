@@ -1,4 +1,5 @@
-﻿using Utilities.Properties;
+﻿using JetBrains.Annotations;
+// ReSharper disable AssignNullToNotNullAttribute
 
 namespace MidiStream.Components.Containers.Events
 {
@@ -66,7 +67,7 @@ namespace MidiStream.Components.Containers.Events
 
         public static MidiEvent<TMessage> CreateEmpty(long ticks)
         {
-            return new MidiEvent<TMessage>(ticks, null);
+            return new MidiEvent<TMessage>(ticks, null/*special case.*/);
         }
     }
 }

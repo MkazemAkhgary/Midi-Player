@@ -1,64 +1,64 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Utilities.Helpers;
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Local
 
 namespace Synthesizer.Device.Output.Managed
 {
     /// <summary>
     /// describes the capabilities of a MIDI output device.
     /// </summary>
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     [StructLayout(LayoutKind.Sequential)]
     public struct MIDIOUTCAPS
     {
         /// <summary>
         /// Manufacturer identifier of the device driver for the MIDI output device.
         /// </summary>
-        private ushort wMid;
+        private readonly ushort wMid;
 
         /// <summary>
         /// Product identifier of the MIDI output device.
         /// </summary>
-        private ushort wPid;
+        private readonly ushort wPid;
 
         /// <summary>
         /// Version number of the device driver for the MIDI output device.
         /// </summary>
-        private uint vDriverVersion; //MMVERSION
+        private readonly uint vDriverVersion; //MMVERSION
 
         /// <summary>
         /// Product name in a null-terminated string.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        private string szPname;
+        private readonly string szPname;
 
         /// <summary>
         /// Type of the MIDI output device.
         /// </summary>
-        private Technology wTechnology;
+        private readonly Technology wTechnology;
 
         /// <summary>
         /// Number of voices supported by an internal synthesizer device. 
         /// </summary>
-        private ushort wVoices;
+        private readonly ushort wVoices;
 
         /// <summary>
         /// Maximum number of simultaneous notes that can be played by an internal synthesizer device.
         /// </summary>
-        private ushort wNotes;
+        private readonly ushort wNotes;
 
         /// <summary>
         /// Channels that an internal synthesizer device responds to, where the least significant bit refers to channel 0 and the most significant bit to channel 15.
         /// </summary>
-        private ushort wChannelMask;
+        private readonly ushort wChannelMask;
 
         /// <summary>
         /// Optional functionality supported by the device.
         /// </summary>
-        private Support dwSupport;
+        private readonly Support dwSupport;
 
         private enum Technology : ushort
         {

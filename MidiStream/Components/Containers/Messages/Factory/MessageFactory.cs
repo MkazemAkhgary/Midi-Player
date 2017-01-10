@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using Utilities.Helpers;
-using Utilities.Properties;
 
 namespace MidiStream.Components.Containers.Messages.Factory
 {

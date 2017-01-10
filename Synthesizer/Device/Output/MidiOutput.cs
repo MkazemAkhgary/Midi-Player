@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Synthesizer.Device.Output
 {

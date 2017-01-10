@@ -1,14 +1,10 @@
-﻿namespace Utilities.Helpers
-{
-    using Properties;
+﻿using JetBrains.Annotations;
+// ReSharper disable ForCanBeConvertedToForeach
 
+namespace Utilities.Helpers
+{
     public static class IntConverter
     {
-        public static byte Reverse(byte input)
-        {
-            return input;
-        }
-
         public static short Reverse(short input)
         {
             var uinput = (ushort)input;
@@ -23,19 +19,6 @@
                        ((uinput & 0xFF00) << 8) |
                      ((uinput & 0xFF0000) >> 8) |
                    ((uinput & 0xFF000000) >> 24));
-        }
-
-        public static long Reverse(long input)
-        {
-            var uinput = (ulong)input;
-            return (long)(((uinput & 0xFF) << 56) |
-                       ((uinput & 0xFF00) << 40) |
-                     ((uinput & 0xFF0000) << 24) |
-                   ((uinput & 0xFF000000) << 8) |
-                 ((uinput & 0xFF00000000) >> 8) |
-               ((uinput & 0xFF0000000000) >> 24) |
-             ((uinput & 0xFF000000000000) >> 40) |
-           ((uinput & 0xFF00000000000000) >> 56));
         }
 
         public static int ByteArrayToInt([NotNull]byte[] input)
