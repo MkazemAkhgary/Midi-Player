@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Markup;
 
-namespace MidiApp.Behaviors
+namespace MidiApp.Behaviors.Composite
 {
     [ContentProperty(nameof(BehaviorCollection))]
     public abstract class CompositeBehavior<T> : Behavior<T>
@@ -63,20 +63,32 @@ namespace MidiApp.Behaviors
 
         #endregion
 
-        protected override void OnAttached()
+        protected sealed override void OnAttached()
         {
+            OnSelfAttached();
+
             foreach (var behavior in BehaviorCollection)
             {
                 behavior.Attach(AssociatedObject);
             }
         }
 
-        protected override void OnDetaching()
+        protected sealed override void OnDetaching()
         {
+            OnSelfDetaching();
+
             foreach (var behavior in BehaviorCollection)
             {
                 behavior.Detach();
             }
+        }
+
+        protected virtual void OnSelfAttached()
+        {
+        }
+
+        protected virtual void OnSelfDetaching()
+        {
         }
     }
 }

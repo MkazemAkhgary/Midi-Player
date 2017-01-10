@@ -6,8 +6,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cn="clr-namespace:MidiApp.Converters"
              xmlns:cp="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
-             xmlns:b="clr-namespace:MidiApp.Behaviors"
              xmlns:sb="clr-namespace:MidiApp.Behaviors.SliderBehaviors"
+             xmlns:cs="clr-namespace:MidiApp.Behaviors.Composite"
              mc:Ignorable="d"
              d:DesignHeight="60" 
              d:DesignWidth="300">
@@ -29,13 +29,13 @@
                           IsMoveToPointEnabled="True" 
                           Maximum="{Binding RuntimeDuration}">
             <i:Interaction.Behaviors>
-                <b:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}">
+                <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}">
                     <sb:FreeSlideBehavior/>
                     <sb:LockOnDragBehavior/>
                     <sb:CancellableDragBehavior/>
                     <sb:KeepRatioBehavior/>
                     <sb:DragCompletedCommandBehavior Command="{Binding SeekTo}"/>
-                </b:SliderCompositeBehavior>
+                </cs:SliderCompositeBehavior>
             </i:Interaction.Behaviors>
         </Slider>
         <Grid Grid.Row="1">

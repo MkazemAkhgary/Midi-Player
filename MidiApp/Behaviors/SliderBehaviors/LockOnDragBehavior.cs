@@ -2,12 +2,12 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
+using MidiApp.Behaviors.Composite;
 
 namespace MidiApp.Behaviors.SliderBehaviors
 {
     /// <summary>
-    /// prevents updating value from source when thumb is being dragged.
-    /// source value is updated when dragging is completed.
+    /// prevents updating value by source when thumb is being dragged.
     /// </summary>
     public sealed class LockOnDragBehavior : Behavior<Slider>
     {
@@ -22,11 +22,8 @@ namespace MidiApp.Behaviors.SliderBehaviors
         protected override void OnDetaching()
         {
             Host.Loaded -= OnLoaded;
-
             Thumb.DragStarted -= OnDragStarted;
             Thumb.DragCompleted -= OnDragCompleted;
-
-            SliderCompositeBehavior.BindValueWithSource(Host, true);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs args)
@@ -37,12 +34,12 @@ namespace MidiApp.Behaviors.SliderBehaviors
 
         private void OnDragStarted(object sender, DragStartedEventArgs args)
         {
-            SliderCompositeBehavior.BindValueWithSource(Host, false);
+            SliderCompositeBehavior.SetValueBindsToSource(Host, false);
         }
 
         private void OnDragCompleted(object sender, DragCompletedEventArgs args)
         {
-            SliderCompositeBehavior.BindValueWithSource(Host, true);
+            SliderCompositeBehavior.SetValueBindsToSource(Host, true);
         }
     }
 }

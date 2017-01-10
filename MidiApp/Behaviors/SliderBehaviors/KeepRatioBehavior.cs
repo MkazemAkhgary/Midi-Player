@@ -1,7 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
+using MidiApp.Behaviors.Composite;
 
 namespace MidiApp.Behaviors.SliderBehaviors
 {
@@ -10,6 +13,16 @@ namespace MidiApp.Behaviors.SliderBehaviors
     /// </summary>
     public sealed class KeepRatioBehavior : Behavior<Slider>
     {
+        private static readonly DependencyPropertyDescriptor MaximumPropertyDescriptor =
+            DependencyPropertyDescriptor.FromProperty(
+                RangeBase.MaximumProperty,
+                typeof(Slider));
+
+        private static readonly DependencyPropertyDescriptor MinimumPropertyDescriptor =
+            DependencyPropertyDescriptor.FromProperty(
+                RangeBase.MinimumProperty,
+                typeof(Slider));
+
         private Slider Host => AssociatedObject;
 
         private double Maximum => Host.Maximum;
@@ -26,16 +39,16 @@ namespace MidiApp.Behaviors.SliderBehaviors
 
         protected override void OnAttached()
         {
-            SliderCompositeBehavior.MaximumPropertyDescriptor.AddValueChanged(Host, OnMaximumChanged);
-            SliderCompositeBehavior.MinimumPropertyDescriptor.AddValueChanged(Host, OnMinimumChanged);
+            MaximumPropertyDescriptor.AddValueChanged(Host, OnMaximumChanged);
+            MinimumPropertyDescriptor.AddValueChanged(Host, OnMinimumChanged);
 
             Host.ValueChanged += OnValueChanged;
         }
 
         protected override void OnDetaching()
         {
-            SliderCompositeBehavior.MaximumPropertyDescriptor.RemoveValueChanged(Host, OnMaximumChanged);
-            SliderCompositeBehavior.MinimumPropertyDescriptor.RemoveValueChanged(Host, OnMinimumChanged);
+            MaximumPropertyDescriptor.RemoveValueChanged(Host, OnMaximumChanged);
+            MinimumPropertyDescriptor.RemoveValueChanged(Host, OnMinimumChanged);
 
             Host.ValueChanged -= OnValueChanged;
         }

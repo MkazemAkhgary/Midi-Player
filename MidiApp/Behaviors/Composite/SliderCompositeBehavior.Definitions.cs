@@ -1,29 +1,20 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 
-namespace MidiApp.Behaviors
+namespace MidiApp.Behaviors.Composite
 {
     public sealed partial class SliderCompositeBehavior
     {
         private static readonly DependencyPropertyKey ThumbKey =
             DependencyProperty.RegisterAttachedReadOnly(
-                $"{nameof(SliderCompositeBehavior)}{nameof(Thumb)}",
+                nameof(ThumbKey),
                 typeof(Thumb),
                 typeof(SliderCompositeBehavior),
                 new FrameworkPropertyMetadata(
                     default(Thumb),
                     FrameworkPropertyMetadataOptions.NotDataBindable));
 
-        public static readonly DependencyProperty ThumbProperty = ThumbKey.DependencyProperty;
-
-        public static readonly DependencyProperty BindValueWithSourceProperty =
-            DependencyProperty.RegisterAttached(
-                nameof(ValueBindsWithSource),
-                typeof(bool),
-                typeof(SliderCompositeBehavior),
-                new FrameworkPropertyMetadata(
-                    true,
-                    FrameworkPropertyMetadataOptions.NotDataBindable));
+        private static readonly DependencyProperty ThumbProperty = ThumbKey.DependencyProperty;
 
         public static readonly DependencyProperty SourceValueProperty =
             DependencyProperty.Register(
@@ -34,5 +25,18 @@ namespace MidiApp.Behaviors
                     0d,
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                     OnSourceValueChanged));
+
+        public static readonly DependencyProperty ValueBindsToSourceProperty =
+            DependencyProperty.RegisterAttached(
+                "ValueBindsToSource",
+                typeof(bool),
+                typeof(SliderCompositeBehavior));
+
+        public static readonly DependencyProperty SourceBindsToValueProperty =
+            DependencyProperty.RegisterAttached(
+                "SourceBindsToValue",
+                typeof(bool),
+                typeof(SliderCompositeBehavior));
+
     }
 }
