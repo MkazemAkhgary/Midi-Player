@@ -155,9 +155,19 @@ namespace MidiStream
                 data = new[] { status, type }.Concat(content).ToArray();
                 return new MidiEvent<MetaMessage>(totalTicks, CreateMessage<MetaMessage>(data));
             }
-            else if(status == 0xF0)
+            else if(status >= 0xF0 && status <= 0xF6) // system common message
             {
-                
+                if (status == 0xF0) // system exclusive message
+                {
+                    var id = _reader.ReadByte();
+                    var pos = _reader.BaseStream.Position;
+                    while (_reader.ReadByte() != 0x7F) { }
+                    var newpos = _reader.BaseStream.Position;
+                    var length = newpos - pos;
+                    _reader.BaseStream.Seek(-length, SeekOrigin.Current);
+                    data = new[] {status, id}.Concat(_reader.ReadBytes((int) length)).ToArray();
+                    return new MidiEvent<SysexMessage>(totalTicks, CreateMessage<SysexMessage>(data));
+                }
             }
 
             throw new MidiStreamException(MidiException.NotSupported);

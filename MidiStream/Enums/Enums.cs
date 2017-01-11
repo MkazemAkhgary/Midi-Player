@@ -6,9 +6,9 @@ namespace MidiStream.Enums
 {
     public enum MidiType : short
     {
-        Sequential = 0,
-        Synchronous = 1,
-        Asynchronous = 2
+        Sequential,
+        Synchronous,
+        Asynchronous
     }
 
     public enum MetaType : byte
@@ -40,6 +40,15 @@ namespace MidiStream.Enums
         ProgramChange = 0xC0,
         ChannelPressure = 0xD0,
         PitchWheel = 0xE0
+    }
+
+    public enum SystemCommon : byte
+    {
+        SysexMessage = 0xF0,
+        MidiTimeCodeQuarterFrame = 0xF1,
+        SongPositionPointer = 0xF2,
+        SongSelect = 0xF3,
+        TuneRequest = 0xF6
     }
 
     public enum Controller : byte

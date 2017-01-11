@@ -21,7 +21,8 @@ namespace MidiApp.Behaviors.Composite
                 $"{nameof(CompositeBehavior<T>)}<{typeof(T).Name}>.Reference",
                 typeof(CompositeBehavior<T>),
                 typeof(CompositeBehavior<T>),
-                new PropertyMetadata(null));
+                new FrameworkPropertyMetadata(null,
+                    FrameworkPropertyMetadataOptions.NotDataBindable));
 
         private static readonly DependencyProperty ReferenceProperty = ReferenceKey.DependencyProperty;
 

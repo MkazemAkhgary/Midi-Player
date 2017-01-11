@@ -23,7 +23,6 @@ namespace MidiApp.Behaviors.Composite
             var newval = (double) e.NewValue;
             var oldval = (double) e.OldValue;
             var args = new RoutedPropertyChangedEventArgs<double>(oldval, newval);
-            SetSourceValue(soruce.Host, newval);
             soruce.OnSourceValueChanged(soruce, args);
         }
 

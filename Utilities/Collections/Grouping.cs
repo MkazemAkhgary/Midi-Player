@@ -25,7 +25,9 @@ namespace Utilities.Collections
     /// <summary>
     /// Represents a collection of grouped collections of items that have a common key.
     /// </summary>
-    public class Grouping<TKey, TValue> : IGrouping<TKey,TValue> where TValue : IComparable<TValue>
+    public class Grouping<TKey, TValue> : IGrouping<TKey,TValue>
+        where TValue : IComparable<TValue>
+        where TKey : struct, IConvertible
     {
         #region Fields
 
@@ -225,7 +227,9 @@ namespace Utilities.Collections
     /// <summary>
     /// Represents a read-only collection of grouped read-only collections of items that have a common key.
     /// </summary>
-    public sealed class ReadOnlyGrouping<TKey, TValue> : IGrouping<TKey, TValue>, IReadOnlyList<TValue> where TValue : IComparable<TValue>
+    public sealed class ReadOnlyGrouping<TKey, TValue> : IGrouping<TKey, TValue>, IReadOnlyList<TValue> 
+        where TValue : IComparable<TValue>
+        where TKey : struct, IConvertible
     {
         private readonly Grouping<TKey, TValue> _source;
 
