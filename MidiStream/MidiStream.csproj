@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Components\Containers\Events\MidiEvent.cs" />
     <Compile Include="Components\Containers\Events\IMidiEvent.cs" />
+    <Compile Include="Components\Containers\Messages\SysCommonMessage.cs" />
     <Compile Include="Components\Containers\Messages\SysexMessage.cs" />
     <Compile Include="Components\Containers\Tracks\Track.cs" />
     <Compile Include="Components\Header\Format.cs" />

@@ -1,14 +1,16 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable InconsistentNaming
 
+using JetBrains.Annotations;
+
 namespace MidiStream.Components.Containers.Messages
 {
     /// <summary>
     /// Initializes new instance of Midi <see cref="SysexMessage"/> Message.
     /// </summary>
-    public class SysexMessage : MidiMessage
+    public sealed class SysexMessage : SysCommonMessage
     {
-        internal SysexMessage(byte[] data) : base(data)
+        internal SysexMessage([NotNull] byte[] data) : base(data)
         {
         }
     }

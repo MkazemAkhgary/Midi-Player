@@ -168,6 +168,26 @@ namespace MidiStream
                     data = new[] {status, id}.Concat(_reader.ReadBytes((int) length)).ToArray();
                     return new MidiEvent<SysexMessage>(totalTicks, CreateMessage<SysexMessage>(data));
                 }
+
+                switch ((SystemCommon)status)
+                {
+                    case SystemCommon.MidiTimeCodeQuarterFrame:
+                    case SystemCommon.SongSelect:
+                        data = new[] {status, _reader.ReadByte()};
+                        break;
+
+                    case SystemCommon.SongPositionPointer:
+                        data = new[] {status, _reader.ReadByte(), _reader.ReadByte()};
+                        break;
+
+                    case SystemCommon.TuneRequest:
+                        data = new[] {status};
+                        break;
+                    default:
+                        throw new MidiStreamException(MidiException.NotSupported);
+                }
+
+                return new MidiEvent<MidiMessage>(totalTicks, CreateMessage<SysCommonMessage>(data));
             }
 
             throw new MidiStreamException(MidiException.NotSupported);
