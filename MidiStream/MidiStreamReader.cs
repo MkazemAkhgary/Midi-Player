@@ -175,11 +175,9 @@ namespace MidiStream
                     case SystemCommon.SongSelect:
                         data = new[] {status, _reader.ReadByte()};
                         break;
-
                     case SystemCommon.SongPositionPointer:
                         data = new[] {status, _reader.ReadByte(), _reader.ReadByte()};
                         break;
-
                     case SystemCommon.TuneRequest:
                         data = new[] {status};
                         break;
@@ -187,7 +185,12 @@ namespace MidiStream
                         throw new MidiStreamException(MidiException.NotSupported);
                 }
 
-                return new MidiEvent<MidiMessage>(totalTicks, CreateMessage<SysCommonMessage>(data));
+                return new MidiEvent<SysCommonMessage>(totalTicks, CreateMessage<SysCommonMessage>(data));
+            }
+            else if (status >= 0xF8 && status <= 0xFF) // system realtime
+            {
+                data = new[] {status};
+                return new MidiEvent<SysRealtimeMessage>(totalTicks, CreateMessage<SysRealtimeMessage>(data));
             }
 
             throw new MidiStreamException(MidiException.NotSupported);

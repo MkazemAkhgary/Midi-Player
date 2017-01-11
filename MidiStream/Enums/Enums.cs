@@ -51,6 +51,16 @@ namespace MidiStream.Enums
         TuneRequest = 0xF6
     }
 
+    public enum SystemRealtime : byte
+    {
+        MIDIClock = 0xF8,
+        MIDIStart = 0xFA,
+        MIDIContinue = 0xFB,
+        MIDIStop = 0xFC,
+        ActiveSense = 0xFE,
+        Reset = 0xFF
+    }
+
     public enum Controller : byte
     {
         // Coarse
