@@ -1,5 +1,4 @@
 ﻿<UserControl x:Class="MidiApp.ContentControls.PlayerControl"
-             x:Name="UserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -31,13 +30,11 @@
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
         <Slider x:Name="PlaybackSlider"
-                          Style="{DynamicResource PlaybackSlider}"
+                          Style="{DynamicResource PlaybackSliderStyle}"
                           Grid.Row="0"
                           Margin="10,0"
                           VerticalAlignment="Center"
-                          Maximum="{Binding RuntimeDuration}" 
-                          Background="White" 
-                          Foreground="#FF022F3C">
+                          Maximum="{Binding RuntimeDuration}">
             <i:Interaction.Behaviors>
                 <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}">
                     <sb:LazySourceBindingBehavior/>
@@ -55,8 +52,7 @@
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="TimeDisplay"
-                       Grid.Column="0"
+            <TextBlock Grid.Column="0"
                        Margin="12,0"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
@@ -74,17 +70,14 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <ToggleButton x:Name="PlayButton"
-                          Grid.Column="1"
+            <ToggleButton Grid.Column="1"
                           VerticalAlignment="Center"
-                          Style="{DynamicResource ToggleStyle}"
                           Click="PlayButton_Open"
                           IsChecked="{Binding IsPlaybackPlaying}"
                           Command="{Binding Toggle}"
-                          CommandParameter="{Binding IsPlaybackLoaded}">
-            </ToggleButton>
-            <Slider x:Name="SpeedSlider" 
-                    Style="{DynamicResource SimpleSlider}"
+                          CommandParameter="{Binding IsPlaybackLoaded}" 
+                          Style="{DynamicResource PlaybackToggleStyle}"/>
+            <Slider Style="{DynamicResource SimpleSlider}"
                     Grid.Column="2"
                     Width="60"
                     Margin="10,0"
