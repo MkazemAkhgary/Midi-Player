@@ -39,8 +39,18 @@ namespace MidiApp.Behaviors.Composite
             return reference;
         }
 
+        protected static TOut GetValueByRef<TOut>(T host, DependencyProperty dp)
+        {
+            return (TOut)GetReference(host).GetValue(dp);
+        }
+
+        protected static void SetValueByRef<TIn>(T host, DependencyProperty dp, TIn value)
+        {
+            GetReference(host).SetValue(dp, value);
+        }
+
         #endregion
-        
+
         #region Behavior Collection
 
         public static readonly DependencyProperty BehaviorCollectionProperty =
@@ -67,7 +77,6 @@ namespace MidiApp.Behaviors.Composite
                             Type.EmptyTypes, null);
 
                     collection = (BehaviorCollection) constructor.Invoke(null);
-                    collection.Changed += OnCollectionChanged;
                     SetValue(BehaviorCollectionProperty, collection);
                 }
 
@@ -75,15 +84,14 @@ namespace MidiApp.Behaviors.Composite
             }
         }
 
-        private void OnCollectionChanged(object sender, EventArgs args)
+        private void VerifyDistinct()
         {
             var hashset = new HashSet<Type>();
-
             foreach (var behavior in BehaviorCollection)
             {
                 if (behavior is Behavior<T> == false)
                 {
-                    throw new InvalidOperationException($"{behavior.GetType().Name} does not inherit from {typeof(Behavior<T>).Name}.");
+                    throw new InvalidOperationException($"expected element of type {typeof(Behavior<T>).Name} , actual type is {behavior.GetType().Name}.");
                 }
                 if (hashset.Add(behavior.GetType()) == false)
                 {
@@ -96,26 +104,18 @@ namespace MidiApp.Behaviors.Composite
 
         protected sealed override void OnAttached()
         {
+            VerifyDistinct();
+
             Host.SetValue(ReferenceKey, this);
-
             OnSelfAttached();
-
-            foreach (var behavior in BehaviorCollection)
-            {
-                behavior.Attach(Host);
-            }
+            BehaviorCollection.Attach(AssociatedObject);
         }
 
         protected sealed override void OnDetaching()
         {
-            Host.ClearValue(ReferenceKey);
-
+            BehaviorCollection.Detach();
             OnSelfDetaching();
-
-            foreach (var behavior in BehaviorCollection)
-            {
-                behavior.Detach();
-            }
+            Host.ClearValue(ReferenceKey);
         }
 
         protected virtual void OnSelfAttached()

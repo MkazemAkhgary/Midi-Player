@@ -15,7 +15,8 @@ namespace MidiPlayer.PlayerComponents
         private readonly PlayerVM _context;
 
         public PlayerVM Context => _context;
-
+        public bool IsLoaded => Context.IsPlaybackLoaded;
+        public bool IsPlaying => Context.IsPlaybackPlaying;
         public string GetMidiOutputDeviceInfo => _control.GetOutputCapabilities.ToString();
 
         public Player()

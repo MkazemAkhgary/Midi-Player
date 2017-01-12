@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="MidiApp.ContentControls.MenuBar"
+             x:Name="UserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cm="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
+             mc:Ignorable="d">
+    <Menu DataContext="{Binding DataContext.(cm:Player.Context), ElementName = UserControl}"
+          x:Name="MainMenu" 
+          VerticalAlignment="Top"
+          IsMainMenu="True">
+        <MenuItem Header="File">
+            <MenuItem Header="Open" Click="MenuItem_Open"/>
+            <MenuItem Header="Stop" Click="MenuItem_Stop"/>
+            <MenuItem Header="Exit" Click="MenuItem_Exit"/>
+        </MenuItem>
+        <MenuItem Header="View">
+            <MenuItem Header="Device Info" Click="MenuItem_DeviceInfo"/>
+        </MenuItem>
+        <MenuItem Header="Help">
+            <MenuItem Header="About" Click="MenuItem_About"/>
+        </MenuItem>
+    </Menu>
+</UserControl>

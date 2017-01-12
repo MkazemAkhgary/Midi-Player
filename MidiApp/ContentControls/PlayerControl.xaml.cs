@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace MidiApp
+namespace MidiApp.ContentControls
 {
     /// <summary>
     /// Interaction logic for PlayerControl.xaml
@@ -15,7 +15,7 @@ namespace MidiApp
 
         private void PlayButton_Open(object sender, RoutedEventArgs e)
         {
-            if (!Player.Context.IsPlaybackLoaded)
+            if (!Player.IsLoaded)
                 App.OpenFile();
         }
         

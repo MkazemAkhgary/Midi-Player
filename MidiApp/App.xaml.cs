@@ -5,6 +5,8 @@ using Microsoft.Win32;
 
 namespace MidiApp
 {
+    using ContentControls;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

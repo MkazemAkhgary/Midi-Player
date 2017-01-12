@@ -26,17 +26,22 @@ namespace MidiApp.Behaviors.Composite
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                     OnSourceValueChanged));
 
-        public static readonly DependencyProperty ValueBindsToSourceProperty =
+        private static readonly DependencyProperty ValueBindsToSourceProperty =
             DependencyProperty.RegisterAttached(
                 "ValueBindsToSource",
                 typeof(bool),
-                typeof(SliderCompositeBehavior), new PropertyMetadata(true));
+                typeof(SliderCompositeBehavior),
+                new FrameworkPropertyMetadata(
+                    true,
+                    FrameworkPropertyMetadataOptions.NotDataBindable));
 
-        public static readonly DependencyProperty SourceBindsToValueProperty =
+        private static readonly DependencyProperty SourceBindsToValueProperty =
             DependencyProperty.RegisterAttached(
                 "SourceBindsToValue",
                 typeof(bool),
-                typeof(SliderCompositeBehavior), new PropertyMetadata(true));
-
+                typeof(SliderCompositeBehavior),
+                new FrameworkPropertyMetadata(
+                    true,
+                    FrameworkPropertyMetadataOptions.NotDataBindable));
     }
 }

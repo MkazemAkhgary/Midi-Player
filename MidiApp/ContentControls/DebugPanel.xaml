@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="MidiApp.ContentControls.DebugPanel"
+             x:Name="UserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cm="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
+             mc:Ignorable="d">
+    <StackPanel DataContext="{Binding DataContext.(cm:Player.Context), ElementName = UserControl}">
+        <Grid Margin="10,0">
+            <TextBlock Text="IsPlaybackLoaded :"/>
+            <TextBlock Text="{Binding IsPlaybackLoaded}" HorizontalAlignment="Right" />
+        </Grid>
+        <Grid Margin="10,0">
+            <TextBlock Text="IsPlaybackPlaying :" />
+            <TextBlock Text="{Binding IsPlaybackPlaying}" HorizontalAlignment="Right" />
+        </Grid>
+        <Grid Margin="10,0">
+            <TextBlock Text="PlaybackSpeed :" />
+            <TextBlock Text="{Binding PlaybackSpeed, StringFormat=0.##}" HorizontalAlignment="Right" />
+        </Grid>
+        <Grid Margin="10,0">
+            <TextBlock Text="RuntimeDuration :" />
+            <TextBlock Text="{Binding RuntimeDuration , StringFormat=0.##}" HorizontalAlignment="Right" />
+        </Grid>
+        <Grid Margin="10,0">
+            <TextBlock Text="RuntimePosition :" />
+            <TextBlock Text="{Binding RuntimePosition, StringFormat=0.##}" HorizontalAlignment="Right" />
+        </Grid>
+        <Grid Margin="10,0">
+            <TextBlock Text="StaticDuration :" />
+            <TextBlock Text="{Binding StaticDuration, StringFormat=0.##}" HorizontalAlignment="Right" />
+        </Grid>
+        <Grid Margin="10,0">
+            <TextBlock Text="StaticPosition :" />
+            <TextBlock Text="{Binding StaticPosition, StringFormat=0.##}" HorizontalAlignment="Right" />
+        </Grid>
+    </StackPanel>
+</UserControl>

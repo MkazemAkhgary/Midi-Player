@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-// ReSharper disable UnusedMember.Global
+using System.Windows.Data;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace MidiApp.Behaviors.Composite
@@ -38,24 +40,24 @@ namespace MidiApp.Behaviors.Composite
             return thumb;
         }
 
-        public static void SetValueBindsToSource(Slider host, bool value)
-        {
-            GetReference(host).SetValue(ValueBindsToSourceProperty, value);
-        }
-
         public static bool GetValueBindsToSource(Slider host)
         {
-            return (bool) GetReference(host).GetValue(ValueBindsToSourceProperty);
-        }
-
-        public static void SetSourceBindsToValue(Slider host, bool value)
-        {
-            GetReference(host).SetValue(SourceBindsToValueProperty, value);
+            return GetValueByRef<bool>(host, ValueBindsToSourceProperty);
         }
 
         public static bool GetSourceBindsToValue(Slider host)
         {
-            return (bool) GetReference(host).GetValue(SourceBindsToValueProperty);
+            return GetValueByRef<bool>(host, SourceBindsToValueProperty);
+        }
+
+        public static void SetValueBindsToSource(Slider host, bool value)
+        {
+            SetValueByRef(host, ValueBindsToSourceProperty, value);
+        }
+
+        public static void SetSourceBindsToValue(Slider host, bool value)
+        {
+            SetValueByRef(host, SourceBindsToValueProperty, value);
         }
     }
 }

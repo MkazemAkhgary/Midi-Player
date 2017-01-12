@@ -53,7 +53,7 @@ namespace MidiPlayer.PlayerComponents
             set { Data.PlaybackSpeed = value; }
         }
 
-        public bool IsPlaying
+        public bool IsPlaybackPlaying
         {
             get { return Data.IsPlaying; }
             set { Data.IsPlaying = value; }
