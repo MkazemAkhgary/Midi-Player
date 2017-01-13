@@ -172,6 +172,14 @@ namespace MidiStream.Enums
         FPS
     }
 
+    public enum FramesPerSecond
+    {
+        _24_FPS = 24,
+        _25_FPS = 25,
+        _30_FPS = 30,
+        _30_FPS_Drop = 29
+    }
+
     internal enum MidiException
     {
         [Description("Not a midi file")]

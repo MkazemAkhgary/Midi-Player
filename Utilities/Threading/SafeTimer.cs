@@ -27,7 +27,13 @@ namespace Utilities.Threading
             get { return _timer.AutoReset; }
             set { _timer.AutoReset = value; }
         }
-        
+
+        public bool Enabled
+        {
+            get { return _timer.Enabled; }
+            set { _timer.Enabled = value; }
+        }
+
         private void OnElapsed(object sender, ElapsedEventArgs e)
         {
             if (_gaurd) return;

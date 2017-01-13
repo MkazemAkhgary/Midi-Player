@@ -1,41 +1,21 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 
 namespace Utilities.Threading
 {
-    public sealed class BlockingContainer<T> : IDisposable where T : class
+    public sealed class BlockingContainer<T> where T : class
     {
-        private readonly SafeTimer _timer;
         private volatile bool _isFree = true;
         private readonly T _item;
-        private readonly Action<T> _callback;
 
         /// <summary>
         /// blocks access to item for specified amount of time.
-        /// if another wait is requested current wait is ignored and runs callback after wait period is elapsed.
         /// </summary>
         /// <param name="item">encapsulating item.</param>
-        /// <param name="callback">callback to run after wait period is elapsed.</param>
-        public BlockingContainer(T item, Action<T> callback = null)
+        public BlockingContainer(T item)
         {
             _item = item;
-            _callback = callback;
-            _timer = InitializeTimer();
         }
-
-        private SafeTimer InitializeTimer()
-        {
-            var timer = new SafeTimer
-            {
-                AutoReset = false
-            };
-
-            timer.Elapsed += (o, args) => _isFree = true;
-            timer.Elapsed += (o, args) => _callback?.Invoke(_item);
-
-            return timer;
-        }
-
-
+        
         /// <summary>
         /// returns encapsulated item if container is free.
         /// </summary>
@@ -45,24 +25,20 @@ namespace Utilities.Threading
         }
 
         /// <summary>
-        /// reserves the callback after specified amount of time.
+        /// asks for encapsulated item. will return item after the specified duration.
         /// </summary>
-        public void Reserve(int duration)
+        public async Task<T> Reserve(int delay)
         {
-            if (_isFree) Block(duration);
+            return await Block(delay);
         }
         
-        private void Block(int duration)
+        private async Task<T> Block(int duration)
         {
+            if (!_isFree) return null;
             _isFree = false;
-            _timer.Stop();
-            _timer.Interval = duration;
-            _timer.Start();
-        }
-
-        public void Dispose()
-        {
-            _timer.Dispose();
+            await Task.Delay(duration).ConfigureAwait(continueOnCapturedContext: false);
+            _isFree = true;
+            return _item;
         }
     }
 }

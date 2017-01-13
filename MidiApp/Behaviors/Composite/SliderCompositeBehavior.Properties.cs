@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 
 // ReSharper disable MemberCanBePrivate.Global
 

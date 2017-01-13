@@ -1,5 +1,8 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable MemberCanBePrivate.Global
+
+using System;
+
 namespace MidiStream.Components.Header
 {
     using Enums;
@@ -26,6 +29,11 @@ namespace MidiStream.Components.Header
         {
             Type = type;
             TimeDivision = new TimeDivision(timedivision);
+        }
+
+        public bool VerifyValidity()
+        {
+            return Enum.IsDefined(typeof(MidiType), Type) && TimeDivision.VerifyValidity();
         }
     }
 }

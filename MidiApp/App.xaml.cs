@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using Microsoft.Win32;
+using MidiPlayer.PlayerComponents;
 
 namespace MidiApp
 {
@@ -13,37 +14,33 @@ namespace MidiApp
     public partial class App
     {
         private static readonly Lazy<PlayerControl> Ctrl;
-        private static PlayerControl Control => Ctrl.Value;
+        private static Player Player => Ctrl.Value.Player;
+        private new static MainWindow MainWindow => Current.MainWindow as MainWindow;
+        private static OpenFileDialog OpenFileDialog => Current.FindResource("FileDialog") as OpenFileDialog;
 
         static App()
         {
-            Ctrl = new Lazy<PlayerControl>(() => (Current.MainWindow as MainWindow)?.PlayerControl);
+            Ctrl = new Lazy<PlayerControl>(() => MainWindow?.PlayerControl);
         }
 
         internal static void OpenFile()
         {
-            if ((Current.FindResource("FileDialog") as OpenFileDialog)?.ShowDialog(Current.MainWindow) != true)
-            {
-                Control.Player.Close();
-            }
+            OpenFileDialog?.ShowDialog(Current.MainWindow);
         }
 
         internal static void LoadStream(string filename)
         {
-            Control.Player.Close();
-
             try
             {
-                Control.Player.Open(filename);
+                Player.Open(filename);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(
 $@"{exception.Message}
+{exception.InnerException?.Message}", "Error!");
 
-{exception.InnerException?.Message}", "Internal Error!");
-
-                Control.Player.Close();
+                Player.Close();
             }
         }
 

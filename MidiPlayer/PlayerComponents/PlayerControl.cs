@@ -4,12 +4,14 @@ using Synthesizer.Device.Output.Managed;
 
 namespace MidiPlayer.PlayerComponents
 {
+    using MidiStream;
     using PlaybackComponents;
     using Timers;
 
     public sealed class PlayerControl : IDisposable
     {
         private bool _isPlaying;
+        private bool _isInitialized;
         private readonly MidiTimer _timer;
         private readonly PlaybackControl _control;
 
@@ -28,9 +30,13 @@ namespace MidiPlayer.PlayerComponents
             _timer.Beat += _control.Move;
         }
 
-        internal void Initialize(MidiStream.MidiStream stream)
+        internal void Initialize(MidiStream stream)
         {
-            _timer.Initialize(stream.Format.TimeDivision);
+            if(_isInitialized)
+                throw new InvalidOperationException("Player is already initialized and must be closed before re-initialization.");
+            
+            _isInitialized = true;
+            _timer.ReInitialize(stream.Format.TimeDivision);
             _control.Initialize(stream.Tracks);
         }
 
@@ -91,9 +97,10 @@ namespace MidiPlayer.PlayerComponents
         /// </summary>
         public void Close()
         {
-            _isPlaying = false;
             _timer?.Stop();
             _control?.Close();
+            _isPlaying = false;
+            _isInitialized = false;
         }
 
         public void Dispose()

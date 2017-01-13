@@ -1,7 +1,6 @@
-﻿using MidiStream.Components.Header;
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ArgumentsStyleLiteral
+﻿using MidiPlayer.PlayerComponents;
+using MidiStream.Components.Header;
+// ReSharper disable All
 
 namespace MidiPlayer.PlaybackComponents
 {
@@ -15,7 +14,7 @@ namespace MidiPlayer.PlaybackComponents
     {
         internal event EventArgs<double> TempoChanged;
 
-        public PlaybackData() : base(useDefaultsOnReset: true)
+        public PlaybackData() : base(useDefaultsOnReset: true, enableAutoPropertyChangedNotification: true)
         {
         }
 
@@ -91,13 +90,13 @@ namespace MidiPlayer.PlaybackComponents
         public bool IsPlaying
         {
             get { return _play; }
-            set { SetValue(ref _play, value); }
+            set { SetValue(ref _play, value, target: nameof(PlayerVM.IsPlaybackPlaying)); }
         }
 
-        public bool IsPlaybackLoaded
+        public bool IsLoaded
         {
             get { return _load; }
-            set { SetValue(ref _load, value); }
+            set { SetValue(ref _load, value, target: nameof(PlayerVM.IsPlaybackLoaded)); }
         }
 
         #endregion

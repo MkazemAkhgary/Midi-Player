@@ -40,6 +40,10 @@ namespace MidiPlayer.PlaybackComponents
 
         public void Initialize(IReadOnlyList<MidiTrack> tracks)
         {
+            if(_data.IsLoaded)
+                throw new InvalidOperationException("Playback is already loaded and must be closed before re-initialization.");
+
+            _data.IsLoaded = true;
             _tracks = tracks.ToReadOnlyCollection(t => new Playback(t));
             _data.StaticDuration = tracks.Max(t => t.TotalTicks);
             _data.RuntimeDuration = CalculateRuntimePosition(_data.StaticDuration);
@@ -121,7 +125,6 @@ namespace MidiPlayer.PlaybackComponents
         public void Dispose()
         {
             if(_outputInit.IsValueCreated) Output.Dispose();
-            _data.Dispose();
         }
     }
 }

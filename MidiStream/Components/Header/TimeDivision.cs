@@ -19,7 +19,7 @@ namespace MidiStream.Components.Header
         #endregion PPQ
 
         #region FPS
-            public int FramesPerSecond { get; }
+            public int FramesPerSecond { get; } = 24;
             public int TicksPerFrame { get; }
         #endregion FPS
 
@@ -70,5 +70,11 @@ namespace MidiStream.Components.Header
         }
 
         #endregion Constructors
+
+        public bool VerifyValidity()
+        {
+            return Enum.IsDefined(typeof(DivisionType), Type) &&
+                   Enum.IsDefined(typeof(FramesPerSecond), FramesPerSecond);
+        }
     }
 }

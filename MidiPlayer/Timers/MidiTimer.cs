@@ -28,11 +28,12 @@ namespace MidiPlayer.Timers
             _stopwatch = new Stopwatch();
             _timer = new SafeTimer();
             _timer.Elapsed += OnTimerTick;
-            Initialize(TimeDivision.Default);
+            ReInitialize(TimeDivision.Default);
         }
 
-        public void Initialize(TimeDivision division)
+        public void ReInitialize(TimeDivision division)
         {
+            if(_timer.Enabled) Stop();
             _division = division;
         }
 
@@ -69,6 +70,7 @@ namespace MidiPlayer.Timers
         public void Stop()
         {
             _stopwatch.Stop();
+            _stopwatch.Reset();
             _timer.Stop();
         }
 

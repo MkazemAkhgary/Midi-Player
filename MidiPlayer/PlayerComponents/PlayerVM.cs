@@ -9,7 +9,7 @@ namespace MidiPlayer.PlayerComponents
     
     public class PlayerVM : NotifyPropertyChanged
     {
-        internal PlayerVM(PlaybackData data) : base(useDefaultsOnReset: false)
+        internal PlayerVM(PlaybackData data) : base(useDefaultsOnReset: false, enableAutoPropertyChangedNotification: false)
         {
             Data = data;
             Data.PropertyChanged += OnPropertyChanged;
@@ -19,8 +19,14 @@ namespace MidiPlayer.PlayerComponents
 
         public bool IsPlaybackLoaded
         {
-            get { return Data.IsPlaybackLoaded; }
-            set { Data.IsPlaybackLoaded = value; }
+            get { return Data.IsLoaded; }
+            set { Data.IsLoaded = value; }
+        }
+
+        public bool IsPlaybackPlaying
+        {
+            get { return Data.IsPlaying; }
+            set { Data.IsPlaying = value; }
         }
 
         public double StaticDuration
@@ -51,12 +57,6 @@ namespace MidiPlayer.PlayerComponents
         {
             get { return Data.PlaybackSpeed; }
             set { Data.PlaybackSpeed = value; }
-        }
-
-        public bool IsPlaybackPlaying
-        {
-            get { return Data.IsPlaying; }
-            set { Data.IsPlaying = value; }
         }
         
         public ICommand Toggle { get; internal set; }

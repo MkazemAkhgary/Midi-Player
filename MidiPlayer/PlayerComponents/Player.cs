@@ -1,8 +1,8 @@
 ﻿using System;
-using MidiStream;
 
 namespace MidiPlayer.PlayerComponents
 {
+    using MidiStream;
     using Commands;
     using PlaybackComponents;
 
@@ -39,26 +39,32 @@ namespace MidiPlayer.PlayerComponents
             if (Context.IsPlaybackLoaded) _control.Start();
         }
 
-        public void Open(string path)
+        public bool Open(string path)
         {
             using (var reader = new MidiStreamReader(path))
             {
-                _control?.Initialize(reader.GetStream());
-                Context.IsPlaybackLoaded = true;
+                if(IsLoaded) Close();
+                var stream = reader.GetStream();
+                return OpenStream(stream);
             }
+        }
+
+        private bool OpenStream(MidiStream stream)
+        {
+            if(!stream.VerifyValidity()) return false;
+
+            _control?.Initialize(stream);
+            return true;
         }
 
         public void Close()
         {
             _control?.Close();
-            Context.IsPlaybackLoaded = false;
         }
 
         public void Dispose()
         {
-            _context.Dispose();
             _control.Dispose();
-            Context.Dispose();
         }
     }
 }

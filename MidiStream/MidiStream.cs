@@ -37,5 +37,13 @@ namespace MidiStream
             Format = format;
             Name = name ?? "";
         }
+
+        public bool VerifyValidity()
+        {
+            if (Name == null) return false;
+            if (Format == null) return false;
+            if (Tracks == null) return false;
+            return Format.VerifyValidity();
+        }
     }
 }

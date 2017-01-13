@@ -58,6 +58,8 @@
     <Compile Include="PlayerComponents\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlayerComponents\PlayerVM.cs" />
+    <Compile Include="VMComponents\NotifyPropertyChangedProvider.cs" />
+    <Compile Include="VMComponents\PropertyResetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MidiStream\MidiStream.csproj">
