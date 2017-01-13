@@ -184,6 +184,8 @@ namespace MidiStream.Enums
         //TrackNotComplete,
         [Description("This file is not supported")]
         NotSupported,
+        [Description("file contains invalid midi message.")]
+        InvalidMessage,
         [Description("Variable Length Quantity (VLQ) overflow")]
         VLQ_Overflow
     }

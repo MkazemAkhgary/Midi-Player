@@ -189,8 +189,9 @@ namespace MidiStream
             }
             else if (status >= 0xF8 && status <= 0xFF) // system realtime
             {
-                data = new[] {status};
-                return new MidiEvent<SysRealtimeMessage>(totalTicks, CreateMessage<SysRealtimeMessage>(data));
+                throw new MidiStreamException(MidiException.InvalidMessage);
+                //data = new[] {status};
+                //return new MidiEvent<SysRealtimeMessage>(totalTicks, CreateMessage<SysRealtimeMessage>(data));
             }
 
             throw new MidiStreamException(MidiException.NotSupported);
