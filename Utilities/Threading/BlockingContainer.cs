@@ -4,19 +4,10 @@ namespace Utilities.Threading
 {
     public sealed class BlockingContainer<T> : IDisposable where T : class
     {
-        private readonly Lazy<SafeTimer> _timer;
+        private readonly SafeTimer _timer;
         private volatile bool _isFree = true;
         private readonly T _item;
         private readonly Action<T> _callback;
-
-        private SafeTimer Timer => _timer.Value;
-        private bool IsTimerInitialized => _timer.IsValueCreated;
-
-        public bool IsFree
-        {
-            get { return _isFree; }
-            private set { _isFree = value; }
-        }
 
         /// <summary>
         /// blocks access to item for specified amount of time.
@@ -28,7 +19,7 @@ namespace Utilities.Threading
         {
             _item = item;
             _callback = callback;
-            _timer = new Lazy<SafeTimer>(InitializeTimer);
+            _timer = InitializeTimer();
         }
 
         private SafeTimer InitializeTimer()
@@ -38,11 +29,8 @@ namespace Utilities.Threading
                 AutoReset = false
             };
 
-            timer.Elapsed += (o, args) =>
-            {
-                IsFree = true;
-                _callback?.Invoke(_item);
-            };
+            timer.Elapsed += (o, args) => _isFree = true;
+            timer.Elapsed += (o, args) => _callback?.Invoke(_item);
 
             return timer;
         }
@@ -53,7 +41,7 @@ namespace Utilities.Threading
         /// </summary>
         public T RequestItem()
         {
-            return IsFree ? _item : null;
+            return _isFree ? _item : null;
         }
 
         /// <summary>
@@ -61,20 +49,20 @@ namespace Utilities.Threading
         /// </summary>
         public void Reserve(int duration)
         {
-            if (IsFree) Block(duration);
+            if (_isFree) Block(duration);
         }
         
         private void Block(int duration)
         {
-            IsFree = false;
-            Timer.Stop();
-            Timer.Interval = duration;
-            Timer.Start();
+            _isFree = false;
+            _timer.Stop();
+            _timer.Interval = duration;
+            _timer.Start();
         }
 
         public void Dispose()
         {
-            if (IsTimerInitialized) Timer.Dispose();
+            _timer.Dispose();
         }
     }
 }
