@@ -40,11 +40,10 @@ namespace MidiStream.Components.Containers.Messages.Factory
             {
                 Container = new Dictionary<byte[], TMessage>(ArrayComparer<byte>.Create());
 
+                const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
+
                 var ctor = typeof(TMessage)
-                    .GetConstructor(
-                        BindingFlags.NonPublic | BindingFlags.Instance,
-                        null, CallingConventions.HasThis,
-                        new[] {typeof(byte[])}, null);
+                    .GetConstructor(flags, null, CallingConventions.HasThis, new[] {typeof(byte[])}, null);
 
                 var param = Expression.Parameter(typeof(byte[]), "data");
                 var expr = Expression.New(ctor, param);

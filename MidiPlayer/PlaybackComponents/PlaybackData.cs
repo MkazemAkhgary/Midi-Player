@@ -14,7 +14,10 @@ namespace MidiPlayer.PlaybackComponents
     {
         internal event EventArgs<double> TempoChanged;
 
-        public PlaybackData() : base(useDefaultsOnReset: true, enableAutoPropertyChangedNotification: true)
+        public PlaybackData() : base(
+            typeof(PlayerVM),
+            useDefaultsOnReset: true,
+            enableAutoPropertyChangedNotification: true)
         {
         }
 
@@ -49,13 +52,13 @@ namespace MidiPlayer.PlaybackComponents
         public double StaticPosition
         {
             get { return _stapos; }
-            set { SetValueDelayed(ref _stapos, value, delay: 500); }
+            set { SetValueDelayed(ref _stapos, value, wait: 500); }
         }
 
         public double RuntimePosition
         {
             get { return _runpos; }
-            set { SetValueDelayed(ref _runpos, value, delay: 500); }
+            set { SetValueDelayed(ref _runpos, value, wait: 500); }
         }
 
         #region Streaming

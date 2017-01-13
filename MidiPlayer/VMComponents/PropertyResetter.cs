@@ -12,7 +12,8 @@ namespace MidiPlayer.VMComponents
 
         public PropertyResetter(object target, bool useDefaultsOnReset = false)
         {
-            var props = GetType().GetProperties(Flags);
+            // properties must be both readable and writable.
+            var props = GetType().GetProperties(Flags).Where(p => p.CanRead && p.CanWrite).ToArray();
             _target = target;
 
             if (useDefaultsOnReset)

@@ -9,7 +9,10 @@ namespace MidiPlayer.PlayerComponents
     
     public class PlayerVM : NotifyPropertyChanged
     {
-        internal PlayerVM(PlaybackData data) : base(useDefaultsOnReset: false, enableAutoPropertyChangedNotification: false)
+        internal PlayerVM(PlaybackData data) : base(
+            null,
+            useDefaultsOnReset: false,
+            enableAutoPropertyChangedNotification: false)
         {
             Data = data;
             Data.PropertyChanged += OnPropertyChanged;

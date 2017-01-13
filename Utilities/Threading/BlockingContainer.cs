@@ -27,16 +27,16 @@ namespace Utilities.Threading
         /// <summary>
         /// asks for encapsulated item. will return item after the specified duration.
         /// </summary>
-        public async Task<T> Reserve(int delay)
+        public async Task<T> Reserve(int wait)
         {
-            return await Block(delay);
+            return await Block(wait);
         }
         
-        private async Task<T> Block(int duration)
+        private async Task<T> Block(int wait)
         {
             if (!_isFree) return null;
             _isFree = false;
-            await Task.Delay(duration).ConfigureAwait(continueOnCapturedContext: false);
+            await Task.Delay(wait).ConfigureAwait(continueOnCapturedContext: false);
             _isFree = true;
             return _item;
         }

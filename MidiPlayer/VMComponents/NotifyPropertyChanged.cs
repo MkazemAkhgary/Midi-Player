@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -12,13 +13,13 @@ namespace MidiPlayer.VMComponents
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected NotifyPropertyChanged(bool useDefaultsOnReset = true, bool enableAutoPropertyChangedNotification = true)
+        protected NotifyPropertyChanged(Type targetType, bool useDefaultsOnReset = true, bool enableAutoPropertyChangedNotification = true)
         {
             _resetter = new PropertyResetter(this, useDefaultsOnReset);
 
             if (enableAutoPropertyChangedNotification)
             {
-                _provider = new NotifyPropertyChangedProvider(this);
+                _provider = new NotifyPropertyChangedProvider(GetType(), targetType);
             }
         }
 
@@ -32,9 +33,9 @@ namespace MidiPlayer.VMComponents
             RaisePropertyChanged(_provider.GetPropertyChangedEventArgs(caller, target));
         }
 
-        private async void OnPropertyChangedAsync(int delay, string caller, string target)
+        private async void OnPropertyChangedAsync(int wait, string caller, string target)
         {
-            RaisePropertyChanged(await _provider.GetPropertyChangedEventArgsAsync(delay, caller, target));
+            RaisePropertyChanged(await _provider.GetPropertyChangedEventArgsAsync(wait, caller, target));
         }
 
         [NotifyPropertyChangedInvocator]
@@ -43,6 +44,9 @@ namespace MidiPlayer.VMComponents
             if (args != null) PropertyChanged?.Invoke(this, args);
         }
         
+        /// <summary>
+        /// Sets the value of field. and notifies the target or caller if value changed.
+        /// </summary>
         protected void SetValue<T>(ref T field, T value, [CallerMemberName, NotNull] string name = "", [CanBeNull]string target = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return;
@@ -50,11 +54,14 @@ namespace MidiPlayer.VMComponents
             if (_provider != null) OnPropertyChanged(name, target);
         }
 
-        protected void SetValueDelayed<T>(ref T field, T value, int delay, [CallerMemberName, NotNull] string name = "", [CanBeNull]string target = null)
+        /// <summary>
+        /// Sets the value of field. and notifies the target or caller if value changed and aquires a wait for specified amount of time if wait is not aquired.
+        /// </summary>
+        protected void SetValueDelayed<T>(ref T field, T value, int wait, [CallerMemberName, NotNull] string name = "", [CanBeNull]string target = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return;
             field = value;
-            if(_provider != null) OnPropertyChangedAsync(delay, name, target);
+            if(_provider != null) OnPropertyChangedAsync(wait, name, target);
         }
 
         internal void Reset()
