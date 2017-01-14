@@ -11,7 +11,7 @@ namespace MidiPlayer.PlayerComponents
     {
         internal PlayerVM(PlaybackData data) : base(
             null,
-            useDefaultsOnReset: false,
+            canResetToDefaults: false,
             enableAutoPropertyChangedNotification: false)
         {
             Data = data;

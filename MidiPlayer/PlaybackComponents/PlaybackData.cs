@@ -16,7 +16,7 @@ namespace MidiPlayer.PlaybackComponents
 
         public PlaybackData() : base(
             typeof(PlayerVM),
-            useDefaultsOnReset: true,
+            canResetToDefaults: true,
             enableAutoPropertyChangedNotification: true)
         {
         }

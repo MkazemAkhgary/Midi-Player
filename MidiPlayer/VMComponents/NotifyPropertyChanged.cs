@@ -13,10 +13,12 @@ namespace MidiPlayer.VMComponents
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected NotifyPropertyChanged(Type targetType, bool useDefaultsOnReset = true, bool enableAutoPropertyChangedNotification = true)
+        protected NotifyPropertyChanged(Type targetType, bool canResetToDefaults = true, bool enableAutoPropertyChangedNotification = true)
         {
-            _resetter = new PropertyResetter(this, useDefaultsOnReset);
-
+            if (canResetToDefaults)
+            {
+                _resetter = new PropertyResetter(this, true);
+            }
             if (enableAutoPropertyChangedNotification)
             {
                 _provider = new NotifyPropertyChangedProvider(GetType(), targetType);
@@ -66,7 +68,7 @@ namespace MidiPlayer.VMComponents
 
         internal void Reset()
         {
-            _resetter.InvokeReset();
+            _resetter?.InvokeReset();
         }
     }
 }

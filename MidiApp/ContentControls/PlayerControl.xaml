@@ -70,7 +70,8 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <ToggleButton Grid.Column="1"
+            <ToggleButton x:Name="ToggleButton"
+                          Grid.Column="1"
                           VerticalAlignment="Center"
                           Click="PlayButton_Open"
                           IsChecked="{Binding IsPlaybackPlaying}"

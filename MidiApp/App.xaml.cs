@@ -25,7 +25,10 @@ namespace MidiApp
 
         internal static void OpenFile()
         {
-            OpenFileDialog?.ShowDialog(Current.MainWindow);
+            if (OpenFileDialog?.ShowDialog(Current.MainWindow) != true)
+            {
+                Ctrl.Value.ToggleButton.IsChecked = false;
+            }
         }
 
         internal static void LoadStream(string filename)
