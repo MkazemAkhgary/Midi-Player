@@ -70,11 +70,10 @@ namespace MidiApp.Behaviors.Composite
 
                 if (collection == null)
                 {
+                    const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
+
                     var constructor = typeof(BehaviorCollection)
-                        .GetConstructor(
-                            BindingFlags.NonPublic | BindingFlags.Instance,
-                            null, CallingConventions.HasThis,
-                            Type.EmptyTypes, null);
+                        .GetConstructor(flags, null, CallingConventions.HasThis, Type.EmptyTypes, null);
 
                     collection = (BehaviorCollection) constructor.Invoke(null);
                     SetValue(BehaviorCollectionProperty, collection);

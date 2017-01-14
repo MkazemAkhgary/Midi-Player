@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cc="clr-namespace:MidiApp.ContentControls"
-        xmlns:pc="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
         mc:Ignorable="d"
         Closing="MainWindow_OnClosing"
         Title="MainWindow" 
@@ -12,7 +11,8 @@
         Width="300"
         MinHeight="320" 
         MinWidth="300"
-        x:Name="Window">
+        x:Name="Window"
+        SnapsToDevicePixels="True">
     <Grid AllowDrop="True" Drop="Window_OnDrop">
         <cc:MenuBar VerticalAlignment="Top"/>
         <cc:DebugPanel VerticalAlignment="Top" Margin="0,23"/>
