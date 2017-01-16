@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-// ReSharper disable ClassNeverInstantiated.Global
 
 namespace MidiStream.Components.Containers.Messages
 {
@@ -8,6 +7,7 @@ namespace MidiStream.Components.Containers.Messages
     /// <summary>
     /// Initializes new instance of Midi <see cref="VoiceMessage"/> Message.
     /// </summary>
+    [UsedImplicitly]
     public sealed class VoiceMessage : MidiMessage
     {
         /// <summary>

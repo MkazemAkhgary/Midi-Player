@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 // ReSharper disable InconsistentNaming
-// ReSharper disable ArgumentsStyleLiteral
 
 namespace MidiPlayer.PlayerComponents
 {

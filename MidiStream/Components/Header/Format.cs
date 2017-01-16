@@ -1,7 +1,4 @@
-﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable MemberCanBePrivate.Global
-
-using System;
+﻿using System;
 
 namespace MidiStream.Components.Header
 {

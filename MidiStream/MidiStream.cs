@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable MemberCanBePrivate.Global
 
 namespace MidiStream
 {

@@ -1,6 +1,5 @@
 ﻿using MidiPlayer.PlayerComponents;
 using MidiStream.Components.Header;
-// ReSharper disable All
 
 namespace MidiPlayer.PlaybackComponents
 {

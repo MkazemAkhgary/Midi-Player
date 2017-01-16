@@ -1,5 +1,6 @@
 ﻿// ReSharper disable UnusedMemberInSuper.Global
 // ReSharper disable EventNeverSubscribedTo.Global
+
 namespace MidiPlayer.Timers
 {
     using Extensions;

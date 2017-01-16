@@ -1,5 +1,4 @@
 ﻿using System;
-// ReSharper disable UnusedMemberInSuper.Global
 
 namespace MidiStream.Components.Containers.Events
 {
