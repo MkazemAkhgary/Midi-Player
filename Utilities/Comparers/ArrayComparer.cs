@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-// ReSharper disable ForCanBeConvertedToForeach
 
-namespace Utilities.Helpers
+namespace Utilities.Comparers
 {
     /// <summary>
     /// Provides <see cref="IEqualityComparer{T}"/> for an array of <see cref="T"/>.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Utilities.Helpers;
+using Utilities.Extensions;
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace MidiStream
@@ -15,7 +15,7 @@ namespace MidiStream
     using Exceptions;
     using Enums;
     using static Components.Containers.Messages.Factory.MessageFactory;
-    using static IntConverter;
+    using static NumericExtensions;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MidiStreamReader"/> with specified path.
@@ -31,13 +31,13 @@ namespace MidiStream
 
         public MidiStreamReader(string path, Encoding encoding)
         {
+            FullPath = path;
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 8192);
             _reader = new BinaryReader(stream, encoding);
         }
 
         public MidiStreamReader(string path) : this(path, Encoding.ASCII)
         {
-            FullPath = path;
         }
 
         #endregion Constructors

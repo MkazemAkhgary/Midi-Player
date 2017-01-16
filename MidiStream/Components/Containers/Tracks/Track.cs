@@ -4,9 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using JetBrains.Annotations;
 using Utilities.Collections;
-using Utilities.Helpers;
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
+using Utilities.Extensions;
 
 namespace MidiStream.Components.Containers.Tracks
 {

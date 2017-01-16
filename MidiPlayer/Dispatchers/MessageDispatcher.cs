@@ -3,7 +3,8 @@ using System.Linq;
 using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
 using Synthesizer.Device.Output;
-using Utilities.Helpers;
+using Utilities.Extensions;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable RedundantEmptyDefaultSwitchBranch
 
@@ -79,7 +80,7 @@ namespace MidiPlayer.Dispatchers
 
         public static int ReadTempo(byte[] data)
         {
-            return IntConverter.ByteArrayToInt(data.Skip(2).ToArray());
+            return NumericExtensions.ByteArrayToInt(data.Skip(2).ToArray());
         }
     }
 }

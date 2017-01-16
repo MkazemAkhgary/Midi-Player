@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MidiStream.Components.Containers.Tracks;
 using MidiStream.Enums;
-using Utilities.Helpers;
 using Synthesizer.Device.Output;
 using Synthesizer.Device.Output.Managed;
+using Utilities.Extensions;
 
 namespace MidiPlayer.PlaybackComponents
 {

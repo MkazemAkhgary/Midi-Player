@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
-using Utilities.Helpers;
+using Utilities.Comparers;
 
 namespace MidiStream.Components.Containers.Messages.Factory
 {

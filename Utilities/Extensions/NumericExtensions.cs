@@ -1,9 +1,8 @@
 ﻿using JetBrains.Annotations;
-// ReSharper disable ForCanBeConvertedToForeach
 
-namespace Utilities.Helpers
+namespace Utilities.Extensions
 {
-    public static class IntConverter
+    public static class NumericExtensions
     {
         public static short Reverse(short input)
         {

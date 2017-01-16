@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Utilities.Helpers;
+using Utilities.Extensions;
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Local
 
@@ -130,7 +130,7 @@ Maximum number of simultaneous notes : {wNotes}
 Channel Mask : {Convert.ToString(wChannelMask, 2)}
 {string.Join(Environment.NewLine,
                 dwSupport.GetAllFlags()
-                    .Select(Enumerations.GetAttribute<DescriptionAttribute>)
+                    .Select(EnumExtensions.GetAttribute<DescriptionAttribute>)
                     .Select(a => a.Description))}";
 
             return formatted;

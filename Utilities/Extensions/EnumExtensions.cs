@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Utilities.Helpers
+namespace Utilities.Extensions
 {
-    public static class Enumerations
+    public static class EnumExtensions
     {
         /// <summary>
         /// Extracts attribute from given enumeration.

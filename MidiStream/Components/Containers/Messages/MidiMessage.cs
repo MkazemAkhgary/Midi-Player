@@ -1,5 +1,5 @@
 ﻿using JetBrains.Annotations;
-using Utilities.Helpers;
+using Utilities.Comparers;
 
 namespace MidiStream.Components.Containers.Messages
 {

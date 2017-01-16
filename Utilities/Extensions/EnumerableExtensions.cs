@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Utilities.Helpers
+namespace Utilities.Extensions
 {
-    public static class Extension
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// Filters collection of base items into collection of child items and enumerates the rest.

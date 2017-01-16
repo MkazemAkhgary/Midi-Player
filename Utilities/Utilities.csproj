@@ -39,11 +39,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ArrayComparer.cs" />
-    <Compile Include="Helpers\IntConverter.cs" />
+    <Compile Include="Comparers\ArrayComparer.cs" />
+    <Compile Include="Extensions\NumericExtensions.cs" />
     <Compile Include="Threading\BlockingContainer.cs" />
-    <Compile Include="Helpers\Enumerations.cs" />
-    <Compile Include="Helpers\Extension.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Collections\Grouping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\SafeTimer.cs" />
@@ -51,6 +51,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
