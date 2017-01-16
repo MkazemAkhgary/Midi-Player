@@ -46,7 +46,7 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Collections\Grouping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Threading\SafeTimer.cs" />
+    <Compile Include="Threading\Timers\SafeTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

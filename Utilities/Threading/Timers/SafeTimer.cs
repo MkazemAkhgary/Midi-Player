@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Timers;
 
-namespace Utilities.Threading
+namespace Utilities.Threading.Timers
 {
     public sealed class SafeTimer : IDisposable
     {

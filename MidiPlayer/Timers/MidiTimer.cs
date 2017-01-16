@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Timers;
 using MidiStream.Components.Header;
-using Utilities.Threading;
+using Utilities.Threading.Timers;
 
 namespace MidiPlayer.Timers
 {
