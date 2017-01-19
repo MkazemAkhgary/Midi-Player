@@ -84,7 +84,7 @@ namespace Synthesizer.Device.Output
             for (int i = 0; i < 16; i++)
             {
                 var status = (byte)((int)type | i);
-                byte[] data = { status, subtype, value };
+                byte[] data = {status, subtype, value, 0};
                 SendMessage(VoiceMessage.PackMessage(data));
             }
         }

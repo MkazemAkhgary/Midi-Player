@@ -57,8 +57,14 @@
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
                        Foreground="White"
-                       FontSize="12"
-                       FontWeight="SemiBold">
+                       FontSize="14"
+                       FontFamily="Calibri"
+                       TextAlignment="Center"
+                       UseLayoutRounding="True"
+                       TextOptions.TextFormattingMode="Display"
+                       TextOptions.TextRenderingMode="ClearType"
+                       TextOptions.TextHintingMode="Fixed"
+                       MinWidth="70">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}/{1}">
                         <Binding Path="Value"
@@ -91,7 +97,7 @@
                     Value="{Binding PlaybackSpeed}"
                     IsMoveToPointEnabled="True">
                 <i:Interaction.Behaviors>
-                    <sb:FreeSlideBehavior/>
+                    <sb:FreeSlideBehavior />
                 </i:Interaction.Behaviors>
             </Slider>
         </Grid>

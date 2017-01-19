@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace MidiStream
@@ -15,33 +16,34 @@ namespace MidiStream
         /// <summary>
         /// Name of the stream.
         /// </summary>
+        [NotNull]
         public string Name { get; }
 
         /// <summary>
         /// Gets the format of midi sequence.
         /// </summary>
+        [NotNull]
         public MidiFormat Format { get; }
 
         /// <summary>
         /// Gets a read-only list of tracks.
         /// </summary>
+        [NotNull]
         public IReadOnlyList<MidiTrack> Tracks { get; }
 
         #endregion Properties
         
-        internal MidiStream([NotNull] IReadOnlyList<MidiTrack> tracks, [NotNull] MidiFormat format, string name = null)
+        internal MidiStream(
+            [NotNull] IReadOnlyList<MidiTrack> tracks,
+            [NotNull] MidiFormat format,
+            [CanBeNull] string name = null)
         {
+            if(tracks == null) throw new ArgumentNullException(nameof(tracks));
+            if(format == null) throw new ArgumentNullException(nameof(format));
+
             Tracks = tracks;
             Format = format;
             Name = name ?? "";
-        }
-
-        public bool VerifyValidity()
-        {
-            if (Name == null) return false;
-            if (Format == null) return false;
-            if (Tracks == null) return false;
-            return Format.VerifyValidity();
         }
     }
 }

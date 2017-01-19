@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using Utilities.Comparers;
 
@@ -11,10 +10,13 @@ namespace MidiStream.Components.Containers.Messages.Factory
     /// <summary>
     /// Provides access to factory methods for creating Midi <see cref="MidiMessage"/>'s using singeleton pattern.
     /// </summary>
-    public static class MessageFactory
+    internal static class MessageFactory
     {
-        public static TMessage CreateMessage<TMessage>([NotNull]byte[] data) where TMessage : MidiMessage
+        [NotNull]
+        public static TMessage CreateMessage<TMessage>([NotNull] byte[] data) where TMessage : MidiMessage
         {
+            if(data == null) throw new ArgumentNullException(nameof(data));
+
             TMessage msg;
 
             if (!Containers<TMessage>.Container.TryGetValue(data, out msg))
@@ -47,8 +49,7 @@ namespace MidiStream.Components.Containers.Messages.Factory
 
                 var param = Expression.Parameter(typeof(byte[]), "data");
                 var expr = Expression.New(ctor, param);
-                var name = Regex.Match(typeof(TMessage).Name, @".*(.*)").Value;
-                var lambda = Expression.Lambda<Func<byte[], TMessage>>(expr, name, new[] {param});
+                var lambda = Expression.Lambda<Func<byte[], TMessage>>(expr, typeof(TMessage).Name, new[] {param});
                 Initializer = lambda.Compile();
             }
         }

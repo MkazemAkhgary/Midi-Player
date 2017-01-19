@@ -13,7 +13,7 @@ namespace MidiPlayer.VMComponents
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected NotifyPropertyChanged(Type targetType, bool canResetToDefaults = true, bool enableAutoPropertyChangedNotification = true)
+        protected NotifyPropertyChanged([CanBeNull] Type targetType, bool canResetToDefaults = true, bool enableAutoPropertyChangedNotification = true)
         {
             if (canResetToDefaults)
             {
@@ -61,6 +61,8 @@ namespace MidiPlayer.VMComponents
         /// </summary>
         protected void SetValueDelayed<T>(ref T field, T value, int wait, [CallerMemberName, NotNull] string name = "", [CanBeNull]string target = null)
         {
+            if (wait < 0) throw new ArgumentOutOfRangeException(nameof(wait));
+
             if (EqualityComparer<T>.Default.Equals(field, value)) return;
             field = value;
             if(_provider != null) OnPropertyChangedAsync(wait, name, target);

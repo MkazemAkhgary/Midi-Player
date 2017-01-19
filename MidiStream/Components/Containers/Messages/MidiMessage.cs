@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using Utilities.Comparers;
 
 namespace MidiStream.Components.Containers.Messages
@@ -12,10 +13,11 @@ namespace MidiStream.Components.Containers.Messages
 
         internal MidiMessage([NotNull]byte[] data)
         {
+            if(data == null)
+                throw new ArgumentNullException(nameof(data));
+
             Data = data;
         }
-
-        #region Implemented Methods
 
         public virtual bool Equals(IMidiMessage obj)
         {
@@ -34,7 +36,5 @@ namespace MidiStream.Components.Containers.Messages
         {
             return ~ArrayComparer<byte>.Create().GetHashCode(Data);
         }
-
-        #endregion Implemented Methods
     }
 }

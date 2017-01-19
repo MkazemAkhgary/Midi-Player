@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using JetBrains.Annotations;
 using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
 using Synthesizer.Device.Output;
@@ -14,29 +17,41 @@ namespace MidiPlayer.Dispatchers
 
     internal static class MessageDispatcher
     {
-        public static void DispatchTo(this IEnumerable<VoiceMessage> soruce, MidiOutput output)
+        public static void DispatchTo([NotNull] this IEnumerable<VoiceMessage> soruce, [NotNull] MidiOutput output)
         {
+            Debug.Assert(soruce != null, "soruce != null");
+            Debug.Assert(output != null, "output != null");
+
             foreach (var msg in soruce)
             {
                 msg.DispatchTo(output);
             }
         }
 
-        public static void DispatchTo(this IEnumerable<MetaMessage> soruce, PlaybackControl control)
+        public static void DispatchTo([NotNull] this IEnumerable<MetaMessage> soruce, [NotNull] PlaybackControl control)
         {
+            Debug.Assert(soruce != null, "soruce != null");
+            Debug.Assert(control != null, "control != null");
+
             foreach (var msg in soruce)
             {
                 msg.DispatchTo(control);
             }
         }
 
-        public static void DispatchTo(this VoiceMessage message, MidiOutput output)
+        public static void DispatchTo([NotNull] this VoiceMessage message, [NotNull] MidiOutput output)
         {
+            Debug.Assert(message != null, "message != null");
+            Debug.Assert(output != null, "output != null");
+
             output.SendMessage(message.PackMessage());
         }
 
-        public static void DispatchTo(this MetaMessage message, PlaybackControl control)
+        public static void DispatchTo([NotNull] this MetaMessage message, [NotNull] PlaybackControl control)
         {
+            Debug.Assert(message != null, "message != null");
+            Debug.Assert(control != null, "control != null");
+
             switch (message.MetaType)
             {
                 case MetaType.SetTempo:
@@ -78,9 +93,13 @@ namespace MidiPlayer.Dispatchers
             }
         }
 
-        public static int ReadTempo(byte[] data)
+        public static int ReadTempo([NotNull] byte[] data)
         {
-            return NumericExtensions.ByteArrayToInt(data.Skip(2).ToArray());
+            Debug.Assert(data.Length == 6, "data.Length == 6");
+
+            if (data == null) throw new ArgumentNullException(nameof(data));
+
+            return (data[3] << 16) | (data[4] << 8) | data[3];
         }
     }
 }

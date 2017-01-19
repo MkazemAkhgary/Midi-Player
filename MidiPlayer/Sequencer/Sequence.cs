@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using JetBrains.Annotations;
 using MidiStream.Components.Containers.Events;
 using MidiStream.Components.Containers.Messages;
 using UtilCollection = Utilities.Collections;
@@ -15,8 +17,10 @@ namespace MidiPlayer.Sequencer
 
         public bool Ends => _enumerator.Ends;
 
-        public Sequence(UtilCollection.IGrouping<TKey, MidiEvent<TValue>>  source)
+        public Sequence([NotNull] UtilCollection::IGrouping<TKey, MidiEvent<TValue>>  source)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             _enumerator = new Enumerator(source);
             _enumerator.MoveNext();
         }
@@ -28,8 +32,11 @@ namespace MidiPlayer.Sequencer
         /// </summary>
         /// <param name="include">indicates whether include or exclude keys.</param>
         /// <param name="keys">which keys to include or exclude.</param>
-        public IEnumerable<MidiEvent<TValue>> All(bool include, TKey[] keys)
+        [NotNull, ItemNotNull]
+        public IEnumerable<MidiEvent<TValue>> All(bool include, [NotNull] TKey[] keys)
         {
+            if (keys == null) throw new ArgumentNullException(nameof(keys));
+
             return include
                 ? _enumerator.Including(keys)
                 : _enumerator.Excluding(keys);
@@ -38,8 +45,11 @@ namespace MidiPlayer.Sequencer
         /// <summary>
         /// get next events after current events up to given position and update current position.
         /// </summary>
+        [NotNull, ItemNotNull]
         public IEnumerable<TValue> Next(double position)
         {
+            Debug.Assert(position >= 0, "position >= 0");
+
             while (position > _enumerator.Current?.AbsoluteTicks)
             {
                 yield return _enumerator.Current.Message;
@@ -52,6 +62,8 @@ namespace MidiPlayer.Sequencer
         /// </summary>
         public void Seek(double target)
         {
+            if (target < 0) throw new ArgumentOutOfRangeException(nameof(target));
+
             _enumerator.Reset();
 
             var dummy = MidiEvent<TValue>.CreateEmpty((long) target);

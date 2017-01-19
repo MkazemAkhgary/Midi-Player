@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace MidiStream.Components.Header
 {
@@ -24,13 +25,12 @@ namespace MidiStream.Components.Header
 
         internal MidiFormat(MidiType type, int timedivision)
         {
+            if (!Enum.IsDefined(typeof(MidiType), type))
+                throw new InvalidEnumArgumentException(nameof(type), (int) type, typeof(MidiType));
+            if (timedivision <= 0) throw new ArgumentOutOfRangeException(nameof(timedivision));
+
             Type = type;
             TimeDivision = new TimeDivision(timedivision);
-        }
-
-        public bool VerifyValidity()
-        {
-            return Enum.IsDefined(typeof(MidiType), Type) && TimeDivision.VerifyValidity();
         }
     }
 }

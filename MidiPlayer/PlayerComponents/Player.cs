@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace MidiPlayer.PlayerComponents
 {
@@ -12,9 +14,10 @@ namespace MidiPlayer.PlayerComponents
     public sealed class Player : IDisposable
     {
         private readonly PlayerControl _control;
-        private readonly PlayerVM _context;
 
-        public PlayerVM Context => _context;
+        [NotNull]
+        public PlayerVM Context { get; }
+
         public bool IsLoaded => Context.IsPlaybackLoaded;
         public bool IsPlaying => Context.IsPlaybackPlaying;
         public string GetMidiOutputDeviceInfo => _control.GetOutputCapabilities.ToString();
@@ -22,7 +25,7 @@ namespace MidiPlayer.PlayerComponents
         public Player()
         {
             var data = new PlaybackData();
-            _context = new PlayerVM(data);
+            Context = new PlayerVM(data);
             _control = new PlayerControl(data);
 
             Context.Toggle = DelegateCommand.Create(_control.Toggle, o => o as bool? ?? true);
@@ -39,19 +42,22 @@ namespace MidiPlayer.PlayerComponents
             if (Context.IsPlaybackLoaded) _control.Start();
         }
 
-        public bool Open(string path)
+        public async Task<bool> Open([NotNull] string path)
         {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(path));
+
             using (var reader = new MidiStreamReader(path))
             {
                 if(IsLoaded) Close();
-                var stream = reader.GetStream();
+                var stream = await reader.GetStreamAsync();
                 return OpenStream(stream);
             }
         }
 
-        private bool OpenStream(MidiStream stream)
+        private bool OpenStream([NotNull] MidiStream stream)
         {
-            if(!stream.VerifyValidity()) return false;
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
 
             _control?.Initialize(stream);
             return true;

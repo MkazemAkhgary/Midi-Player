@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Utilities.Collections;
 using Utilities.Extensions;
@@ -19,18 +20,19 @@ namespace MidiStream.Components.Containers.Tracks
     {
         #region Properties
 
+        [NotNull, ItemNotNull]
         public ReadOnlyCollection<IMidiEvent<MidiMessage>> UnknownEvents { get; }
 
         /// <summary>
         /// Gets a read-only branched list of voice events.
         /// </summary>
-        [ItemNotNull]
+        [NotNull, ItemNotNull]
         public ReadOnlyGrouping<VoiceType, MidiEvent<VoiceMessage>> VoiceEvents { get; }
 
         /// <summary>
         /// Gets a read-only branched list of meta events.
         /// </summary>
-        [ItemNotNull]
+        [NotNull, ItemNotNull]
         public ReadOnlyGrouping<MetaType, MidiEvent<MetaMessage>> MetaEvents { get; }
 
         /// <summary>
@@ -42,8 +44,10 @@ namespace MidiStream.Components.Containers.Tracks
 
         #region Constructors
 
-        internal MidiTrack([NotNull, NoEnumeration]IEnumerable<IMidiEvent<MidiMessage>> events)
+        internal MidiTrack([NotNull] [ItemNotNull, NoEnumeration]IEnumerable<IMidiEvent<MidiMessage>> events)
         {
+            if (events == null) throw new ArgumentNullException(nameof(events));
+
             var voiceEvents = new Grouping<VoiceType, MidiEvent<VoiceMessage>>(k => k.Message.VoiceType);
             var metaEvents = new Grouping<MetaType, MidiEvent<MetaMessage>>(k => k.Message.MetaType);
 

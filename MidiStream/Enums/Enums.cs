@@ -186,14 +186,16 @@ namespace MidiStream.Enums
         NotMidi,
         [Description("Could not find track header")]
         TrackMissing,
-        //[Description("End of track reached unexpectedly.")]
-        //EndOfTrack,
-        //[Description("Track was not finished as expected.")]
-        //TrackNotComplete,
+        [Description("End of stream reached unexpectedly.")]
+        EndOfStream,
+        [Description("Could not find end of the track.")]
+        TrackNotComplete,
         [Description("This file is not supported")]
         NotSupported,
         [Description("file contains invalid midi message.")]
         InvalidMessage,
+        [Description("status byte was omitted but it was not recognized")]
+        UnknownStatus,
         [Description("Variable Length Quantity (VLQ) overflow")]
         VLQ_Overflow
     }

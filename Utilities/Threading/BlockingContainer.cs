@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace Utilities.Threading
 {
@@ -19,6 +21,7 @@ namespace Utilities.Threading
         /// <summary>
         /// returns encapsulated item if container is free.
         /// </summary>
+        [CanBeNull]
         public T RequestItem()
         {
             return _isFree ? _item : null;
@@ -27,8 +30,12 @@ namespace Utilities.Threading
         /// <summary>
         /// asks for encapsulated item. will return item after the specified duration.
         /// </summary>
+        [ItemCanBeNull]
         public async Task<T> Reserve(int wait)
         {
+            if (wait < 0)
+                throw new ArgumentOutOfRangeException(nameof(wait));
+
             return await Block(wait);
         }
         

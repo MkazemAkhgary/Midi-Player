@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
+using JetBrains.Annotations;
+
 // ReSharper disable UnusedMember.Global
 
 namespace MidiPlayer.Commands
@@ -14,21 +16,33 @@ namespace MidiPlayer.Commands
 
         private DelegateCommand(Action<object> execute, Predicate<object> applicant)
         {
+            if (execute == null) throw new ArgumentNullException(nameof(execute));
+            if (applicant == null) throw new ArgumentNullException(nameof(applicant));
+
             _execute = execute;
             _applicant = applicant;
         }
 
-        public static DelegateCommand Create<T>(Action<T> execute, Predicate<T> applicant = null)
+        [NotNull]
+        public static DelegateCommand Create<T>(
+            [NotNull] Action<T> execute, 
+            [CanBeNull] Predicate<T> applicant = null)
         {
             return new DelegateCommand(obj => execute((T) obj), obj => applicant?.Invoke((T) obj) ?? true);
         }
 
-        public static DelegateCommand Create(Action<object> execute, Predicate<object> applicant = null)
+        [NotNull]
+        public static DelegateCommand Create(
+            [NotNull] Action<object> execute,
+            [CanBeNull] Predicate<object> applicant = null)
         {
             return new DelegateCommand(execute, applicant ?? (_ => true));
         }
 
-        public static DelegateCommand Create(Action execute, Predicate<object> applicant = null)
+        [NotNull]
+        public static DelegateCommand Create(
+            [NotNull] Action execute,
+            [CanBeNull] Predicate<object> applicant = null)
         {
             return new DelegateCommand(_ => execute(), applicant ?? (_ => true));
         }

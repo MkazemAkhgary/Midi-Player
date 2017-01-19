@@ -11,8 +11,7 @@
         Width="300"
         MinHeight="320" 
         MinWidth="300"
-        x:Name="Window"
-        SnapsToDevicePixels="True">
+        x:Name="Window">
     <Grid AllowDrop="True" Drop="Window_OnDrop">
         <cc:MenuBar VerticalAlignment="Top"/>
         <cc:DebugPanel VerticalAlignment="Top" Margin="0,23"/>

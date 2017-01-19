@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
 using MidiPlayer.PlayerComponents;
@@ -31,27 +32,27 @@ namespace MidiApp
             }
         }
 
-        internal static void LoadStream(string filename)
+        internal static async Task LoadStream(string filename)
         {
             try
             {
-                Player.Open(filename);
+                await Player.Open(filename);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(
 $@"{exception.Message}
-{exception.InnerException?.Message}", "Error!");
+{exception.StackTrace}", "Error!");
 
                 Player.Close();
             }
         }
 
-        private void FileDialog_OnFileOk(object sender, CancelEventArgs e)
+        private async void FileDialog_OnFileOk(object sender, CancelEventArgs e)
         {
             var opd = sender as OpenFileDialog;
             if(opd == null) return;
-            LoadStream(opd.FileName);
+            await LoadStream(opd.FileName);
         }
     }
 }

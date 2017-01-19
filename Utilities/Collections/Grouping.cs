@@ -12,9 +12,14 @@ namespace Utilities.Collections
     #region Interface
     public interface IGrouping<in TKey, TValue> : IList<TValue> where TValue : IComparable<TValue>
     {
-        IEnumerable<TValue> Including(params TKey[] keys);
-        IEnumerable<TValue> Excluding(params TKey[] keys);
-        int BinarySearch(TValue item, IComparer<TValue> comparer = null);
+        [NotNull]
+        IEnumerable<TValue> Including([NotNull] params TKey[] keys);
+
+        [NotNull]
+        IEnumerable<TValue> Excluding([NotNull] params TKey[] keys);
+
+        int BinarySearch([NotNull] TValue item, [CanBeNull] IComparer<TValue> comparer = null);
+
         void ReleaseBuffer();
     }
     #endregion Interface
@@ -46,8 +51,10 @@ namespace Utilities.Collections
 
         #region Constructors
 
-        public Grouping(Func<TValue, TKey> key)
+        public Grouping([NotNull] Func<TValue, TKey> key)
         {
+            if (key == null) throw new ArgumentNullException(nameof(key));
+
             _keyselector = key;
             _list = new List<TValue>();
             
@@ -85,8 +92,10 @@ namespace Utilities.Collections
         /// Queries collections with these keys included.
         /// </summary>
         /// <returns>Ordered enumerable of TValues from selected collections.</returns>
-        public IEnumerable<TValue> Including([NotNull]params TKey[] keys)
+        public IEnumerable<TValue> Including(params TKey[] keys)
         {
+            if (keys == null) throw new ArgumentNullException(nameof(keys));
+
             ReadOnlyCollection<TValue> list;
             if (!_includes.TryGetValue(keys, out list))
             {
@@ -105,8 +114,10 @@ namespace Utilities.Collections
         /// Queries collections with these keys excluded.
         /// </summary>
         /// <returns>Ordered enumerable of TValues from rest of collections.</returns>
-        public IEnumerable<TValue> Excluding([NotNull]params TKey[] keys)
+        public IEnumerable<TValue> Excluding(params TKey[] keys)
         {
+            if (keys == null) throw new ArgumentNullException(nameof(keys));
+
             ReadOnlyCollection<TValue> list;
             if (!_excludes.TryGetValue(keys, out list))
             {
@@ -123,6 +134,8 @@ namespace Utilities.Collections
 
         public int BinarySearch(TValue item, IComparer<TValue> comparer = null)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             return _list.BinarySearch(item, comparer ?? Comparer);
         }
 
@@ -150,8 +163,10 @@ namespace Utilities.Collections
 
         #region ICollection Impl
 
-        public void Add(TValue item)
+        public void Add([NotNull] TValue item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             List<TValue> list;
             var key = _keyselector(item);
             if(!_grouping.TryGetValue(key, out list))
@@ -169,19 +184,26 @@ namespace Utilities.Collections
             _list.Clear();
         }
 
-        public bool Contains(TValue item)
+        public bool Contains([NotNull] TValue item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             List<TValue> list;
             return _grouping.TryGetValue(_keyselector(item), out list) && list.Contains(item);
         }
 
         public void CopyTo(TValue[] array, int arrayIndex)
         {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+
             Array.Copy(_list.ToArray(), 0, array, arrayIndex, Count);
         }
 
-        public bool Remove(TValue item)
+        public bool Remove([NotNull] TValue item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             List<TValue> list;
             _list.Remove(item);
             return _grouping.TryGetValue(_keyselector(item), out list) && list.Remove(item);
@@ -195,25 +217,44 @@ namespace Utilities.Collections
 
         #region IList Impl
 
-        public int IndexOf(TValue item)
+        public int IndexOf([NotNull] TValue item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             return _list.IndexOf(item);
         }
 
-        public void Insert(int index, TValue item)
+        public void Insert(int index, [NotNull] TValue item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             _list.Insert(index, item);
         }
 
         public void RemoveAt(int index)
         {
+            if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
+
             _list.RemoveAt(index);
         }
 
+        [NotNull]
         public TValue this[int index]
         {
-            get { return _list[index]; }
-            set { _list[index] = value; }
+            get
+            {
+                if (index < 0 || index >= _list.Count)
+                    throw new ArgumentOutOfRangeException(nameof(index));
+
+                return _list[index];
+            }
+            set
+            {
+                if (index < 0 || index >= _list.Count)
+                    throw new ArgumentOutOfRangeException(nameof(index));
+
+                _list[index] = value;
+            }
         }
 
         #endregion IList Impl
@@ -232,8 +273,10 @@ namespace Utilities.Collections
     {
         private readonly Grouping<TKey, TValue> _source;
 
-        public ReadOnlyGrouping(Grouping<TKey, TValue> source)
+        public ReadOnlyGrouping([NotNull] Grouping<TKey, TValue> source)
         {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
             _source = source;
         }
 
@@ -296,7 +339,10 @@ namespace Utilities.Collections
 
         TValue IList<TValue>.this[int index]
         {
-            get { return _source[index]; }
+            get
+            {
+                return _source[index];
+            }
             set
             {
                 throw new NotSupportedException();

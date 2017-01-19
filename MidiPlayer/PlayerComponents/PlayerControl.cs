@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Synthesizer.Device.Output.Managed;
 
 namespace MidiPlayer.PlayerComponents
@@ -16,8 +17,10 @@ namespace MidiPlayer.PlayerComponents
 
         internal MIDIOUTCAPS GetOutputCapabilities => _control.GetOutputCapabilities;
 
-        internal PlayerControl(PlaybackData data)
+        internal PlayerControl([NotNull] PlaybackData data)
         {
+            if (data == null) throw new ArgumentNullException(nameof(data));
+
             _timer = new MidiTimer();
             _control = new PlaybackControl(data);
 
@@ -29,8 +32,10 @@ namespace MidiPlayer.PlayerComponents
             _timer.Beat += _control.Move;
         }
 
-        internal void Initialize(MidiStream stream)
+        internal void Initialize([NotNull] MidiStream stream)
         {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
             if(_isInitialized)
                 throw new InvalidOperationException("Player is already initialized and must be closed before re-initialization.");
             
@@ -85,6 +90,8 @@ namespace MidiPlayer.PlayerComponents
         /// <param name="time"></param>
         public void SeekTo(double time)
         {
+            if (time < 0) throw new ArgumentOutOfRangeException(nameof(time));
+
             _timer?.Stop();
             _control?.Reset();
             _control?.Seek(time);

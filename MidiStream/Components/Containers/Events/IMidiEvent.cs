@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace MidiStream.Components.Containers.Events
 {
@@ -9,6 +10,8 @@ namespace MidiStream.Components.Containers.Events
     public interface IMidiEvent : IComparable
     {
         long AbsoluteTicks { get; }
+
+        [NotNull]
         object Message { get; }
     }
 
@@ -22,6 +25,7 @@ namespace MidiStream.Components.Containers.Events
     /// <typeparam name="TMessage"></typeparam>
     public interface IMidiEvent<out TMessage> : IMidiEvent, IComparable<IMidiEvent>, IEquatable<IMidiEvent> where TMessage : MidiMessage
     {
+        [NotNull]
         new TMessage Message { get; }
     }
 

@@ -65,6 +65,7 @@ namespace MidiPlayer.VMComponents
         
         public async Task<PropertyChangedEventArgs> GetPropertyChangedEventArgsAsync(int wait, [NotNull]string caller, [CanBeNull] string target = null)
         {
+            if (wait < 0) throw new ArgumentOutOfRangeException(nameof(wait));
             if (caller == null)
                 throw new ArgumentNullException(nameof(caller));
 

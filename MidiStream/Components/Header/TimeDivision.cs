@@ -1,4 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using JetBrains.Annotations;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace MidiStream.Components.Header
@@ -24,6 +28,7 @@ namespace MidiStream.Components.Header
 
         #region Properties and Methods
 
+        [NotNull]
         public static TimeDivision Default { get; } = new TimeDivision(60);
 
         public DivisionType Type { get; }
@@ -39,6 +44,8 @@ namespace MidiStream.Components.Header
         /// default length is 500000.</param>
         public double GetResolution(double microSecondsPerBeat = DefaultMicroSecondsPerBeat)
         {
+            if (microSecondsPerBeat <= 0) throw new ArgumentOutOfRangeException(nameof(microSecondsPerBeat));
+
             MicroSecondsPerBeat = (int)microSecondsPerBeat;
             return TickLength(microSecondsPerBeat);
         }
@@ -49,6 +56,9 @@ namespace MidiStream.Components.Header
 
         internal TimeDivision(int timedivision, int mspb = DefaultMicroSecondsPerBeat)
         {
+            if (timedivision <= 0) throw new ArgumentOutOfRangeException(nameof(timedivision));
+            if (mspb <= 0) throw new ArgumentOutOfRangeException(nameof(mspb));
+
             MicroSecondsPerBeat = mspb;
             var value = timedivision;
 
@@ -66,14 +76,13 @@ namespace MidiStream.Components.Header
                 TicksPerBeat = value;
                 TickLength = mpb => mpb / TicksPerBeat;
             }
+
+            if (!Enum.IsDefined(typeof(FramesPerSecond), (FramesPerSecond)FramesPerSecond))
+                throw new InvalidEnumArgumentException(nameof(FramesPerSecond), FramesPerSecond, typeof(FramesPerSecond));
+
+            Debug.Assert(Enum.IsDefined(typeof(DivisionType), Type), "Enum.IsDefined(typeof(DivisionType), Type)");
         }
 
         #endregion Constructors
-
-        public bool VerifyValidity()
-        {
-            return Enum.IsDefined(typeof(DivisionType), Type) &&
-                   Enum.IsDefined(typeof(FramesPerSecond), FramesPerSecond);
-        }
     }
 }

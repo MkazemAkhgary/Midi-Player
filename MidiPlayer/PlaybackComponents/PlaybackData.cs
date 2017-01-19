@@ -1,4 +1,5 @@
-﻿using MidiPlayer.PlayerComponents;
+﻿using System;
+using MidiPlayer.PlayerComponents;
 using MidiStream.Components.Header;
 
 namespace MidiPlayer.PlaybackComponents
@@ -73,6 +74,8 @@ namespace MidiPlayer.PlaybackComponents
             get { return _pbspeed; }
             set
             {
+                if(value <= 0) throw new ArgumentOutOfRangeException(nameof(value));
+
                 RuntimeDuration /= value / _pbspeed; // correction
                 TempoChanged?.Invoke(_mspb / value); // reset tempo
                 SetValue(ref _pbspeed, value);
@@ -84,6 +87,8 @@ namespace MidiPlayer.PlaybackComponents
             get { return _mspb; }
             set
             {
+                if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value));
+
                 TempoChanged?.Invoke(value / _pbspeed);
                 SetValue(ref _mspb, value);
             }
@@ -105,6 +110,8 @@ namespace MidiPlayer.PlaybackComponents
         
         public void SetTempo(double tempo)
         {
+            if (tempo < 0) throw new ArgumentOutOfRangeException(nameof(tempo));
+
             TickLength = tempo;
         }
 

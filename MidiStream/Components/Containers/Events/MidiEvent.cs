@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 
 namespace MidiStream.Components.Containers.Events
 {
@@ -9,9 +10,11 @@ namespace MidiStream.Components.Containers.Events
     /// </summary>
     public class MidiEvent<TMessage> : IMidiEvent<TMessage> where TMessage : MidiMessage
     {
-
-        internal MidiEvent(long ticks, [NotNull]TMessage message)
+        internal MidiEvent(long ticks, [NotNull] TMessage message)
         {
+            if (ticks < 0) throw new ArgumentOutOfRangeException(nameof(ticks));
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
             AbsoluteTicks = ticks;
             Message = message;
         }
@@ -48,26 +51,44 @@ namespace MidiStream.Components.Containers.Events
 
         public override int GetHashCode()
         {
-            return -AbsoluteTicks.GetHashCode() ^ ~Message.GetHashCode();
+            unchecked
+            {
+                long hash = 0x13;
+                for (int i = 0; i < 8; i++)
+                {
+                    hash = (hash << i) + -AbsoluteTicks*~i;
+                }
+                return (int) (hash ^ Message.GetHashCode());
+            }
         }
 
-        public int CompareTo(IMidiEvent other)
+        public int CompareTo([NotNull] IMidiEvent other)
         {
+            if (other == null) throw new ArgumentNullException(nameof(other));
+
             return AbsoluteTicks.CompareTo(other.AbsoluteTicks);
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo([NotNull] object obj)
         {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+
             if (!(obj is IMidiEvent)) return 1;
             return AbsoluteTicks.CompareTo(((IMidiEvent) obj).AbsoluteTicks);
         }
 
         #endregion Implemented Methods
-
+        
+        [NotNull]
         public static MidiEvent<TMessage> CreateEmpty(long ticks)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute (This is special case)
-            return new MidiEvent<TMessage>(ticks, null);
+            return new MidiEvent<TMessage>(ticks);
+        }
+        
+        // ReSharper disable once NotNullMemberIsNotInitialized
+        private MidiEvent(long ticks)
+        {
+            AbsoluteTicks = ticks;
         }
     }
 }

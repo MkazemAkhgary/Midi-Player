@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using MidiStream.Components.Containers.Tracks;
 using MidiStream.Enums;
 using Synthesizer.Device.Output;
@@ -22,6 +23,7 @@ namespace MidiPlayer.PlaybackComponents
         private readonly PlaybackData _data;
         private readonly Lazy<MidiOutput> _outputInit;
 
+        [NotNull]
         private MidiOutput Output => _outputInit.Value;
 
         internal MIDIOUTCAPS GetOutputCapabilities => Output.Capabilities;
@@ -31,15 +33,18 @@ namespace MidiPlayer.PlaybackComponents
             NoPlayback = Enumerable.Empty<Playback>().ToList().AsReadOnly();
         }
 
-        public PlaybackControl(PlaybackData data)
+        public PlaybackControl([NotNull] PlaybackData data)
         {
+            if (data == null) throw new ArgumentNullException(nameof(data));
+
             _tracks = NoPlayback;
             _data = data;
             _outputInit = new Lazy<MidiOutput>(() => new MidiOutput());
         }
 
-        public void Initialize(IReadOnlyList<MidiTrack> tracks)
+        public void Initialize([NotNull] IReadOnlyList<MidiTrack> tracks)
         {
+            if (tracks == null) throw new ArgumentNullException(nameof(tracks));
             if(_data.IsLoaded)
                 throw new InvalidOperationException("Playback is already loaded and must be closed before re-initialization.");
 
@@ -52,6 +57,8 @@ namespace MidiPlayer.PlaybackComponents
 
         public void Seek(double position)
         {
+            if (position < 0) throw new ArgumentOutOfRangeException(nameof(position));
+
             _data.StaticPosition = CalculateStaticPosition(position);
             _data.RuntimePosition = position;
 
@@ -95,6 +102,8 @@ namespace MidiPlayer.PlaybackComponents
         
         public void SetPlaybackSpeed(double mspb)
         {
+            if (mspb <= 0) throw new ArgumentOutOfRangeException(nameof(mspb));
+
             _data.MicrosecondsPerBeat = mspb;
         }
 

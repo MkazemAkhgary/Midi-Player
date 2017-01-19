@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Utilities.Extensions
 {
@@ -13,8 +14,15 @@ namespace Utilities.Extensions
         /// <param name="enumerable">Master collection</param>
         /// <param name="collection">Target collection</param>
         /// <returns>rest of the items that does not match with <see cref="TChild"/></returns>
-        public static IEnumerable<TBase> Sieve<TBase, TChild>(this IEnumerable<TBase> enumerable, ICollection<TChild> collection) where TChild : TBase
+        public static IEnumerable<TBase> Sieve<TBase, TChild>(
+            [NotNull] this IEnumerable<TBase> enumerable,
+            [NotNull] ICollection<TChild> collection) where TChild : TBase
         {
+            if(enumerable == null)
+                throw new ArgumentNullException(nameof(enumerable));
+            if(collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
             foreach (var val in enumerable)
             {
                 if (val is TChild)
@@ -25,8 +33,15 @@ namespace Utilities.Extensions
             }
         }
 
-        public static ReadOnlyCollection<TResult> ToReadOnlyCollection<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        public static ReadOnlyCollection<TResult> ToReadOnlyCollection<TSource, TResult>(
+            [NotNull] this IEnumerable<TSource> source,
+            [NotNull] Func<TSource, TResult> selector)
         {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (selector == null)
+                throw new ArgumentNullException(nameof(selector));
+
             return source.Select(selector).ToList().AsReadOnly();
         }
     }

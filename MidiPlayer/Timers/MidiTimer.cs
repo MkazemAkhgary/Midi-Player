@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Timers;
+using JetBrains.Annotations;
 using MidiStream.Components.Header;
 using Utilities.Threading.Timers;
 
@@ -31,8 +32,10 @@ namespace MidiPlayer.Timers
             ReInitialize(TimeDivision.Default);
         }
 
-        public void ReInitialize(TimeDivision division)
+        public void ReInitialize([NotNull] TimeDivision division)
         {
+            if (division == null) throw new ArgumentNullException(nameof(division));
+
             if(_timer.Enabled) Stop();
             _division = division;
         }
@@ -53,6 +56,8 @@ namespace MidiPlayer.Timers
 
         public void SetTempo(double tempo)
         {
+            if (tempo <= 0) throw new ArgumentOutOfRangeException(nameof(tempo));
+
             var interval = _division.GetResolution(tempo) / 1000;
             _timer.Interval = interval;
             _intervalunit = 1 / interval;
