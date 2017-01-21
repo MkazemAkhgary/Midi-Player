@@ -12,46 +12,55 @@ namespace MidiApp.Behaviors.SliderBehaviors
     /// </summary>
     public class CancellableDragBehavior : Behavior<Slider>
     {
+        private bool _bindsDefault;
+        
         private Thumb _thumb;
 
         private Slider Host => AssociatedObject;
         private Thumb Thumb => _thumb ?? (_thumb = SliderCompositeBehavior.GetTrack(Host).Thumb);
 
-        private double _oldVal;
-
         protected override void OnAttached()
         {
+            _bindsDefault = SliderCompositeBehavior.GetSourceBindsToValue(Host);
+            if (_bindsDefault) SliderCompositeBehavior.SetSourceBindsToValue(Host, false);
+
+            Host.MouseLeftButtonUp += OnLeftButtonUp;
             Host.MouseRightButtonUp += OnRightButtonUp;
             Host.Loaded += OnLoaded;
         }
 
         protected override void OnDetaching()
         {
+            if (_bindsDefault) SliderCompositeBehavior.SetSourceBindsToValue(Host, true);
+            
+            Host.MouseLeftButtonUp -= OnLeftButtonUp;
             Host.MouseRightButtonUp -= OnRightButtonUp;
-            Thumb.DragStarted -= OnDragStarted;
+            Thumb.DragCompleted -= OnThumbDragCompleted;
             Host.Loaded -= OnLoaded;
 
             _thumb = null;
-            _oldVal = 0d;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            Thumb.DragStarted += OnDragStarted;
+            Thumb.DragCompleted += OnThumbDragCompleted;
         }
 
-        private void OnDragStarted(object sender, DragStartedEventArgs args)
+        private void OnLeftButtonUp(object sender, MouseButtonEventArgs args)
         {
-            _oldVal = Host.Value;
+            SliderCompositeBehavior.SetSourceValue(Host, Host.Value);
+        }
+
+        private void OnThumbDragCompleted(object sender, DragCompletedEventArgs args)
+        {
+            SliderCompositeBehavior.SetSourceValue(Host, Host.Value);
         }
 
         private void OnRightButtonUp(object sender, MouseButtonEventArgs args)
         {
             if(Thumb.IsDragging)
             {
-                Host.Value = SliderCompositeBehavior.GetSourceBindsToValue(Host)
-                ? _oldVal
-                : SliderCompositeBehavior.GetSourceValue(Host);
+                Host.Value = SliderCompositeBehavior.GetSourceValue(Host);
                 Thumb.CancelDrag();
             }
         }

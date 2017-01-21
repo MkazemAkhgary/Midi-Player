@@ -31,9 +31,8 @@
                           Maximum="{Binding RuntimeDuration}">
             <i:Interaction.Behaviors>
                 <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}">
-                    <sb:LazySourceBindingBehavior />
-                    <sb:SmoothSlidingBehavior />
-                    <sb:FreeSlideBehavior />
+                    <sb:FreeSlidingBehavior />
+                    <!--<sb:SmoothSlidingBehavior />-->
                     <sb:LockOnDragBehavior />
                     <sb:CancellableDragBehavior />
                     <sb:KeepRatioBehavior />
@@ -86,7 +85,7 @@
                     TickFrequency="0.05" IsSnapToTickEnabled="True"
                     Value="{Binding PlaybackSpeed}">
                 <i:Interaction.Behaviors>
-                    <sb:FreeSlideBehavior />
+                    <sb:FreeSlidingBehavior />
                 </i:Interaction.Behaviors>
             </Slider>
         </Grid>

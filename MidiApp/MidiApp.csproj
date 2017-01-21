@@ -63,9 +63,8 @@
     <Compile Include="Behaviors\Composite\CompositeBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\CancellableDragBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\DragCompletedCommandBehavior.cs" />
-    <Compile Include="Behaviors\SliderBehaviors\FreeSlideBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehaviors\FreeSlidingBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\KeepRatioBehavior.cs" />
-    <Compile Include="Behaviors\SliderBehaviors\LazySourceBindingBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\LockOnDragBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\SmoothSlidingBehavior.cs" />
     <Compile Include="ContentControls\DebugPanel.xaml.cs">
