@@ -12,8 +12,11 @@ namespace MidiApp.Behaviors.SliderBehaviors
     /// </summary>
     public sealed class FreeSlideBehavior : Behavior<Slider>
     {
+        private Track _track;
+
         private Slider Host => AssociatedObject;
-        private Thumb Thumb => SliderCompositeBehavior.GetThumb(Host);
+        private Thumb Thumb => Track.Thumb;
+        private Track Track => _track ?? (_track = SliderCompositeBehavior.GetTrack(Host));
 
         protected override void OnAttached()
         {
@@ -23,12 +26,14 @@ namespace MidiApp.Behaviors.SliderBehaviors
         protected override void OnDetaching()
         {
             Host.MouseMove -= OnMouseMove;
+
+            _track = null;
         }
 
         private void OnMouseMove(object sender, MouseEventArgs args)
         {
             if (Thumb.IsDragging) return;
-            if (!Thumb.IsMouseOver) return;
+            if (!Track.IsMouseOver) return;
             if (args.LeftButton == MouseButtonState.Released) return;
 
             Thumb.RaiseEvent(new MouseButtonEventArgs(args.MouseDevice, args.Timestamp, MouseButton.Left)

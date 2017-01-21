@@ -67,6 +67,7 @@
     <Compile Include="Behaviors\SliderBehaviors\KeepRatioBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\LazySourceBindingBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\LockOnDragBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehaviors\SmoothSlidingBehavior.cs" />
     <Compile Include="ContentControls\DebugPanel.xaml.cs">
       <DependentUpon>DebugPanel.xaml</DependentUpon>
     </Compile>

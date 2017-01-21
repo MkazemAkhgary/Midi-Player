@@ -17,13 +17,7 @@
     <UserControl.DataContext>
         <cm:Player x:Name="Player"/>
     </UserControl.DataContext>
-    <Grid DataContext="{Binding Context}">
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="White"/>
-                <GradientStop Color="Black" Offset="0.75"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+    <Grid DataContext="{Binding Context}" Background="#CC26B0FF">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
@@ -37,12 +31,13 @@
                           Maximum="{Binding RuntimeDuration}">
             <i:Interaction.Behaviors>
                 <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}">
-                    <sb:LazySourceBindingBehavior/>
-                    <sb:FreeSlideBehavior/>
-                    <sb:LockOnDragBehavior/>
-                    <sb:CancellableDragBehavior/>
-                    <sb:KeepRatioBehavior/>
-                    <sb:DragCompletedCommandBehavior Command="{Binding SeekTo}"/>
+                    <sb:LazySourceBindingBehavior />
+                    <sb:SmoothSlidingBehavior />
+                    <sb:FreeSlideBehavior />
+                    <sb:LockOnDragBehavior />
+                    <sb:CancellableDragBehavior />
+                    <sb:KeepRatioBehavior />
+                    <sb:DragCompletedCommandBehavior Command="{Binding SeekTo}" />
                 </cs:SliderCompositeBehavior>
             </i:Interaction.Behaviors>
         </Slider>
@@ -84,18 +79,12 @@
                           Command="{Binding Toggle}"
                           CommandParameter="{Binding IsPlaybackLoaded}" 
                           Style="{DynamicResource PlaybackToggleStyle}"/>
-            <Slider Style="{DynamicResource SimpleSlider}"
-                    Grid.Column="2"
-                    Width="60"
-                    Margin="10,0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Maximum="1.6" 
-                    Minimum="0.4" 
-                    TickFrequency="0.05"
-                    IsSnapToTickEnabled="True"
-                    Value="{Binding PlaybackSpeed}"
-                    IsMoveToPointEnabled="True">
+            <Slider Style="{DynamicResource PlaybackSliderStyle}"
+                    Grid.Column="2" Width="60" Margin="10,0"
+                    VerticalAlignment="Center" HorizontalAlignment="Right"
+                    Maximum="1.6" Minimum="0.4" IsSelectionRangeEnabled="False"
+                    TickFrequency="0.05" IsSnapToTickEnabled="True"
+                    Value="{Binding PlaybackSpeed}">
                 <i:Interaction.Behaviors>
                     <sb:FreeSlideBehavior />
                 </i:Interaction.Behaviors>

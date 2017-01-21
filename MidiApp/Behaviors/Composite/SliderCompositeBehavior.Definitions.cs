@@ -5,16 +5,16 @@ namespace MidiApp.Behaviors.Composite
 {
     public sealed partial class SliderCompositeBehavior
     {
-        private static readonly DependencyPropertyKey ThumbKey =
+        private static readonly DependencyPropertyKey TrackKey =
             DependencyProperty.RegisterAttachedReadOnly(
-                nameof(ThumbKey),
-                typeof(Thumb),
+                nameof(TrackKey),
+                typeof(Track),
                 typeof(SliderCompositeBehavior),
                 new FrameworkPropertyMetadata(
-                    default(Thumb),
+                    default(Track),
                     FrameworkPropertyMetadataOptions.NotDataBindable));
 
-        private static readonly DependencyProperty ThumbProperty = ThumbKey.DependencyProperty;
+        private static readonly DependencyProperty TrackProperty = TrackKey.DependencyProperty;
 
         public static readonly DependencyProperty SourceValueProperty =
             DependencyProperty.Register(

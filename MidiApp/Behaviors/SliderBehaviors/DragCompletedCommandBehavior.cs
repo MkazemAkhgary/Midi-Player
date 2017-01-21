@@ -13,8 +13,10 @@ namespace MidiApp.Behaviors.SliderBehaviors
     /// </summary>
     public sealed class DragCompletedCommandBehavior : Behavior<Slider>
     {
+        private Thumb _thumb;
+
         private Slider Host => AssociatedObject;
-        private Thumb Thumb => SliderCompositeBehavior.GetThumb(Host);
+        private Thumb Thumb => _thumb ?? (_thumb = SliderCompositeBehavior.GetTrack(Host).Thumb);
 
         protected override void OnAttached()
         {
@@ -27,6 +29,8 @@ namespace MidiApp.Behaviors.SliderBehaviors
             Host.Loaded -= OnLoaded;
             Host.MouseLeftButtonUp -= OnLeftButtonUp;
             Thumb.DragCompleted -= OnThumbDragCompleted;
+
+            _thumb = null;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs args)

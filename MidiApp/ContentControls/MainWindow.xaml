@@ -12,9 +12,9 @@
         MinHeight="320" 
         MinWidth="300"
         x:Name="Window">
-    <Grid AllowDrop="True" Drop="Window_OnDrop">
+    <Grid AllowDrop="True" Drop="Window_OnDrop" Background="White">
         <cc:MenuBar VerticalAlignment="Top"/>
-        <cc:DebugPanel VerticalAlignment="Top" Margin="0,23"/>
+        <!--<cc:DebugPanel VerticalAlignment="Top" Margin="0,23"/>-->
         <cc:PlayerControl x:Name="PlayerControl" Height="60" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

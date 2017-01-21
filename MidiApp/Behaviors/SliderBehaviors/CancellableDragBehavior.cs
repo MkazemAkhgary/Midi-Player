@@ -12,8 +12,10 @@ namespace MidiApp.Behaviors.SliderBehaviors
     /// </summary>
     public class CancellableDragBehavior : Behavior<Slider>
     {
+        private Thumb _thumb;
+
         private Slider Host => AssociatedObject;
-        private Thumb Thumb => SliderCompositeBehavior.GetThumb(Host);
+        private Thumb Thumb => _thumb ?? (_thumb = SliderCompositeBehavior.GetTrack(Host).Thumb);
 
         private double _oldVal;
 
@@ -28,6 +30,9 @@ namespace MidiApp.Behaviors.SliderBehaviors
             Host.MouseRightButtonUp -= OnRightButtonUp;
             Thumb.DragStarted -= OnDragStarted;
             Host.Loaded -= OnLoaded;
+
+            _thumb = null;
+            _oldVal = 0d;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs args)

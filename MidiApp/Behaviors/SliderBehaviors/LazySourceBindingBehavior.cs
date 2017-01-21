@@ -9,12 +9,16 @@ namespace MidiApp.Behaviors.SliderBehaviors
 {
     public sealed class LazySourceBindingBehavior : Behavior<Slider>
     {
+        private Thumb _thumb;
+        private bool _bindsDefault;
+
         private Slider Host => AssociatedObject;
-        private Thumb Thumb => SliderCompositeBehavior.GetThumb(Host);
+        private Thumb Thumb => _thumb ?? (_thumb = SliderCompositeBehavior.GetTrack(Host).Thumb);
         
         protected override void OnAttached()
         {
-            SliderCompositeBehavior.SetSourceBindsToValue(Host, false);
+            _bindsDefault = SliderCompositeBehavior.GetSourceBindsToValue(Host);
+            if(!_bindsDefault) SliderCompositeBehavior.SetSourceBindsToValue(Host, false);
 
             Host.Loaded += OnLoaded;
             Host.MouseLeftButtonUp += OnLeftButtonUp;
@@ -22,11 +26,13 @@ namespace MidiApp.Behaviors.SliderBehaviors
 
         protected override void OnDetaching()
         {
-            SliderCompositeBehavior.SetSourceBindsToValue(Host, true);
+            SliderCompositeBehavior.SetSourceBindsToValue(Host, _bindsDefault);
 
             Host.Loaded -= OnLoaded;
             Host.MouseLeftButtonUp -= OnLeftButtonUp;
             Thumb.DragCompleted -= OnThumbDragCompleted;
+
+            _thumb = null;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs args)

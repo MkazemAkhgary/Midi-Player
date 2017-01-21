@@ -29,7 +29,7 @@ namespace MidiPlayer.PlayerComponents
             _control = new PlayerControl(data);
 
             Context.Toggle = DelegateCommand.Create(_control.Toggle, o => o as bool? ?? true);
-            Context.SeekTo = DelegateCommand.Create<double>(_control.SeekTo);
+            Context.SeekTo = DelegateCommand.Create<double>(d => _control.SeekTo(d < 0 ? 0 : d));
         }
 
         public void Stop()

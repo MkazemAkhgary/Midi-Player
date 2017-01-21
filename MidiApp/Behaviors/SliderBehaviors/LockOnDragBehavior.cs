@@ -11,8 +11,10 @@ namespace MidiApp.Behaviors.SliderBehaviors
     /// </summary>
     public sealed class LockOnDragBehavior : Behavior<Slider>
     {
+        private Thumb _thumb;
+
         private Slider Host => AssociatedObject;
-        private Thumb Thumb => SliderCompositeBehavior.GetThumb(Host);
+        private Thumb Thumb => _thumb ?? (_thumb = SliderCompositeBehavior.GetTrack(Host).Thumb);
 
         protected override void OnAttached()
         {

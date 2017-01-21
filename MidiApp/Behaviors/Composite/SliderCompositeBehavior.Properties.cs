@@ -24,18 +24,18 @@ namespace MidiApp.Behaviors.Composite
             return (double) GetReference(host).GetValue(SourceValueProperty);
         }
 
-        public static Thumb GetThumb(Slider host)
+        public static Track GetTrack(Slider host)
         {
             if (host == null)
                 throw new ArgumentNullException(nameof(host), $@"{nameof(host)} cant be null.");
 
-            var thumb = (Thumb) GetReference(host).GetValue(ThumbProperty);
-            if (thumb == null)
+            var track = (Track)GetReference(host).GetValue(TrackProperty);
+            if (track == null)
             {
-                thumb = ((Track) host.Template?.FindName("PART_Track", host))?.Thumb;
-                if (thumb != null) GetReference(host).SetValue(ThumbKey, thumb);
+                track = (Track)host.Template?.FindName("PART_Track", host);
+                if (track != null) GetReference(host).SetValue(TrackKey, track);
             }
-            return thumb;
+            return track;
         }
 
         public static bool GetValueBindsToSource(Slider host)

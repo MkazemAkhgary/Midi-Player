@@ -54,6 +54,10 @@ namespace MidiApp.Behaviors.SliderBehaviors
             MaximumPropertyDescriptor.RemoveValueChanged(Host, OnMaximumChanged);
             MinimumPropertyDescriptor.RemoveValueChanged(Host, OnMinimumChanged);
 
+            _oldMax = 1d;
+            _oldMin = 0d;
+            _oldVal = 0d;
+
             Host.ValueChanged -= OnValueChanged;
         }
 
