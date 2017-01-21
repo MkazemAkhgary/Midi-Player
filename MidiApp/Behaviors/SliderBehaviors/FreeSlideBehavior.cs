@@ -33,7 +33,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
         private void OnMouseMove(object sender, MouseEventArgs args)
         {
             if (Thumb.IsDragging) return;
-            if (!Track.IsMouseOver) return;
+            if (!Thumb.IsMouseOver) return;
             if (args.LeftButton == MouseButtonState.Released) return;
 
             Thumb.RaiseEvent(new MouseButtonEventArgs(args.MouseDevice, args.Timestamp, MouseButton.Left)

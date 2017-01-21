@@ -18,7 +18,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
         protected override void OnAttached()
         {
             _bindsDefault = SliderCompositeBehavior.GetSourceBindsToValue(Host);
-            if(!_bindsDefault) SliderCompositeBehavior.SetSourceBindsToValue(Host, false);
+            if(_bindsDefault) SliderCompositeBehavior.SetSourceBindsToValue(Host, false);
 
             Host.Loaded += OnLoaded;
             Host.MouseLeftButtonUp += OnLeftButtonUp;
@@ -26,7 +26,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
 
         protected override void OnDetaching()
         {
-            SliderCompositeBehavior.SetSourceBindsToValue(Host, _bindsDefault);
+            if(_bindsDefault) SliderCompositeBehavior.SetSourceBindsToValue(Host, true);
 
             Host.Loaded -= OnLoaded;
             Host.MouseLeftButtonUp -= OnLeftButtonUp;
