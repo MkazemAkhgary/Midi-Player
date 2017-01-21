@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Timers;
+using JetBrains.Annotations;
 
 namespace Utilities.Threading.Timers
 {
@@ -7,7 +9,8 @@ namespace Utilities.Threading.Timers
     {
         public event ElapsedEventHandler Elapsed;
 
-        private readonly Timer _timer;
+        [NotNull] private readonly Timer _timer;
+
         private volatile bool _gaurd;
 
         public SafeTimer()

@@ -20,6 +20,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
 
         private readonly Delegate _clickHandler;
         private bool _clicked;
+        private bool _handled;
 
         public FreeSlidingBehavior()
         {
@@ -42,19 +43,22 @@ namespace MidiApp.Behaviors.SliderBehaviors
             _thumb = null;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private void OnLoaded(object sender, RoutedEventArgs args)
         {
             Thumb.DragCompleted += OnDragCompleted;
         }
 
-        private void OnDragCompleted(object sender, DragCompletedEventArgs dragCompletedEventArgs)
+        private void OnDragCompleted(object sender, DragCompletedEventArgs args)
         {
             _clicked = false;
+            _handled = false;
         }
 
         private void OnMouseMove(object sender, MouseEventArgs args)
         {
-            if (Thumb.IsDragging || !_clicked || !Thumb.IsMouseOver) return;
+            if (Thumb.IsDragging || _handled || !_clicked || !Thumb.IsMouseOver) return;
+
+            _handled = true;
 
             Thumb.RaiseEvent(new MouseButtonEventArgs(args.MouseDevice, args.Timestamp, MouseButton.Left)
             {

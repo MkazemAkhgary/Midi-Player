@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using MidiApp.Behaviors.SliderBehaviors;
 
 namespace MidiApp.Behaviors.Composite
 {
@@ -43,5 +45,11 @@ namespace MidiApp.Behaviors.Composite
                 new FrameworkPropertyMetadata(
                     true,
                     FrameworkPropertyMetadataOptions.NotDataBindable));
+
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(
+                nameof(Command),
+                typeof(ICommand),
+                typeof(SliderCompositeBehavior));
     }
 }

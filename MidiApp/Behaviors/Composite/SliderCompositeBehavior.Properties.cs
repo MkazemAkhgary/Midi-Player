@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -8,9 +9,11 @@ namespace MidiApp.Behaviors.Composite
 {
     public sealed partial class SliderCompositeBehavior
     {
+        #region SourceValue
+
         public double SourceValue
         {
-            get { return (double)GetValue(SourceValueProperty); }
+            get { return (double) GetValue(SourceValueProperty); }
             set { SetValue(SourceValueProperty, value); }
         }
 
@@ -24,19 +27,35 @@ namespace MidiApp.Behaviors.Composite
             return (double) GetReference(host).GetValue(SourceValueProperty);
         }
 
+        #endregion
+
+        #region Track
+
         public static Track GetTrack(Slider host)
         {
             if (host == null)
                 throw new ArgumentNullException(nameof(host), $@"{nameof(host)} cant be null.");
 
-            var track = (Track)GetReference(host).GetValue(TrackProperty);
+            var track = (Track) GetReference(host).GetValue(TrackProperty);
             if (track == null)
             {
-                track = (Track)host.Template?.FindName("PART_Track", host);
+                track = (Track) host.Template?.FindName("PART_Track", host);
                 if (track != null) GetReference(host).SetValue(TrackKey, track);
             }
             return track;
         }
+
+        #endregion
+
+        #region Command
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+        #endregion
+        
+        #region Bindings        
 
         public static bool GetValueBindsToSource(Slider host)
         {
@@ -57,5 +76,7 @@ namespace MidiApp.Behaviors.Composite
         {
             SetValueByRef(host, SourceBindsToValueProperty, value);
         }
+
+        #endregion
     }
 }

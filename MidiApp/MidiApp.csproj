@@ -62,7 +62,6 @@
     <Compile Include="Behaviors\Composite\SliderCompositeBehavior.cs" />
     <Compile Include="Behaviors\Composite\CompositeBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\CancellableDragBehavior.cs" />
-    <Compile Include="Behaviors\SliderBehaviors\DragCompletedCommandBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\FreeSlidingBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\KeepRatioBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\LockOnDragBehavior.cs" />

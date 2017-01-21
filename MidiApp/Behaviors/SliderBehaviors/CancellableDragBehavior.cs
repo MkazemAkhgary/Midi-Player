@@ -35,7 +35,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
             
             Host.MouseLeftButtonUp -= OnLeftButtonUp;
             Host.MouseRightButtonUp -= OnRightButtonUp;
-            Thumb.DragCompleted -= OnThumbDragCompleted;
+            Thumb.DragCompleted -= OnDragCompleted;
             Host.Loaded -= OnLoaded;
 
             _thumb = null;
@@ -43,7 +43,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
 
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            Thumb.DragCompleted += OnThumbDragCompleted;
+            Thumb.DragCompleted += OnDragCompleted;
         }
 
         private void OnLeftButtonUp(object sender, MouseButtonEventArgs args)
@@ -51,7 +51,7 @@ namespace MidiApp.Behaviors.SliderBehaviors
             SliderCompositeBehavior.SetSourceValue(Host, Host.Value);
         }
 
-        private void OnThumbDragCompleted(object sender, DragCompletedEventArgs args)
+        private void OnDragCompleted(object sender, DragCompletedEventArgs args)
         {
             SliderCompositeBehavior.SetSourceValue(Host, Host.Value);
         }

@@ -30,13 +30,12 @@
                           VerticalAlignment="Center"
                           Maximum="{Binding RuntimeDuration}">
             <i:Interaction.Behaviors>
-                <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}">
+                <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}" Command="{Binding SeekTo}">
                     <sb:FreeSlidingBehavior />
                     <!--<sb:SmoothSlidingBehavior />-->
                     <sb:LockOnDragBehavior />
                     <sb:CancellableDragBehavior />
                     <sb:KeepRatioBehavior />
-                    <sb:DragCompletedCommandBehavior Command="{Binding SeekTo}" />
                 </cs:SliderCompositeBehavior>
             </i:Interaction.Behaviors>
         </Slider>
