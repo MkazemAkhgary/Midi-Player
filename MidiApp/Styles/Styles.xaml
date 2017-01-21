@@ -9,7 +9,7 @@
     <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="LightGray"/>
     <SolidColorBrush x:Key="Playback.Slider.Thumb.Border" Color="Black"/>
 
-    <KeyTime x:Key="Playback.Slider.Thumb.Animation.KeyTime">00:00:00.1</KeyTime>
+    <KeyTime x:Key="Playback.Slider.Thumb.Animation.KeyTime">00:00:00.05</KeyTime>
 
     <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
     <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
@@ -82,7 +82,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Grid Background="Transparent" IsHitTestVisible="True">
+                    <Grid Background="Transparent" IsHitTestVisible="True" Margin="0,-4">
                         <Rectangle Fill="{TemplateBinding Background}"
                                    Stroke="{TemplateBinding BorderBrush}"
                                    VerticalAlignment="Center"
@@ -102,11 +102,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Ellipse x:Name="ExplodingEllipse"
+                    <Grid Margin="-4" Background="Transparent">
+                        <Ellipse x:Name="ExplodingEllipse"
                             Fill="{TemplateBinding Background}"
                             Stroke="{TemplateBinding BorderBrush}"
                             IsHitTestVisible="True"
-                            StrokeThickness="1.5"/>
+                            StrokeThickness="1.5"
+                            Margin="4"/>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsDragging" Value="True">
                             <Setter Property="Fill" 
@@ -116,14 +119,12 @@
                         <EventTrigger RoutedEvent="Thumb.DragStarted">
                             <BeginStoryboard Name="Explode">
                                 <Storyboard BeginTime="00:00:00"
-                                            AccelerationRatio=".85"
-                                            SpeedRatio="0.75"
                                             TargetName="ExplodingEllipse">
                                     <ThicknessAnimationUsingKeyFrames
                                         Storyboard.TargetProperty="Margin">
                                         <SplineThicknessKeyFrame 
                                             KeyTime="{StaticResource Playback.Slider.Thumb.Animation.KeyTime}" 
-                                            Value="-4"/>
+                                            Value="0"/>
                                     </ThicknessAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames
                                         Storyboard.TargetProperty="StrokeThickness">
@@ -137,13 +138,12 @@
                         <EventTrigger RoutedEvent="Thumb.DragCompleted">
                             <BeginStoryboard Name="Implode">
                                 <Storyboard BeginTime="00:00:00"
-                                            DecelerationRatio="0.85"
-                                            SpeedRatio="0.75"
                                             TargetName="ExplodingEllipse">
                                     <ThicknessAnimationUsingKeyFrames 
                                         Storyboard.TargetProperty="Margin">
-                                        <SplineThicknessKeyFrame KeyTime="{StaticResource Playback.Slider.Thumb.Animation.KeyTime}"
-                                                                 Value="0"/>
+                                        <SplineThicknessKeyFrame 
+                                            KeyTime="{StaticResource Playback.Slider.Thumb.Animation.KeyTime}"
+                                            Value="4"/>
                                     </ThicknessAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames
                                         Storyboard.TargetProperty="StrokeThickness">
