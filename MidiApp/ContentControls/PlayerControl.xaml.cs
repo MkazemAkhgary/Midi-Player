@@ -61,7 +61,7 @@ namespace MidiApp.ContentControls
             {
                 var correction = selection.ActualWidth;
                 if (selection.ActualWidth + center > track.ActualWidth)
-                    correction -= center; // prevent going outside of bounds.
+                    correction = track.ActualWidth - center; // prevent going outside of bounds.
 
                 var ratio = correction/track.ActualWidth;
 
@@ -92,7 +92,8 @@ namespace MidiApp.ContentControls
             var init = selection.ActualWidth;
             if (selection.ActualWidth + center > track.ActualWidth) init -= center;
             border.Tag = init / track.ActualWidth;
-            storyboard.Begin();
+
+            storyboard.Begin(); // this will warm up animation to be ready for first time.
         }
     }
 }
