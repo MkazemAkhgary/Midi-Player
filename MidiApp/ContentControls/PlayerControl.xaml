@@ -83,13 +83,14 @@
                           Command="{Binding Toggle}"
                           CommandParameter="{Binding IsPlaybackLoaded}" 
                           Style="{DynamicResource PlaybackToggleStyle}"/>
-            
-            <Slider Style="{DynamicResource PlaybackSliderStyle}"
+
+            <Slider x:Name="Metronome"
+                    Style="{DynamicResource PlaybackSliderStyle}"
                     Grid.Column="2" Width="60" Margin="10,0"
                     HorizontalAlignment="Right"
                     Maximum="1.6" Minimum="0.4" IsSelectionRangeEnabled="False"
-                    TickFrequency="0.05" IsSnapToTickEnabled="True"
                     Value="{Binding PlaybackSpeed}">
+                <!--TickFrequency="0.05" IsSnapToTickEnabled="True"-->
                 <i:Interaction.Behaviors>
                     <sb:FreeSlidingBehavior />
                 </i:Interaction.Behaviors>
