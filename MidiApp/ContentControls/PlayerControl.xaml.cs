@@ -79,7 +79,7 @@ namespace MidiApp.ContentControls
 
             var init = selection.ActualWidth;
             if (selection.ActualWidth + center > track.ActualWidth) init -= center;
-            animation.To = init / track.ActualWidth;
+            border.Tag = init / track.ActualWidth;
             storyboard.Begin();
         }
     }
