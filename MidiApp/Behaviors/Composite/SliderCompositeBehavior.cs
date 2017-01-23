@@ -1,8 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedParameter.Local
@@ -15,14 +13,12 @@ namespace MidiApp.Behaviors.Composite
         {
             Host.Loaded += OnLoaded;
             Host.ValueChanged += OnValueChanged;
-            Host.PreviewMouseLeftButtonUp += OnLeftButtonUp;
         }
 
         protected override void OnSelfDetaching()
         {
             Host.Loaded -= OnLoaded;
             Host.ValueChanged -= OnValueChanged;
-            Host.PreviewMouseLeftButtonUp -= OnLeftButtonUp;
 
             GetTrack(Host).Thumb.DragCompleted -= OnDragCompleted;
         }
@@ -62,20 +58,12 @@ namespace MidiApp.Behaviors.Composite
         #endregion
 
         #region Raise Command
-        
-        private void OnLeftButtonUp(object sender, MouseButtonEventArgs args)
-        {
-            RaiseCommand(Host.Value); // in case move to point was enabled.
-        }
 
         private void OnDragCompleted(object sender, DragCompletedEventArgs args)
         {
             if (args.Canceled) return;
-            
-            if (Math.Abs(args.HorizontalChange) > 0)
-            {
-                RaiseCommand(Host.Value);
-            }
+
+            RaiseCommand(Host.Value);
         }
 
         private void RaiseCommand(double value)

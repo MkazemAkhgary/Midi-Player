@@ -8,29 +8,32 @@
              xmlns:sb="clr-namespace:MidiApp.Behaviors.SliderBehaviors"
              xmlns:cs="clr-namespace:MidiApp.Behaviors.Composite"
              xmlns:cm="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
-             mc:Ignorable="d"
+             mc:Ignorable="d" Loaded="OnLoaded"
              d:DesignHeight="60" 
              d:DesignWidth="300">
+    
     <UserControl.Resources>
         <cn:TimeSpanConverter x:Key="TimeSpanConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
         <cm:Player x:Name="Player"/>
     </UserControl.DataContext>
+    
     <Grid DataContext="{Binding Context}" Background="#CC26B0FF">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
+
         <Slider x:Name="PlaybackSlider"
                           Style="{DynamicResource PlaybackSliderStyle}"
                           Grid.Row="0"
                           Margin="10,0"
-                          VerticalAlignment="Center"
                           Maximum="{Binding RuntimeDuration}">
             <i:Interaction.Behaviors>
-                <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}" Command="{Binding SeekTo}">
+                <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}" 
+                                            Command="{Binding SeekTo}">
                     <sb:FreeSlidingBehavior />
                     <!--<sb:SmoothSlidingBehavior />-->
                     <sb:LockOnDragBehavior />
@@ -39,12 +42,14 @@
                 </cs:SliderCompositeBehavior>
             </i:Interaction.Behaviors>
         </Slider>
+        
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
+            
             <TextBlock Grid.Column="0"
                        Margin="12,0"
                        HorizontalAlignment="Left"
@@ -69,6 +74,7 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
+            
             <ToggleButton x:Name="ToggleButton"
                           Grid.Column="1"
                           VerticalAlignment="Center"
@@ -77,9 +83,10 @@
                           Command="{Binding Toggle}"
                           CommandParameter="{Binding IsPlaybackLoaded}" 
                           Style="{DynamicResource PlaybackToggleStyle}"/>
+            
             <Slider Style="{DynamicResource PlaybackSliderStyle}"
                     Grid.Column="2" Width="60" Margin="10,0"
-                    VerticalAlignment="Center" HorizontalAlignment="Right"
+                    HorizontalAlignment="Right"
                     Maximum="1.6" Minimum="0.4" IsSelectionRangeEnabled="False"
                     TickFrequency="0.05" IsSnapToTickEnabled="True"
                     Value="{Binding PlaybackSpeed}">

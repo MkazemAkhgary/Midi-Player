@@ -15,7 +15,6 @@
                 Multiselect="False" FileName="" DefaultExt="*.mid"
                 Filter="Midi(*.mid)|*.mid|All Files(*.*)|*.*" 
                 FileOk="FileDialog_OnFileOk"/>
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>
