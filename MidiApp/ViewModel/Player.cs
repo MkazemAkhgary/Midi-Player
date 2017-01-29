@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Win32;
 using Utilities.Presentation.Commands;
@@ -30,19 +31,21 @@ namespace MidiApp
                 Multiselect = true,
             };
 
-            OpenOrToggle = DelegateCommand.Create(OpenOrToggleImpl);
+            OpenOrToggle = DelegateCommand.CreateAsyncCommand(OpenOrToggleImpl);
+            Stop = DelegateCommand.CreateCommand(StopImpl);
 
-            Open = DelegateCommand.Create<string[]>(OpenImpl);
-            Close = DelegateCommand.Create(CloseImpl);
+            Open = DelegateCommand.CreateAsyncCommand<string[]>(OpenImpl);
+            Close = DelegateCommand.CreateCommand(CloseImpl);
 
-            Next = DelegateCommand.Create(NextImpl);
-            Previous = DelegateCommand.Create(PreviousImpl);
+            Next = DelegateCommand.CreateAsyncCommand(NextImpl);
+            Previous = DelegateCommand.CreateAsyncCommand(PreviousImpl);
 
             PlaybackList = new ObservableCollection<string>();
             MidiPlayer = new MidiPlayer();
         }
 
         [NotNull] public DelegateCommand OpenOrToggle { get; }
+        [NotNull] public DelegateCommand Stop { get; }
 
         [NotNull] public DelegateCommand Open { get; }
         [NotNull] public DelegateCommand Close { get; }
@@ -50,19 +53,23 @@ namespace MidiApp
         [NotNull] public DelegateCommand Next { get; }
         [NotNull] public DelegateCommand Previous { get; }
 
-        private void OpenOrToggleImpl()
+        private async Task OpenOrToggleImpl()
         {
             if (!PlaybackList.Any())
             {
-                Open.RaiseCommand();
-                return;
+                await Open.RaiseCommandAsync();
             }
 
             if (MidiPlayer.IsPlaying) MidiPlayer.Pause();
             else MidiPlayer.Start();
         }
 
-        private void OpenImpl(string[] fileNames)
+        private void StopImpl()
+        {
+            MidiPlayer.Stop();
+        }
+
+        private async Task OpenImpl(string[] fileNames)
         {
             if (fileNames == null)
             {
@@ -81,7 +88,7 @@ namespace MidiApp
                 PlaybackList.Add(fileName);
             }
 
-            Next.RaiseCommand();
+            await Next.RaiseCommandAsync();
         }
 
         private void CloseImpl()
@@ -90,12 +97,12 @@ namespace MidiApp
             MidiPlayer.Close();
         }
 
-        private async void NextImpl()
+        private async Task NextImpl()
         {
             await MidiPlayer.Open(PlaybackList[++_currentPlayback]);
         }
 
-        private async void PreviousImpl()
+        private async Task PreviousImpl()
         {
             await MidiPlayer.Open(PlaybackList[--_currentPlayback]);
         }

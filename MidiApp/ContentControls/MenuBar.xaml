@@ -8,9 +8,9 @@
     <Menu VerticalAlignment="Top"
           IsMainMenu="True">
         <MenuItem Header="File">
-            <MenuItem Header="Open" Command="Open" CommandTarget="{Binding Open}"/>
-            <MenuItem Header="Stop"/>
-            <MenuItem Header="Exit" Command="Stop"/>
+            <MenuItem Header="Open" Command="{Binding Open}"/>
+            <MenuItem Header="Stop" Command="{Binding Stop}"/>
+            <MenuItem Header="Exit" Click="MenuItem_Exit"/>
         </MenuItem>
         <MenuItem Header="View">
             <MenuItem Header="Device Info" Click="MenuItem_DeviceInfo"/>

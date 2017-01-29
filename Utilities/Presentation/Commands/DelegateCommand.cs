@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using JetBrains.Annotations;
 
@@ -12,39 +13,67 @@ namespace Utilities.Presentation.Commands
     public class DelegateCommand : ICommand
     {
         private readonly Action<object> _execute;
-        private readonly Predicate<object> _applicant;
+        private readonly Func<object, Task> _executeAsync;
 
-        private DelegateCommand(Action<object> execute, Predicate<object> applicant)
+        private readonly Predicate<object> _canExecute;
+
+        private DelegateCommand(Predicate<object> canExecute)
+        {
+            if (canExecute == null) throw new ArgumentNullException(nameof(canExecute));
+            
+            _canExecute = canExecute;
+        }
+
+        private DelegateCommand(Action<object> execute, Predicate<object> canExecute) : this(canExecute)
         {
             if (execute == null) throw new ArgumentNullException(nameof(execute));
-            if (applicant == null) throw new ArgumentNullException(nameof(applicant));
 
             _execute = execute;
-            _applicant = applicant;
+            _executeAsync = o => Task.Run(() => execute(o));
+        }
+
+        private DelegateCommand(Func<object, Task> executeAsync, Predicate<object> canExecute) : this(canExecute)
+        {
+            if (executeAsync == null) throw new ArgumentNullException(nameof(executeAsync));
+
+            _execute = o => executeAsync(o);
+            _executeAsync = executeAsync;
         }
 
         [NotNull]
-        public static DelegateCommand Create<T>(
+        public static DelegateCommand CreateCommand<T>(
             [NotNull] Action<T> execute, 
-            [CanBeNull] Predicate<T> applicant = null)
+            [CanBeNull] Predicate<T> canExecute = null)
         {
-            return new DelegateCommand(obj => execute((T) obj), obj => applicant?.Invoke((T) obj) ?? true);
+            return new DelegateCommand(
+                o => execute((T) o),
+                canExecute != null ? o => canExecute((T) o) : new Predicate<object>(o => true));
         }
 
         [NotNull]
-        public static DelegateCommand Create(
-            [NotNull] Action<object> execute,
-            [CanBeNull] Predicate<object> applicant = null)
-        {
-            return new DelegateCommand(execute, applicant ?? (_ => true));
-        }
-
-        [NotNull]
-        public static DelegateCommand Create(
+        public static DelegateCommand CreateCommand(
             [NotNull] Action execute,
-            [CanBeNull] Predicate<object> applicant = null)
+            [CanBeNull] Predicate<object> canExecute = null)
         {
-            return new DelegateCommand(_ => execute(), applicant ?? (_ => true));
+            return new DelegateCommand(o => execute(), canExecute ?? (o => true));
+        }
+
+        [NotNull]
+        public static DelegateCommand CreateAsyncCommand<T>(
+            [NotNull] Func<T, Task> executeAsync,
+            [CanBeNull] Predicate<T> canExecute = null)
+        {
+            return new DelegateCommand(
+                o => executeAsync((T) o),
+                canExecute != null ? o => canExecute((T)o) : new Predicate<object>(o => true));
+        }
+
+        [NotNull]
+        public static DelegateCommand CreateAsyncCommand(
+            [NotNull] Func<Task> executeAsync,
+            [CanBeNull] Predicate<object> canExecute = null)
+        {
+            return new DelegateCommand(o => executeAsync(), canExecute ?? (o => true));
         }
 
         public event EventHandler CanExecuteChanged;
@@ -56,20 +85,33 @@ namespace Utilities.Presentation.Commands
 
         public void RaiseCommand(object parameter = null, object canExecuteParameter = null)
         {
-            if (CanExecute(canExecuteParameter ?? parameter))
+            if (((ICommand) this).CanExecute(canExecuteParameter ?? parameter))
             {
-                Execute(parameter);
+                ((ICommand) this).Execute(parameter);
             }
         }
 
-        public bool CanExecute(object parameter = null)
+        public async Task RaiseCommandAsync(object parameter = null, object canExecuteParameter = null)
         {
-            return _applicant(parameter);
+            if (((ICommand) this).CanExecute(canExecuteParameter ?? parameter))
+            {
+                await ExecuteAsync(parameter);
+            }
         }
 
-        public void Execute(object parameter = null)
+        bool ICommand.CanExecute(object parameter)
+        {
+            return _canExecute(parameter);
+        }
+
+        void ICommand.Execute(object parameter)
         {
             _execute(parameter);
+        }
+
+        private async Task ExecuteAsync(object parameter = null)
+        {
+            await _executeAsync(parameter);
         }
     }
 }

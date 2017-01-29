@@ -8,7 +8,7 @@ namespace MidiApp.ContentControls
     /// </summary>
     public partial class MenuBar
     {
-        private MidiPlayer.PlayerComponents.MidiPlayer MidiPlayer => (MidiPlayer.PlayerComponents.MidiPlayer)DataContext;
+        private Player Player => (Player)DataContext;
 
         public MenuBar()
         {
@@ -22,7 +22,7 @@ namespace MidiApp.ContentControls
 
         private void MenuItem_DeviceInfo(object sender, RoutedEventArgs e)
         {
-            string info = MidiPlayer.GetMidiOutputDeviceInfo;
+            string info = Player.MidiPlayer.GetMidiOutputDeviceInfo;
 
             MessageBox.Show(
                 info,

@@ -28,7 +28,7 @@ namespace MidiPlayer.PlayerComponents
             Context = new PlayerVM(data);
             _control = new PlayerControl(data);
             
-            Context.SeekTo = DelegateCommand.Create<double>(d => _control.SeekTo(d < 0 ? 0 : d));
+            Context.SeekTo = DelegateCommand.CreateCommand<double>(_control.SeekTo);
         }
 
         public void Start()
