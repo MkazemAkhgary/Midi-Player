@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using JetBrains.Annotations;
 
 namespace MidiApp.Converters
 {
@@ -8,15 +9,17 @@ namespace MidiApp.Converters
     /// Converts double in milliseconds into well fromatted timespan.
     /// </summary>
     [ValueConversion(typeof(double), typeof(string))]
-    internal class TimeSpanConverter : IValueConverter
+    public sealed class TimeSpanConverter : IValueConverter
     {
+        [NotNull]
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var d = value as double?;
-            if (!d.HasValue) return null;
-
-            var time = TimeSpan.FromMilliseconds(d.Value);
-            return $@"{time.Days:#0:;;\}{time.Hours:#0:;;\}{time.Minutes:00:}{time.Seconds:00}";
+            if (value is double)
+            {
+                var time = TimeSpan.FromMilliseconds((double) value);
+                return $@"{time.Days:#0:;;\}{time.Hours:#0:;;\}{time.Minutes:00:}{time.Seconds:00}";
+            }
+            else return string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

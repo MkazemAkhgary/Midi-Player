@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Reflection;
 
-namespace MidiPlayer.VMComponents
+namespace Utilities.Presentation.NotifyPropertyChanged
 {
-    internal sealed class PropertyResetter
+    public sealed class PropertyResetter
     {
         private const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 

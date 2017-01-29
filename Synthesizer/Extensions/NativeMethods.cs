@@ -10,6 +10,8 @@ namespace Synthesizer.Extensions
 
     internal static class NativeMethods
     {
+        private const string WinmmDll = "winmm.dll";
+
         internal static class MidiOutput
         {
             #region Function Imports
@@ -37,8 +39,13 @@ namespace Synthesizer.Extensions
             /// Callback flag for opening the device.
             /// </param>
             /// <returns></returns>
-            [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutOpen(out IntPtr midiOut, uint deviceId, MidiOutProc callback, IntPtr instance, CALLBACK flags);
+            [DllImport(WinmmDll)]
+            internal static extern MMRESULT midiOutOpen(
+                [Out] out IntPtr midiOut, 
+                [In] uint deviceId, 
+                [In] MidiOutProc callback,
+                [In] IntPtr instance, 
+                [In] CALLBACK flags);
 
             /// <summary>
             /// closes the specified MIDI output device.
@@ -47,8 +54,8 @@ namespace Synthesizer.Extensions
             /// Handle to the MIDI output device.
             /// If the function is successful, the handle is no longer valid after the call to this function.
             /// </param>
-            [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutClose(IntPtr midiOut);
+            [DllImport(WinmmDll)]
+            internal static extern MMRESULT midiOutClose([In] IntPtr midiOut);
             #endregion
 
             #region //======================= Device Capabilities ========================
@@ -68,7 +75,10 @@ namespace Synthesizer.Extensions
             /// </param>
             /// <returns></returns>
             [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutGetDevCaps(IntPtr deviceId, ref MIDIOUTCAPS lpMidiOutCaps, uint cbMidiOutCaps);
+            internal static extern MMRESULT midiOutGetDevCaps(
+                [In] IntPtr deviceId, 
+                [In, Out] ref MIDIOUTCAPS lpMidiOutCaps,
+                [In] uint cbMidiOutCaps);
 
             /// <summary>
             /// retrieves the device identifier for the given MIDI output device.
@@ -76,7 +86,9 @@ namespace Synthesizer.Extensions
             /// <param name="midiOut">Handle to the MIDI output device.</param>
             /// <param name="deviceId">Pointer to a variable to be filled with the device identifier.</param>
             [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutGetID(IntPtr midiOut, [Out, MarshalAs(UnmanagedType.SysUInt)]out IntPtr deviceId);
+            internal static extern MMRESULT midiOutGetID(
+                [In] IntPtr midiOut, 
+                [Out, MarshalAs(UnmanagedType.SysUInt)] out IntPtr deviceId);
 
             /// <summary>
             /// retrieves the number of MIDI output devices present in the system.
@@ -101,7 +113,9 @@ namespace Synthesizer.Extensions
             /// and the high-order word contains the right-channel setting.
             /// </param>
             [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutGetVolume(IntPtr midiOut, IntPtr lpdwVolume);
+            internal static extern MMRESULT midiOutGetVolume(
+                [In] IntPtr midiOut, 
+                [In] IntPtr lpdwVolume);
 
             /// <summary>
             /// 
@@ -116,7 +130,9 @@ namespace Synthesizer.Extensions
             /// and the high-order word contains the right-channel setting. 
             /// </param>
             [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutSetVolume(IntPtr midiOut, uint dwVolume);
+            internal static extern MMRESULT midiOutSetVolume(
+                [In] IntPtr midiOut, 
+                [In] uint dwVolume);
             #endregion
 
             #region //======================= Playing Message(s) =========================
@@ -130,7 +146,9 @@ namespace Synthesizer.Extensions
             /// </param>
             /// <param name="dwMsg">MIDI message.</param>
             [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutShortMsg(IntPtr midiOut, uint dwMsg);
+            internal static extern MMRESULT midiOutShortMsg(
+                [In] IntPtr midiOut, 
+                [In] uint dwMsg);
 
             /// <summary>
             /// sends a system-exclusive MIDI message to the specified MIDI output device.
@@ -146,7 +164,10 @@ namespace Synthesizer.Extensions
             /// Size, in bytes, of the <see cref="MIDIHDR"/> structure.
             /// </param>
             [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutLongMsg(IntPtr midiOut, IntPtr lpMidiOutHdr, uint cbMidiOutHdr);
+            internal static extern MMRESULT midiOutLongMsg(
+                [In] IntPtr midiOut,
+                [In] IntPtr lpMidiOutHdr,
+                [In] uint cbMidiOutHdr);
 
             /// <summary>
             /// sends a message to the MIDI device drivers. 
@@ -162,7 +183,11 @@ namespace Synthesizer.Extensions
             /// <param name="dw1">Message parameter.</param>
             /// <param name="dw2">Message parameter.</param>
             [DllImport("winmm.dll")]
-            internal static extern uint midiOutMessage(IntPtr deviceId, uint msg, IntPtr dw1, IntPtr dw2);
+            internal static extern uint midiOutMessage(
+                [In] IntPtr deviceId,
+                [In] uint msg,
+                [In] IntPtr dw1,
+                [In] IntPtr dw2);
 
             /// <summary>
             /// turns off all notes on all MIDI channels for the specified MIDI output device.
@@ -172,7 +197,7 @@ namespace Synthesizer.Extensions
             /// This parameter can also be the handle of a MIDI stream cast to HMIDIOUT.
             /// </param>
             [DllImport("winmm.dll")]
-            internal static extern MMRESULT midiOutReset(IntPtr midiOut);
+            internal static extern MMRESULT midiOutReset([In] IntPtr midiOut);
             #endregion
 
             #region //========================= Error Processing =========================
@@ -185,7 +210,10 @@ namespace Synthesizer.Extensions
             /// <param name="cchText">Length, in characters, of the buffer pointed to by lpText.</param>
             /// <returns></returns>
             [DllImport("winmm.dll", BestFitMapping = false, ThrowOnUnmappableChar = true)]
-            internal static extern uint midiOutGetErrorText(MMRESULT mmrError, [MarshalAs(UnmanagedType.LPStr)]StringBuilder lpText, uint cchText);
+            internal static extern uint midiOutGetErrorText(
+                [In] MMRESULT mmrError, 
+                [In, Out, MarshalAs(UnmanagedType.LPStr)] StringBuilder lpText,
+                [In] uint cchText);
             #endregion
 
             #endregion

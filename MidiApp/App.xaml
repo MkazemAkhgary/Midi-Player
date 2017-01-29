@@ -1,20 +1,12 @@
 ﻿<Application x:Class="MidiApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:win32="clr-namespace:Microsoft.Win32;assembly=PresentationFramework"
              StartupUri="ContentControls/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Simple Styles.xaml"/>
                 <ResourceDictionary Source="Styles/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <win32:OpenFileDialog x:Key="FileDialog" 
-                Multiselect="False" FileName="" DefaultExt="*.mid"
-                Filter="Midi(*.mid)|*.mid|All Files(*.*)|*.*" 
-                FileOk="FileDialog_OnFileOk"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

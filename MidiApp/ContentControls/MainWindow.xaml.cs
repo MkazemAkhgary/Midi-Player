@@ -15,13 +15,12 @@ namespace MidiApp.ContentControls
             DataContext = PlayerControl.Player;
         }
 
-        private async void Window_OnDrop(object sender, DragEventArgs e)
+        private void Window_OnDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 var data = e.Data.GetData(DataFormats.FileDrop) as string[];
-
-                await App.LoadStream(data?[0]);
+                PlayerControl.Player.Open.RaiseCommand(data);
             }
         }
 

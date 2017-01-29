@@ -6,17 +6,11 @@
                     xmlns:converters="clr-namespace:MidiApp.Converters"
                     mc:Ignorable="d">
 
-    <converters:MultiplyConverter x:Key="MultiplyConverter"/>
-    
-    <SolidColorBrush x:Key="Playback.Slider.Brush" Color="White"/>
-    <SolidColorBrush x:Key="Playback.Slider.Border" Color="LightCyan"/>
-    <SolidColorBrush x:Key="Playback.Slider.SelectionRange" Color="Black"/>
+    <SolidColorBrush x:Key="Playback.Slider.Background" Color="White"/>
+    <SolidColorBrush x:Key="Playback.Slider.BorderBrush" Color="LightCyan"/>
+    <SolidColorBrush x:Key="Playback.Slider.Foreground" Color="Black"/>
 
-    <SolidColorBrush x:Key="Playback.Slider.Thumb.Brush" Color="White"/>
     <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="LightGray"/>
-    <SolidColorBrush x:Key="Playback.Slider.Thumb.Border" Color="Black"/>
-
-    <KeyTime x:Key="Playback.Slider.Thumb.Animation.KeyTime">00:00:00.05</KeyTime>
 
     <!-- playback repeat button style -->
     <Style x:Key="PlaybackScrollRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
@@ -25,13 +19,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="Transparent">
-                        <Rectangle Fill="{TemplateBinding Background}"
-                                   Stroke="{TemplateBinding BorderBrush}"
-                                   VerticalAlignment="Center"
-                                   StrokeThickness="0.5"
-                                   Height="3"/>
-                    </Border>
+                    <Border Background="Transparent"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -44,85 +32,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Canvas Background="Transparent" Width="1px"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- playback slider thumb decoy-->
-    <Style x:Key="PlaybackSliderThumbStyleShadow" TargetType="{x:Type ContentControl}">
-        <Setter Property="IsEnabled" Value="False"/>
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="IsHitTestVisible" Value="False"/>
-        <Setter Property="Width" Value="17"/>
-        <Setter Property="Height" Value="17"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <Border Background="Transparent">
-                        <Ellipse x:Name="Ellipse"
-                            Fill="{TemplateBinding Background}"
-                            Stroke="{TemplateBinding BorderBrush}"
-                            StrokeThickness="1.5"/>
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="True">
-
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard BeginTime="00:00:00"
-                                            Storyboard.TargetName="Ellipse">
-
-                                        <ThicknessAnimationUsingKeyFrames
-                                            Storyboard.TargetProperty="Margin">
-                                            <SplineThicknessKeyFrame 
-                                                KeyTime="{StaticResource Playback.Slider.Thumb.Animation.KeyTime}"
-                                                Value="-4"/>
-                                        </ThicknessAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames
-                                            Storyboard.TargetProperty="StrokeThickness">
-                                            <SplineDoubleKeyFrame 
-                                                KeyTime="{StaticResource Playback.Slider.Thumb.Animation.KeyTime}" 
-                                                Value="2"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard BeginTime="00:00:00"
-                                            Storyboard.TargetName="Ellipse">
-
-                                        <ThicknessAnimationUsingKeyFrames 
-                                            Storyboard.TargetProperty="Margin">
-                                            <SplineThicknessKeyFrame 
-                                                KeyTime="{StaticResource Playback.Slider.Thumb.Animation.KeyTime}"
-                                                Value="0"/>
-                                        </ThicknessAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames
-                                            Storyboard.TargetProperty="StrokeThickness">
-                                            <SplineDoubleKeyFrame 
-                                                KeyTime="{StaticResource Playback.Slider.Thumb.Animation.KeyTime}" 
-                                                Value="1.5"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-
-                            <Setter Property="Fill" 
-                                    Value="{StaticResource Playback.Slider.Thumb.Brush}" 
-                                    TargetName="Ellipse"/>
-                            <Setter Property="IsHitTestVisible" 
-                                    Value="True" 
-                                    TargetName="Ellipse"/>
-
-                        </Trigger>
-                    </ControlTemplate.Triggers>
+                    <!-- one pixel width takes account in hit testing to make the thumb draggable.-->
+                    <Border Background="Transparent" Width="1px"/> 
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -130,9 +41,9 @@
 
     <!-- playback slider style -->
     <Style x:Key="PlaybackSliderStyle" TargetType="{x:Type Slider}">
-        <Setter Property="Background" Value="{StaticResource Playback.Slider.Brush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Playback.Slider.Border}"/>
-        <Setter Property="Foreground" Value="{StaticResource Playback.Slider.SelectionRange}"/>
+        <Setter Property="Background" Value="{StaticResource Playback.Slider.Background}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Playback.Slider.BorderBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource Playback.Slider.Foreground}"/>
         <Setter Property="SelectionStart" Value="{Binding Minimum, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="SelectionEnd" Value="{Binding Value, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IsSelectionRangeEnabled" Value="True"/>
@@ -140,74 +51,149 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Slider}">
+                    <Grid>
+                        <Grid.Resources>
+                            <converters:MultiplyConverter x:Key="MultiplyConverter"/>
+                            <converters:ThicknessConverter x:Key="ThicknessConverter"/>
 
-                    <Grid Width="{TemplateBinding Width}"
-                          Height="{TemplateBinding Height}">
+                            <Thickness x:Key="Track.Thickness.Padding">0.5,0</Thickness>
 
-                        <Track x:Name="PART_Track">
-                            <Track.DecreaseRepeatButton>
-                                <RepeatButton x:Name="PART_SelectionRange"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    Background="{TemplateBinding Background}"
-                                    Style="{StaticResource PlaybackScrollRepeatButtonStyle}" 
-                                    Command="{x:Static Slider.DecreaseLarge}"/>
-                            </Track.DecreaseRepeatButton>
-                            <Track.IncreaseRepeatButton>
-                                <RepeatButton
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    Background="{TemplateBinding Background}"
-                                    Style="{StaticResource PlaybackScrollRepeatButtonStyle}" 
-                                    Command="{x:Static Slider.IncreaseLarge}"/>
-                            </Track.IncreaseRepeatButton>
-                            <Track.Thumb>
-                                <Thumb x:Name="Thumb"
-                                   Style="{StaticResource PlaybackSliderThumbStyle}"/>
-                            </Track.Thumb>
-                        </Track>
+                            <system:Double x:Key="Track.Height">4</system:Double>
+                            <system:Double x:Key="Track.Height.Half">2</system:Double>
 
-                        <WrapPanel VerticalAlignment="Center">
-                            <Border x:Name="Border" Margin="0,0,-8.5,0">
-                                <!-- Tag is used for animating width -->
-                                <Border.Tag>
-                                    <system:Double>0.0</system:Double>
-                                </Border.Tag>
+                            <system:Double x:Key="Thumb.Diameter">16</system:Double>
+                            <system:Double x:Key="Thumb.StrokeThickness">1.5</system:Double>
+                            <!--this value is harcoded in stroke animation.-->
+
+                            <Thickness x:Key="Track.Border.Thickness">0,1</Thickness>
+                            <Thickness x:Key="Track.Border.Correction">0,-1</Thickness>
+                        </Grid.Resources>
+                        <Grid.Margin>
+                            <Binding ElementName="Thumb_Shadow" Path="Width"
+                                     Converter="{StaticResource ThicknessConverter}"
+                                     ConverterParameter="{StaticResource Track.Thickness.Padding}"/>
+                        </Grid.Margin>
+                        <!-- Main border -->
+                        <Border Height="{StaticResource Track.Height}"
+                                BorderThickness="{StaticResource Track.Border.Thickness}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <!-- Selection range border (animated) -->
+                            <Border
+                                x:Name="Track_Border"
+                                Height="{StaticResource Track.Height}"
+                                Margin="{StaticResource Track.Border.Correction}"
+                                HorizontalAlignment="Left"
+                                Tag="{x:Static system:Double.Epsilon}"
+                                Background="{TemplateBinding Foreground}">
+                                <!--Animates width by animating Tag (ratio of selection range) -->
                                 <Border.Width>
                                     <MultiBinding Converter="{StaticResource MultiplyConverter}">
-                                        <Binding Path="ActualWidth" ElementName="PART_Track"/>
-                                        <Binding Path="Tag" RelativeSource="{RelativeSource Self}" />
+                                        <Binding RelativeSource="{RelativeSource Self}" Path="Tag"/>
+                                        <Binding ElementName="PART_Track" Path="ActualWidth"></Binding>
                                     </MultiBinding>
                                 </Border.Width>
+                                <!-- decoy Thumb (animated) -->
+                                <Border
+                                    x:Name="Thumb_Shadow"
+                                    HorizontalAlignment="Right"
+                                    Width="{StaticResource Thumb.Diameter}" 
+                                    Height="{StaticResource Thumb.Diameter}">
+                                    <Border.Resources>
+                                        <x:Array x:Key="ThicknessModifier" Type="Thickness">
+                                            <Thickness>-0.5</Thickness>
+                                            <!--Thickness Coefficient-->
+                                            <Thickness 
+                                                Top="{StaticResource Track.Height.Half}"
+                                                Bottom="{StaticResource Track.Height.Half}"/>
+                                            <!--Thickness Offset-->
+                                        </x:Array>
+                                    </Border.Resources>
+                                    <Border.Margin>
+                                        <Binding Path="Width"
+                                            RelativeSource="{RelativeSource Self}"
+                                            Converter="{StaticResource ThicknessConverter}"
+                                            ConverterParameter="{StaticResource ThicknessModifier}"/>
+                                    </Border.Margin>
+                                    <Ellipse 
+                                        x:Name="Thumb_Shadow_Ellipse"
+                                        Fill="{TemplateBinding Background}"
+                                        Stroke="{TemplateBinding Foreground}"
+                                        StrokeThickness="{StaticResource Thumb.StrokeThickness}"/>
+                                </Border>
                             </Border>
-                            <ContentControl x:Name="ThumbShadow"
-                                Style="{StaticResource PlaybackSliderThumbStyleShadow}"
-                                Background="{StaticResource Playback.Slider.Thumb.Brush}"
-                                BorderBrush="{StaticResource Playback.Slider.Thumb.Border}"/>
-                        </WrapPanel>
+                        </Border>
+                        <Border>
+                            <Track x:Name="PART_Track">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb"
+                                       Style="{StaticResource PlaybackSliderThumbStyle}"/>
+                                </Track.Thumb>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton x:Name="PART_SelectionRange"
+                                              Style="{StaticResource PlaybackScrollRepeatButtonStyle}"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource PlaybackScrollRepeatButtonStyle}"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Border>
                     </Grid>
-
                     <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsSelectionRangeEnabled" Value="True">
-                            <Setter Property="Background" 
-                                    Value="{StaticResource Playback.Slider.SelectionRange}" 
-                                    TargetName="PART_SelectionRange"/>
-                            <Setter Property="BorderBrush" 
-                                    Value="{StaticResource Playback.Slider.SelectionRange}" 
-                                    TargetName="PART_SelectionRange"/>
+                        <Trigger Property="IsSelectionRangeEnabled" Value="False">
+                            <Setter Property="Background" Value="{x:Null}" TargetName="Track_Border"/>
                         </Trigger>
 
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background"
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition SourceName="Thumb" Property="Thumb.IsDragging" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            
+                            <Setter Property="Fill"
                                     Value="{StaticResource Playback.Slider.Thumb.MouseOver}"
-                                    TargetName="ThumbShadow"/>
-                        </Trigger>
+                                    TargetName="Thumb_Shadow_Ellipse"/>
+                        </MultiTrigger>
 
                         <DataTrigger Binding="{Binding IsDragging, ElementName=Thumb}" Value="True">
-                            <Setter Property="IsEnabled"
-                                    Value="True"
-                                    TargetName="ThumbShadow"/>
+
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="00:00:00"
+                                                Storyboard.TargetName="Thumb_Shadow_Ellipse">
+
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
+                                            <SplineThicknessKeyFrame 
+                                                KeyTime="0:0:0.05"
+                                                Value="-4"/>
+                                        </ThicknessAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeThickness">
+                                            <SplineDoubleKeyFrame
+                                                KeyTime="0:0:0.05"
+                                                Value="2"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="00:00:00"
+                                                Storyboard.TargetName="Thumb_Shadow_Ellipse">
+
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
+                                            <SplineThicknessKeyFrame 
+                                                KeyTime="0:0:0.05"
+                                                Value="0"/>
+                                        </ThicknessAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeThickness">
+                                            <SplineDoubleKeyFrame 
+                                                KeyTime="0:0:0.05"
+                                                Value="1.5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
                         </DataTrigger>
-                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

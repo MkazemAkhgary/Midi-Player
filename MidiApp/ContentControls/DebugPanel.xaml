@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cm="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
              mc:Ignorable="d">
-    <StackPanel DataContext="{Binding DataContext.(cm:Player.Context), ElementName = UserControl}">
+    <StackPanel DataContext="{Binding DataContext.(cm:MidiPlayer.Context), ElementName = UserControl}">
         <Grid Margin="10,0">
             <TextBlock Text="IsPlaybackLoaded :"/>
             <TextBlock Text="{Binding IsPlaybackLoaded}" HorizontalAlignment="Right" />

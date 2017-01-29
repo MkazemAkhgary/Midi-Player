@@ -4,38 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:cn="clr-namespace:MidiApp.Converters"
              xmlns:sb="clr-namespace:MidiApp.Behaviors.SliderBehaviors"
              xmlns:cs="clr-namespace:MidiApp.Behaviors.Composite"
-             xmlns:cm="clr-namespace:MidiPlayer.PlayerComponents;assembly=MidiPlayer"
+             xmlns:this="clr-namespace:MidiApp"
+             xmlns:converters="clr-namespace:MidiApp.Converters"
              mc:Ignorable="d" Loaded="OnLoaded"
              d:DesignHeight="60" 
              d:DesignWidth="300">
-    
     <UserControl.Resources>
-        <cn:TimeSpanConverter x:Key="TimeSpanConverter" />
+        <converters:TimeSpanConverter x:Key="TimeSpanConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
-        <cm:Player x:Name="Player"/>
+        <this:Player x:Name="Player"/>
     </UserControl.DataContext>
-    
-    <Grid DataContext="{Binding Context}" Background="#CC26B0FF">
+    <Grid Background="#CC26B0FF">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.15*"/>
         </Grid.RowDefinitions>
 
         <Slider x:Name="PlaybackSlider"
                           Style="{DynamicResource PlaybackSliderStyle}"
                           Grid.Row="0"
-                          Margin="10,0"
-                          Maximum="{Binding RuntimeDuration}">
+                          Margin="5,0"
+                          Maximum="{Binding MidiPlayer.Context.RuntimeDuration}">
             <i:Interaction.Behaviors>
-                <cs:SliderCompositeBehavior SourceValue="{Binding RuntimePosition}" 
-                                            Command="{Binding SeekTo}">
+                <cs:SliderCompositeBehavior SourceValue="{Binding MidiPlayer.Context.RuntimePosition}" 
+                                            Command="{Binding MidiPlayer.Context.SeekTo}">
                     <sb:FreeSlidingBehavior />
-                    <!--<sb:SmoothSlidingBehavior />-->
                     <sb:LockOnDragBehavior />
                     <sb:CancellableDragBehavior />
                     <sb:KeepRatioBehavior />
@@ -74,14 +71,11 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            
-            <ToggleButton x:Name="ToggleButton"
+
+            <ToggleButton Command="{Binding OpenOrToggle}"
+                          IsChecked="{Binding MidiPlayer.Context.IsPlaybackPlaying, Mode=OneWay}"
                           Grid.Column="1"
                           VerticalAlignment="Center"
-                          Click="PlayButton_Open"
-                          IsChecked="{Binding IsPlaybackPlaying}"
-                          Command="{Binding Toggle}"
-                          CommandParameter="{Binding IsPlaybackLoaded}" 
                           Style="{DynamicResource PlaybackToggleStyle}"/>
 
             <Slider x:Name="Metronome"
@@ -89,7 +83,7 @@
                     Grid.Column="2" Width="60" Margin="10,0"
                     HorizontalAlignment="Right"
                     Maximum="1.6" Minimum="0.4" IsSelectionRangeEnabled="False"
-                    Value="{Binding PlaybackSpeed}">
+                    Value="{Binding MidiPlayer.Context.PlaybackSpeed}">
                 <!--TickFrequency="0.05" IsSnapToTickEnabled="True"-->
                 <i:Interaction.Behaviors>
                     <sb:FreeSlidingBehavior />

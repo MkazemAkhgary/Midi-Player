@@ -16,12 +16,6 @@ namespace MidiApp.ContentControls
         {
             InitializeComponent();
         }
-
-        private void PlayButton_Open(object sender, RoutedEventArgs e)
-        {
-            if (!Player.IsLoaded)
-                App.OpenFile();
-        }
         
         public void Dispose()
         {
@@ -34,22 +28,24 @@ namespace MidiApp.ContentControls
             AttachAnimation(Metronome);
         }
 
-        private void AttachAnimation(Slider slider)
+        private static void AttachAnimation(RangeBase slider)
         {
             var track = (Track)slider.Template.FindName("PART_Track", slider);
             var thumb = (Thumb)slider.Template.FindName("Thumb", slider);
-            var shadow = (ContentControl)slider.Template.FindName("ThumbShadow", slider);
+            var shadow = (Border)slider.Template.FindName("Thumb_Shadow", slider);
             var selection = (RepeatButton)slider.Template.FindName("PART_SelectionRange", slider);
-            var border = (Border)slider.Template.FindName("Border", slider);
+            var border = (Border)slider.Template.FindName("Track_Border", slider);
             var center = shadow.Width / 2;
 
-            DoubleAnimation animation = new DoubleAnimation
+            var animation = new DoubleAnimation
             {
+                To = selection.ActualWidth / track.ActualWidth,
                 DecelerationRatio = 1,
+                AccelerationRatio = 0,
                 Duration = TimeSpan.FromMilliseconds(200)
             };
 
-            Storyboard storyboard = new Storyboard
+            var storyboard = new Storyboard
             {
                 Children = new TimelineCollection { animation }
             };
@@ -59,11 +55,7 @@ namespace MidiApp.ContentControls
 
             Action beginAnimation = () =>
             {
-                var correction = selection.ActualWidth;
-                if (selection.ActualWidth + center > track.ActualWidth)
-                    correction = track.ActualWidth - center; // prevent going outside of bounds.
-
-                var ratio = correction/track.ActualWidth;
+                var ratio = selection.ActualWidth / track.ActualWidth;
 
                 if (animation.To == ratio)
                     return; // to prevent animation freeze when there is no need for animation change.
@@ -89,11 +81,7 @@ namespace MidiApp.ContentControls
             };
 
             // at startup initialize values.
-            var init = selection.ActualWidth;
-            if (selection.ActualWidth + center > track.ActualWidth) init -= center;
-            border.Tag = init / track.ActualWidth;
-
-            storyboard.Begin(); // this will warm up animation to be ready for first time.
+            border.Tag = selection.ActualWidth / track.ActualWidth;
         }
     }
 }

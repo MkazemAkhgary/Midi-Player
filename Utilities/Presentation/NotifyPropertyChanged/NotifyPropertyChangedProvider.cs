@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Utilities.Threading;
 
-namespace MidiPlayer.VMComponents
+namespace Utilities.Presentation.NotifyPropertyChanged
 {
     internal sealed class NotifyPropertyChangedProvider
     {

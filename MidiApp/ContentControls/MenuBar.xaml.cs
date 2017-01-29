@@ -1,7 +1,5 @@
 ﻿using System.Windows;
-using MidiPlayer.PlayerComponents;
 using static System.Windows.Application;
-using static MidiApp.App;
 
 namespace MidiApp.ContentControls
 {
@@ -10,24 +8,13 @@ namespace MidiApp.ContentControls
     /// </summary>
     public partial class MenuBar
     {
-        private Player Player => (Player)DataContext;
+        private MidiPlayer.PlayerComponents.MidiPlayer MidiPlayer => (MidiPlayer.PlayerComponents.MidiPlayer)DataContext;
 
         public MenuBar()
         {
             InitializeComponent();
         }
-
-        private void MenuItem_Open(object sender, RoutedEventArgs routedEventArgs)
-        {
-            OpenFile();
-            Player.Start();
-        }
-
-        private void MenuItem_Stop(object sender, RoutedEventArgs e)
-        {
-            Player.Stop();
-        }
-
+        
         private void MenuItem_Exit(object sender, RoutedEventArgs e)
         {
             Current.Shutdown();
@@ -35,7 +22,7 @@ namespace MidiApp.ContentControls
 
         private void MenuItem_DeviceInfo(object sender, RoutedEventArgs e)
         {
-            string info = Player.GetMidiOutputDeviceInfo;
+            string info = MidiPlayer.GetMidiOutputDeviceInfo;
 
             MessageBox.Show(
                 info,

@@ -11,16 +11,15 @@ namespace Synthesizer.Device
     /// </summary>
     public abstract class MidiDevice : SafeHandle
     {
-        private readonly IntPtr _invalidHandle;
+        private static readonly IntPtr InvalidHandle = IntPtr.Zero;
 
-        protected MidiDevice() : base(IntPtr.Zero, true)
+        protected MidiDevice() : base(InvalidHandle, true)
         {
-            _invalidHandle = IntPtr.Zero;
         }
 
         #region Properties
 
-        public override bool IsInvalid => handle == _invalidHandle;
+        public override bool IsInvalid => handle == InvalidHandle || IsClosed;
 
         protected static MMRESULT LastError
         {

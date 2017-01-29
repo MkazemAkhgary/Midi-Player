@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Input;
 using JetBrains.Annotations;
+using Utilities.Presentation.NotifyPropertyChanged;
 
 // ReSharper disable InconsistentNaming
 
 namespace MidiPlayer.PlayerComponents
 {
     using PlaybackComponents;
-    using VMComponents;
-    
+
     public class PlayerVM : NotifyPropertyChanged
     {
         internal PlayerVM([NotNull] PlaybackData data) : base(
@@ -65,9 +65,6 @@ namespace MidiPlayer.PlayerComponents
             get { return Data.PlaybackSpeed; }
             set { Data.PlaybackSpeed = value; }
         }
-
-        [NotNull]
-        public ICommand Toggle { get; internal set; }
 
         [NotNull]
         public ICommand SeekTo { get; internal set; }

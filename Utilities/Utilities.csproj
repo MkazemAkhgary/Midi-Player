@@ -41,6 +41,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Presentation\Commands\DelegateCommand.cs" />
     <Compile Include="IO\BinaryReaderAsync.cs" />
     <Compile Include="Comparers\ArrayComparer.cs" />
     <Compile Include="Extensions\NumericExtensions.cs" />
@@ -50,6 +51,9 @@
     <Compile Include="Collections\Grouping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Timers\SafeTimer.cs" />
+    <Compile Include="Presentation\NotifyPropertyChanged\NotifyPropertyChanged.cs" />
+    <Compile Include="Presentation\NotifyPropertyChanged\NotifyPropertyChangedProvider.cs" />
+    <Compile Include="Presentation\NotifyPropertyChanged\PropertyResetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

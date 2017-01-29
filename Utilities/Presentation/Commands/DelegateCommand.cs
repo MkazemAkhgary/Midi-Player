@@ -4,12 +4,12 @@ using JetBrains.Annotations;
 
 // ReSharper disable UnusedMember.Global
 
-namespace MidiPlayer.Commands
+namespace Utilities.Presentation.Commands
 {
     /// <summary>
     /// An <see cref="ICommand"/> whose delegates can be attached for Execute and CanExecute.
     /// </summary>
-    internal class DelegateCommand : ICommand
+    public class DelegateCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Predicate<object> _applicant;
@@ -54,12 +54,20 @@ namespace MidiPlayer.Commands
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public bool CanExecute(object parameter)
+        public void RaiseCommand(object parameter = null, object canExecuteParameter = null)
+        {
+            if (CanExecute(canExecuteParameter ?? parameter))
+            {
+                Execute(parameter);
+            }
+        }
+
+        public bool CanExecute(object parameter = null)
         {
             return _applicant(parameter);
         }
 
-        public void Execute(object parameter)
+        public void Execute(object parameter = null)
         {
             _execute(parameter);
         }

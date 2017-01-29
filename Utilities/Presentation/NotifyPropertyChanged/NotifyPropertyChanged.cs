@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace MidiPlayer.VMComponents
+namespace Utilities.Presentation.NotifyPropertyChanged
 {
     public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
@@ -68,7 +68,7 @@ namespace MidiPlayer.VMComponents
             if(_provider != null) OnPropertyChangedAsync(wait, name, target);
         }
 
-        internal void Reset()
+        public void Reset()
         {
             _resetter?.InvokeReset();
         }

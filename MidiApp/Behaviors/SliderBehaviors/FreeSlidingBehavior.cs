@@ -56,7 +56,8 @@ namespace MidiApp.Behaviors.SliderBehaviors
 
         private void OnMouseMove(object sender, MouseEventArgs args)
         {
-            if (Thumb.IsDragging || _handled || !_clicked || !Thumb.IsMouseOver) return;
+            if (_handled || !_clicked || !Host.IsMouseOver)
+                return;
 
             _handled = true;
 

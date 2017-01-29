@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Utilities.Presentation.Commands;
 
 namespace MidiPlayer.PlayerComponents
 {
     using MidiStream;
-    using Commands;
     using PlaybackComponents;
 
     /// <summary>
     /// Controls playback of a sound from a .mid file.
     /// </summary>
-    public sealed class Player : IDisposable
+    public sealed class MidiPlayer : IDisposable
     {
         private readonly PlayerControl _control;
 
@@ -22,24 +22,28 @@ namespace MidiPlayer.PlayerComponents
         public bool IsPlaying => Context.IsPlaybackPlaying;
         public string GetMidiOutputDeviceInfo => _control.GetOutputCapabilities.ToString();
 
-        public Player()
+        public MidiPlayer()
         {
             var data = new PlaybackData();
             Context = new PlayerVM(data);
             _control = new PlayerControl(data);
-
-            Context.Toggle = DelegateCommand.Create(_control.Toggle, o => o as bool? ?? true);
+            
             Context.SeekTo = DelegateCommand.Create<double>(d => _control.SeekTo(d < 0 ? 0 : d));
-        }
-
-        public void Stop()
-        {
-            if (Context.IsPlaybackLoaded) _control.Stop();
         }
 
         public void Start()
         {
             if (Context.IsPlaybackLoaded) _control.Start();
+        }
+
+        public void Pause()
+        {
+            if (Context.IsPlaybackLoaded) _control.Pause();
+        }
+
+        public void Stop()
+        {
+            if (Context.IsPlaybackLoaded) _control.Stop();
         }
 
         public async Task<bool> Open([NotNull] string path)
@@ -65,6 +69,7 @@ namespace MidiPlayer.PlayerComponents
 
         public void Close()
         {
+            if(IsPlaying) _control.Stop();
             _control?.Close();
         }
 

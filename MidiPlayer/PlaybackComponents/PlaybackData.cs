@@ -1,11 +1,11 @@
 ﻿using System;
 using MidiPlayer.PlayerComponents;
 using MidiStream.Components.Header;
+using Utilities.Presentation.NotifyPropertyChanged;
 
 namespace MidiPlayer.PlaybackComponents
 {
     using Extensions;
-    using VMComponents;
 
     /// <summary>
     /// Model for keeping playback data.
