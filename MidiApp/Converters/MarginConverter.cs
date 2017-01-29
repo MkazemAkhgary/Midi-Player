@@ -3,16 +3,18 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using JetBrains.Annotations;
+using MidiApp.Styles;
 
 namespace MidiApp.Converters
 {
     /// <summary>
-    /// returns thickness with value as uniform length,
+    /// returns thickness and sets given value to uniform length,
     /// array of thickness with length of two can be passed as parameter, 
     /// first element of parameter is used for thickness multiplication and second element is used for addition.
     /// note that multiplication has higher priority.
     /// </summary>
-    [ValueConversion(typeof(double), typeof(Thickness), ParameterType = typeof(Thickness[]))]
+    [ValueConversion(typeof(double), typeof(Thickness), ParameterType = typeof(Thickness))]
+    [ValueConversion(typeof(double), typeof(Thickness), ParameterType = typeof(ThicknessList))]
     public sealed class ThicknessConverter : IValueConverter
     {
         [NotNull]
@@ -21,11 +23,11 @@ namespace MidiApp.Converters
             if (value is double)
             {
                 var val = (double)value;
-                var param = parameter as Thickness[];
+                var param = parameter as ThicknessList;
 
-                if (param?.Length >= 1)
+                if (param?.Count >= 1)
                 {
-                    if (param.Length >= 2)
+                    if (param.Count >= 2)
                     {
                         return new Thickness(
                             val*param[0].Left + param[1].Left,

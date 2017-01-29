@@ -4,6 +4,7 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:converters="clr-namespace:MidiApp.Converters"
+                    xmlns:styles="clr-namespace:MidiApp.Styles"
                     mc:Ignorable="d">
 
     <SolidColorBrush x:Key="Playback.Slider.Background" Color="White"/>
@@ -41,6 +42,32 @@
 
     <!-- playback slider style -->
     <Style x:Key="PlaybackSliderStyle" TargetType="{x:Type Slider}">
+        
+        <Style.Resources>
+            <converters:MultiplyConverter x:Key="MultiplyConverter"/>
+            <converters:ThicknessConverter x:Key="ThicknessConverter"/>
+
+            <Thickness x:Key="Track.Thickness.Padding">0.5,0</Thickness>
+
+            <Thickness x:Key="Track.Border.Thickness">0,1</Thickness>
+            <Thickness x:Key="Track.Border.Correction">0,-1</Thickness>
+
+            <system:Double x:Key="Track.Height">4</system:Double>
+            <system:Double x:Key="Track.Height.Half">2</system:Double>
+
+            <system:Double x:Key="Thumb.Diameter">16</system:Double>
+            <system:Double x:Key="Thumb.StrokeThickness">1.5</system:Double>
+            <system:Double x:Key="Thumb.StrokeThickness.Expanded">2</system:Double>
+
+            <KeyTime x:Key="Thumb.Animation.KeyTime">00:00:00.05</KeyTime>
+
+            <styles:ThicknessList x:Key="ThicknessModifier">
+                <Thickness>-0.5</Thickness> <!--Thickness Coefficient-->
+                <Thickness Top="{StaticResource Track.Height.Half}"
+                           Bottom="{StaticResource Track.Height.Half}"/> <!--Thickness Offset-->
+            </styles:ThicknessList>
+        </Style.Resources>
+        
         <Setter Property="Background" Value="{StaticResource Playback.Slider.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource Playback.Slider.BorderBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource Playback.Slider.Foreground}"/>
@@ -51,28 +78,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Slider}">
-                    <Grid>
-                        <Grid.Resources>
-                            <converters:MultiplyConverter x:Key="MultiplyConverter"/>
-                            <converters:ThicknessConverter x:Key="ThicknessConverter"/>
-
-                            <Thickness x:Key="Track.Thickness.Padding">0.5,0</Thickness>
-
-                            <system:Double x:Key="Track.Height">4</system:Double>
-                            <system:Double x:Key="Track.Height.Half">2</system:Double>
-
-                            <system:Double x:Key="Thumb.Diameter">16</system:Double>
-                            <system:Double x:Key="Thumb.StrokeThickness">1.5</system:Double>
-                            <!--this value is harcoded in stroke animation.-->
-
-                            <Thickness x:Key="Track.Border.Thickness">0,1</Thickness>
-                            <Thickness x:Key="Track.Border.Correction">0,-1</Thickness>
-                        </Grid.Resources>
-                        <Grid.Margin>
-                            <Binding ElementName="Thumb_Shadow" Path="Width"
-                                     Converter="{StaticResource ThicknessConverter}"
-                                     ConverterParameter="{StaticResource Track.Thickness.Padding}"/>
-                        </Grid.Margin>
+                    <Grid
+                        Margin="{Binding 
+                            Path=Width,
+                            ElementName=Thumb_Shadow, 
+                            Converter={StaticResource ThicknessConverter},
+                            ConverterParameter={StaticResource Track.Thickness.Padding}}">
                         <!-- Main border -->
                         <Border Height="{StaticResource Track.Height}"
                                 BorderThickness="{StaticResource Track.Border.Thickness}"
@@ -98,23 +109,12 @@
                                     x:Name="Thumb_Shadow"
                                     HorizontalAlignment="Right"
                                     Width="{StaticResource Thumb.Diameter}" 
-                                    Height="{StaticResource Thumb.Diameter}">
-                                    <Border.Resources>
-                                        <x:Array x:Key="ThicknessModifier" Type="Thickness">
-                                            <Thickness>-0.5</Thickness>
-                                            <!--Thickness Coefficient-->
-                                            <Thickness 
-                                                Top="{StaticResource Track.Height.Half}"
-                                                Bottom="{StaticResource Track.Height.Half}"/>
-                                            <!--Thickness Offset-->
-                                        </x:Array>
-                                    </Border.Resources>
-                                    <Border.Margin>
-                                        <Binding Path="Width"
-                                            RelativeSource="{RelativeSource Self}"
-                                            Converter="{StaticResource ThicknessConverter}"
-                                            ConverterParameter="{StaticResource ThicknessModifier}"/>
-                                    </Border.Margin>
+                                    Height="{StaticResource Thumb.Diameter}"
+                                    Margin="{Binding 
+                                        Path=Width, 
+                                        RelativeSource={RelativeSource Self}, 
+                                        Converter={StaticResource ThicknessConverter}, 
+                                        ConverterParameter={StaticResource ThicknessModifier}}">
                                     <Ellipse 
                                         x:Name="Thumb_Shadow_Ellipse"
                                         Fill="{TemplateBinding Background}"
@@ -164,13 +164,13 @@
 
                                         <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
                                             <SplineThicknessKeyFrame 
-                                                KeyTime="0:0:0.05"
+                                                KeyTime="{StaticResource Thumb.Animation.KeyTime}"
                                                 Value="-4"/>
                                         </ThicknessAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeThickness">
                                             <SplineDoubleKeyFrame
-                                                KeyTime="0:0:0.05"
-                                                Value="2"/>
+                                                KeyTime="{StaticResource Thumb.Animation.KeyTime}"
+                                                Value="{StaticResource Thumb.StrokeThickness.Expanded}"/>
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -182,13 +182,13 @@
 
                                         <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
                                             <SplineThicknessKeyFrame 
-                                                KeyTime="0:0:0.05"
+                                                KeyTime="{StaticResource Thumb.Animation.KeyTime}"
                                                 Value="0"/>
                                         </ThicknessAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StrokeThickness">
                                             <SplineDoubleKeyFrame 
-                                                KeyTime="0:0:0.05"
-                                                Value="1.5"/>
+                                                KeyTime="{StaticResource Thumb.Animation.KeyTime}"
+                                                Value="{StaticResource Thumb.StrokeThickness}"/>
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>

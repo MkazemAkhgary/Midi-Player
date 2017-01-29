@@ -13,11 +13,12 @@
              d:DesignWidth="300">
     <UserControl.Resources>
         <converters:TimeSpanConverter x:Key="TimeSpanConverter" />
+        <SolidColorBrush x:Key="Player.Background" Color="#CC26B0FF"/>
     </UserControl.Resources>
     <UserControl.DataContext>
         <this:Player x:Name="Player"/>
     </UserControl.DataContext>
-    <Grid Background="#CC26B0FF">
+    <Grid Background="{StaticResource Player.Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
@@ -25,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <Slider x:Name="PlaybackSlider"
-                          Style="{DynamicResource PlaybackSliderStyle}"
+                          Style="{StaticResource PlaybackSliderStyle}"
                           Grid.Row="0"
                           Margin="5,0"
                           Maximum="{Binding MidiPlayer.Context.RuntimeDuration}">
@@ -76,15 +77,15 @@
                           IsChecked="{Binding MidiPlayer.Context.IsPlaybackPlaying, Mode=OneWay}"
                           Grid.Column="1"
                           VerticalAlignment="Center"
-                          Style="{DynamicResource PlaybackToggleStyle}"/>
+                          Style="{StaticResource PlaybackToggleStyle}"/>
 
             <Slider x:Name="Metronome"
-                    Style="{DynamicResource PlaybackSliderStyle}"
+                    Style="{StaticResource PlaybackSliderStyle}"
                     Grid.Column="2" Width="60" Margin="10,0"
                     HorizontalAlignment="Right"
                     Maximum="1.6" Minimum="0.4" IsSelectionRangeEnabled="False"
-                    Value="{Binding MidiPlayer.Context.PlaybackSpeed}">
-                <!--TickFrequency="0.05" IsSnapToTickEnabled="True"-->
+                    Value="{Binding MidiPlayer.Context.PlaybackSpeed}"
+                    TickFrequency="0.05" IsSnapToTickEnabled="True">
                 <i:Interaction.Behaviors>
                     <sb:FreeSlidingBehavior />
                 </i:Interaction.Behaviors>

@@ -119,6 +119,7 @@
     <Compile Include="Converters\MarginConverter.cs" />
     <Compile Include="Converters\MultiplyConverter.cs" />
     <Compile Include="Converters\TimeSpanConverter.cs" />
+    <Compile Include="Styles\ThicknessList.cs" />
     <Compile Include="ViewModel\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
