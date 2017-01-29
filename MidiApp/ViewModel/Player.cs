@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using Microsoft.Win32;
 using Utilities.Presentation.Commands;
 
-namespace MidiApp
+namespace MidiApp.ViewModel
 {
     using MidiPlayer.PlayerComponents;
 

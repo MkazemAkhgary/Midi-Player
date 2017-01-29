@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MidiApp.ViewModel;
 using static System.Windows.Application;
 
 namespace MidiApp.ContentControls

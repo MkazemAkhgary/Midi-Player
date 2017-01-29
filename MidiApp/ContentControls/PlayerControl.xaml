@@ -6,8 +6,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:sb="clr-namespace:MidiApp.Behaviors.SliderBehaviors"
              xmlns:cs="clr-namespace:MidiApp.Behaviors.Composite"
-             xmlns:this="clr-namespace:MidiApp"
              xmlns:converters="clr-namespace:MidiApp.Converters"
+             xmlns:viewModel="clr-namespace:MidiApp.ViewModel"
              mc:Ignorable="d" Loaded="OnLoaded"
              d:DesignHeight="60" 
              d:DesignWidth="300">
@@ -16,7 +16,7 @@
         <SolidColorBrush x:Key="Player.Background" Color="#CC26B0FF"/>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <this:Player x:Name="Player"/>
+        <viewModel:Player x:Name="Player"/>
     </UserControl.DataContext>
     <Grid Background="{StaticResource Player.Background}">
         <Grid.RowDefinitions>
