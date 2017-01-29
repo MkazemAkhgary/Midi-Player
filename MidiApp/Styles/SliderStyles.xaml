@@ -19,9 +19,11 @@
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
+                
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Border Background="Transparent"/>
                 </ControlTemplate>
+                
             </Setter.Value>
         </Setter>
     </Style>
@@ -32,10 +34,12 @@
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
+                
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <!-- one pixel width takes account in hit testing to make the thumb draggable.-->
                     <Border Background="Transparent" Width="1px"/> 
                 </ControlTemplate>
+                
             </Setter.Value>
         </Setter>
     </Style>
@@ -66,6 +70,7 @@
                 <Thickness Top="{StaticResource Track.Height.Half}"
                            Bottom="{StaticResource Track.Height.Half}"/> <!--Thickness Offset-->
             </styles:ThicknessList>
+            
         </Style.Resources>
         
         <Setter Property="Background" Value="{StaticResource Playback.Slider.Background}"/>
@@ -75,20 +80,23 @@
         <Setter Property="SelectionEnd" Value="{Binding Value, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="IsSelectionRangeEnabled" Value="True"/>
         <Setter Property="IsMoveToPointEnabled" Value="True"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Slider}">
-                    <Grid
-                        Margin="{Binding 
+                    
+                    <Grid Margin="{Binding 
                             Path=Width,
                             ElementName=Thumb_Shadow, 
                             Converter={StaticResource ThicknessConverter},
                             ConverterParameter={StaticResource Track.Thickness.Padding}}">
+                        
                         <!-- Main border -->
                         <Border Height="{StaticResource Track.Height}"
                                 BorderThickness="{StaticResource Track.Border.Thickness}"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}">
+                            
                             <!-- Selection range border (animated) -->
                             <Border
                                 x:Name="Track_Border"
@@ -97,6 +105,7 @@
                                 HorizontalAlignment="Left"
                                 Tag="{x:Static system:Double.Epsilon}"
                                 Background="{TemplateBinding Foreground}">
+                                
                                 <!--Animates width by animating Tag (ratio of selection range) -->
                                 <Border.Width>
                                     <MultiBinding Converter="{StaticResource MultiplyConverter}">
@@ -104,6 +113,7 @@
                                         <Binding ElementName="PART_Track" Path="ActualWidth"></Binding>
                                     </MultiBinding>
                                 </Border.Width>
+                                
                                 <!-- decoy Thumb (animated) -->
                                 <Border
                                     x:Name="Thumb_Shadow"
@@ -115,6 +125,7 @@
                                         RelativeSource={RelativeSource Self}, 
                                         Converter={StaticResource ThicknessConverter}, 
                                         ConverterParameter={StaticResource ThicknessModifier}}">
+                                    
                                     <Ellipse 
                                         x:Name="Thumb_Shadow_Ellipse"
                                         Fill="{TemplateBinding Background}"
@@ -123,23 +134,24 @@
                                 </Border>
                             </Border>
                         </Border>
-                        <Border>
-                            <Track x:Name="PART_Track">
-                                <Track.Thumb>
-                                    <Thumb x:Name="Thumb"
+                        
+                        <Track x:Name="PART_Track">
+                            <Track.Thumb>
+                                <Thumb x:Name="Thumb"
                                        Style="{StaticResource PlaybackSliderThumbStyle}"/>
-                                </Track.Thumb>
-                                <Track.DecreaseRepeatButton>
-                                    <RepeatButton x:Name="PART_SelectionRange"
+                            </Track.Thumb>
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton x:Name="PART_SelectionRange"
                                               Style="{StaticResource PlaybackScrollRepeatButtonStyle}"/>
-                                </Track.DecreaseRepeatButton>
-                                <Track.IncreaseRepeatButton>
-                                    <RepeatButton Style="{StaticResource PlaybackScrollRepeatButtonStyle}"/>
-                                </Track.IncreaseRepeatButton>
-                            </Track>
-                        </Border>
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource PlaybackScrollRepeatButtonStyle}"/>
+                            </Track.IncreaseRepeatButton>
+                        </Track>
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
+                        
                         <Trigger Property="IsSelectionRangeEnabled" Value="False">
                             <Setter Property="Background" Value="{x:Null}" TargetName="Track_Border"/>
                         </Trigger>
@@ -149,7 +161,6 @@
                                 <Condition Property="IsMouseOver" Value="True"/>
                                 <Condition SourceName="Thumb" Property="Thumb.IsDragging" Value="False"/>
                             </MultiTrigger.Conditions>
-                            
                             <Setter Property="Fill"
                                     Value="{StaticResource Playback.Slider.Thumb.MouseOver}"
                                     TargetName="Thumb_Shadow_Ellipse"/>
