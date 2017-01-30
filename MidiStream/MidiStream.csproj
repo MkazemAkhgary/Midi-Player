@@ -58,6 +58,7 @@
     <Compile Include="Components\Containers\Messages\VoiceMessage.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Exceptions\MidiStreamException.cs" />
+    <Compile Include="MidiStreamReader.Sync.cs" />
     <Compile Include="MidiStreamReader.Async.cs" />
     <Compile Include="MidiStreamReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

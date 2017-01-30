@@ -54,7 +54,7 @@ namespace MidiPlayer.PlayerComponents
             using (var reader = new MidiStreamReader(path))
             {
                 if(IsLoaded) Close();
-                var stream = await reader.GetStreamAsync();
+                var stream = await reader.GetStream();
                 return OpenStream(stream);
             }
         }

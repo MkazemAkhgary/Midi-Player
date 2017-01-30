@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 
 namespace Utilities.Extensions
@@ -30,6 +31,21 @@ namespace Utilities.Extensions
                     collection.Add((TChild)val);
                 }
                 else yield return val;
+            }
+        }
+
+        public static async Task AwaitForeach<TResult>(
+            [NotNull] this IEnumerable<Task<TResult>> awaitableEnumerable, 
+            [NotNull] Action<TResult> callback)
+        {
+            if(awaitableEnumerable == null)
+                throw new ArgumentNullException(nameof(awaitableEnumerable));
+            if(callback == null)
+                throw new ArgumentNullException(nameof(callback));
+
+            foreach (var task in awaitableEnumerable)
+            {
+                callback(await task);
             }
         }
 

@@ -44,7 +44,27 @@ namespace MidiStream.Components.Containers.Tracks
 
         #region Constructors
 
-        internal MidiTrack([NotNull] [ItemNotNull, NoEnumeration]IEnumerable<IMidiEvent<MidiMessage>> events)
+        private MidiTrack(
+            ReadOnlyGrouping<VoiceType, MidiEvent<VoiceMessage>> voiceEvents,
+            ReadOnlyGrouping<MetaType, MidiEvent<MetaMessage>> metaEvents,
+            ReadOnlyCollection<IMidiEvent<MidiMessage>> unknownEvents)
+        {
+            var e1 = voiceEvents.LastOrDefault()?.AbsoluteTicks ?? 0;
+            var e2 = metaEvents.LastOrDefault()?.AbsoluteTicks ?? 0;
+
+            TotalTicks = Math.Max(e1, e2);
+
+            UnknownEvents = unknownEvents;
+            VoiceEvents = voiceEvents;
+            MetaEvents = metaEvents;
+        }
+
+        #endregion Constructors
+
+        #region Factory Methods
+
+        internal static MidiTrack CreateTrack(
+            [NotNull, ItemNotNull, NoEnumeration] IEnumerable<IMidiEvent<MidiMessage>> events)
         {
             if (events == null) throw new ArgumentNullException(nameof(events));
 
@@ -52,17 +72,39 @@ namespace MidiStream.Components.Containers.Tracks
             var metaEvents = new Grouping<MetaType, MidiEvent<MetaMessage>>(k => k.Message.MetaType);
 
             // filter different events into their respective collection.
-            UnknownEvents = events.Sieve(voiceEvents).Sieve(metaEvents).ToReadOnlyCollection(x => x);
-            
-            // calculate total duration.
-            var e1 = voiceEvents.LastOrDefault()?.AbsoluteTicks ?? 0;
-            var e2 = metaEvents.LastOrDefault()?.AbsoluteTicks ?? 0;
-            TotalTicks = Math.Max(e1, e2);
+            var unknownEvents = events.Sieve(voiceEvents).Sieve(metaEvents).ToReadOnlyCollection(x => x);
 
-            VoiceEvents = voiceEvents.AsReadOnly();
-            MetaEvents = metaEvents.AsReadOnly();
+            return new MidiTrack(voiceEvents.AsReadOnly(), metaEvents.AsReadOnly(), unknownEvents);
         }
 
-        #endregion Constructors
+        internal static async Task<MidiTrack> CreateTrackAsync(
+            [NotNull, ItemNotNull, NoEnumeration] IEnumerable<Task<IMidiEvent<MidiMessage>>> events)
+        {
+            if (events == null) throw new ArgumentNullException(nameof(events));
+
+            var voiceEvents = new Grouping<VoiceType, MidiEvent<VoiceMessage>>(k => k.Message.VoiceType);
+            var metaEvents = new Grouping<MetaType, MidiEvent<MetaMessage>>(k => k.Message.MetaType);
+            var unknownEvents = new Collection<IMidiEvent<MidiMessage>>();
+
+            var actions = new Dictionary<Type, Action<IMidiEvent>>
+            {
+                {typeof(MidiEvent<VoiceMessage>), e => voiceEvents.Add((MidiEvent<VoiceMessage>) e)},
+                {typeof(MidiEvent<MetaMessage>), e => metaEvents.Add((MidiEvent<MetaMessage>) e)},
+                {typeof(IMidiEvent<MidiMessage>), e => unknownEvents.Add((IMidiEvent<MidiMessage>) e)}
+            };
+
+            // filter different events into their respective collection.
+            await events.AwaitForeach(e =>
+            {
+                actions[e.GetType()](e);
+            });
+
+            return new MidiTrack(
+                voiceEvents.AsReadOnly(),
+                metaEvents.AsReadOnly(),
+                unknownEvents.ToReadOnlyCollection(x => x));
+        }
+
+        #endregion
     }
 }

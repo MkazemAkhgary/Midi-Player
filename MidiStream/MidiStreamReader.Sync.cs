@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Utilities.Extensions;
 // ReSharper disable MemberCanBePrivate.Global
@@ -26,19 +25,19 @@ namespace MidiStream
         /// <summary>
         /// gets the parsed midi stream.
         /// </summary>
-        [ItemNotNull]
-        public async Task<MidiStream> GetStreamAsync()
+        [NotNull]
+        public MidiStream GetStreamSync()
         {
             if (_stream != null) return _stream;
 
             var name = Path.GetFileNameWithoutExtension(FullPath);
-             
+
             // read header
-            var header = await _reader.ReadChars(4);
-            var length = Reverse(await _reader.ReadInt32());
-            var type = Reverse(await _reader.ReadInt16());
-            var numberOfTracks = Reverse(await _reader.ReadInt16());
-            var timedivision = Reverse(await _reader.ReadInt16());
+            var header = _reader.ReadCharsSync(4);
+            var length = Reverse(_reader.ReadInt32Sync());
+            var type = Reverse(_reader.ReadInt16Sync());
+            var numberOfTracks = Reverse(_reader.ReadInt16Sync());
+            var timedivision = Reverse(_reader.ReadInt16Sync());
 
             // validate header
             if (!header.SequenceEqual("MThd") // check header
@@ -52,113 +51,111 @@ namespace MidiStream
             var tracks = new MidiTrack[numberOfTracks];
             for (int i = 0; i < numberOfTracks; i++)
             {
-                tracks[i] = await ReadTrackAsync();
+                tracks[i] = ReadTrack();
             }
 
-            var format = new MidiFormat((MidiType) type, timedivision);
+            var format = new MidiFormat((MidiType)type, timedivision);
 
             return _stream = new MidiStream(tracks, format, name);
         }
 
-        private async Task<MidiTrack> ReadTrackAsync()
+        private MidiTrack ReadTrack()
         {
-            var header = await _reader.ReadChars(4);
+            var header = _reader.ReadCharsSync(4);
             if (!header.SequenceEqual("MTrk")) // check header 
             {
                 throw new MidiStreamException(MidiException.TrackMissing);
             }
 
-            _totalTicks = 0;
-            long length = Reverse(await _reader.ReadInt32()); // bytes to read
-            long pos = _reader.Position;
-
-            return await MidiTrack.CreateTrackAsync(GetEventsAsync(length, pos));
+            return MidiTrack.CreateTrack(GetEvents());
         }
 
         /// <summary>
         ///  reads all events within the track.
         /// </summary>
         /// <returns>events within the track.</returns>
-        private IEnumerable<Task<IMidiEvent<MidiMessage>>> GetEventsAsync(long length, long basePosition)
+        private IEnumerable<IMidiEvent<MidiMessage>> GetEvents()
         {
-            while (_reader.Position - basePosition < length)
+            long totalTicks = 0L;
+            var length = Reverse(_reader.ReadInt32Sync()); // bytes to read
+            var pos = _reader.Position;
+
+            while (_reader.Position - pos < length)
             {
-                yield return ReadEventAsync();
+                yield return ReadEvent(ref totalTicks);
             }
         }
 
-        private async Task<IMidiEvent<MidiMessage>> ReadEventAsync()
+        private IMidiEvent<MidiMessage> ReadEvent(ref long totalTicks)
         {
-            _totalTicks += await _reader.Read7BitEncodedInt();
+            totalTicks += _reader.Read7BitEncodedIntSync();
 
             // parse message
-            var status = await _reader.ReadByte();
+            var status = _reader.ReadByteSync();
             bool omitted = (status & 0x80) == 0;
             if (omitted)
             {
                 status = _currentStatus;
-                await _reader.Seek(-1, SeekOrigin.Current); // step back
+                _reader.SeekSync(-1, SeekOrigin.Current); // step back
             }
             else
                 _currentStatus = status;
-            
+
             byte[] data;
 
 
             if (status >= 0x80 && status <= 0xEF) // voice message. most common
             {
-                data = new byte[] {status, await _reader.ReadByte(), 0, 0};
+                data = new byte[] { status, _reader.ReadByteSync(), 0, 0 };
 
                 if (status < 0xC0 || status > 0xDF)
                 {
-                    data[2] = await _reader.ReadByte();
+                    data[2] = _reader.ReadByteSync();
                 }
 
-                return new MidiEvent<VoiceMessage>(_totalTicks, CreateMessage<VoiceMessage>(data));
+                return new MidiEvent<VoiceMessage>(totalTicks, CreateMessage<VoiceMessage>(data));
             }
             else if (status == 0xFF) // meta message. 
             {
                 //if (omitted) throw new MidiStreamException(MidiException.UnknownStatus);
 
-                var type = await _reader.ReadByte();
-                var length = await _reader.ReadByte();
-                var content = await _reader.ReadBytes(length);
+                var type = _reader.ReadByteSync();
+                var length = _reader.ReadByteSync();
+                var content = _reader.ReadBytesSync(length);
                 data = new[] { status, type, length }.Concat(content).ToArray();
-                return new MidiEvent<MetaMessage>(_totalTicks, CreateMessage<MetaMessage>(data));
+                return new MidiEvent<MetaMessage>(totalTicks, CreateMessage<MetaMessage>(data));
             }
-            else if(status >= 0xF0 && status <= 0xF6) // system common message
+            else if (status >= 0xF0 && status <= 0xF6) // system common message
             {
+                if (status == 0xF0) // system exclusive message
+                {
+                    var id = _reader.ReadByteSync();
+                    var pos = _reader.Position;
+                    while (_reader.ReadByteSync() != 0x7F) { } // todo optimize
+                    var newpos = _reader.Position;
+                    var length = newpos - pos;
+                    _reader.SeekSync(-length, SeekOrigin.Current);
+                    data = new[] { status, id }.Concat(_reader.ReadBytesSync((int)length)).ToArray();
+                    return new MidiEvent<SysexMessage>(totalTicks, CreateMessage<SysexMessage>(data));
+                }
+
                 switch ((SystemCommon)status)
                 {
                     case SystemCommon.MidiTimeCodeQuarterFrame:
                     case SystemCommon.SongSelect:
-                        data = new[] {status, await _reader.ReadByte()};
+                        data = new[] { status, _reader.ReadByteSync() };
                         break;
-
                     case SystemCommon.SongPositionPointer:
-                        data = new[] {status, await _reader.ReadByte(), await _reader.ReadByte()};
+                        data = new[] { status, _reader.ReadByteSync(), _reader.ReadByteSync() };
                         break;
-
                     case SystemCommon.TuneRequest:
-                        data = new[] {status};
+                        data = new[] { status };
                         break;
-
-                    case SystemCommon.SysexMessage:  // system exclusive message
-
-                        var id = await _reader.ReadByte();
-                        var pos = _reader.Position;
-                        while (await _reader.ReadByte() != 0x7F) { } // todo optimize
-                        var newpos = _reader.Position;
-                        var length = newpos - pos;
-                        await _reader.Seek(-length, SeekOrigin.Current);
-                        data = new[] { status, id }.Concat(await _reader.ReadBytes((int)length)).ToArray();
-                        break;
-
                     default:
                         throw new MidiStreamException(MidiException.NotSupported);
                 }
 
-                return new MidiEvent<SysCommonMessage>(_totalTicks, CreateMessage<SysCommonMessage>(data));
+                return new MidiEvent<SysCommonMessage>(totalTicks, CreateMessage<SysCommonMessage>(data));
             }
             else if (status >= 0xF8 && status <= 0xFF) // system realtime
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Utilities.IO;
 
@@ -40,12 +41,15 @@ namespace MidiStream
         }
 
         /// <summary>
-        /// gets the parsed midi stream.
+        /// Get stream asynchronously or synchronously based on size of file.
         /// </summary>
+        /// <param name="maxSize">maximum size in bytes allowed in order to process file synchronously.</param>
+        /// <returns></returns>
         [NotNull]
-        public MidiStream GetStream()
+        public async Task<MidiStream> GetStream(long maxSize = 16384L)
         {
-            throw new NotImplementedException();
+            if (_reader.StreamSize <= maxSize) return GetStreamSync();
+            else return await GetStreamAsync();
         }
 
         public void Dispose()

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -29,6 +30,7 @@ namespace Utilities.Collections
     /// <summary>
     /// Represents a collection of grouped collections of items that have a common key.
     /// </summary>
+    [DebuggerDisplay("Count = {Count}")]
     public class Grouping<TKey, TValue> : IGrouping<TKey,TValue>
         where TValue : IComparable<TValue>
         where TKey : struct, IConvertible
@@ -267,6 +269,7 @@ namespace Utilities.Collections
     /// <summary>
     /// Represents a read-only collection of grouped read-only collections of items that have a common key.
     /// </summary>
+    [DebuggerDisplay("Count = {Count}")]
     public sealed class ReadOnlyGrouping<TKey, TValue> : IGrouping<TKey, TValue>, IReadOnlyList<TValue> 
         where TValue : IComparable<TValue>
         where TKey : struct, IConvertible
