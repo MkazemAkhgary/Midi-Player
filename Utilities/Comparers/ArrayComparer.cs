@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace Utilities.Comparers
 {
@@ -18,6 +19,7 @@ namespace Utilities.Comparers
             _comparer = EqualityComparer<T>.Default;
         }
 
+        [NotNull]
         public static ArrayComparer<T> Create()
         {
             return Singleton;
