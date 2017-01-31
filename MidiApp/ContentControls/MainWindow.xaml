@@ -2,14 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cc="clr-namespace:MidiApp.ContentControls"
-        Title="Midi Player" Closing="MainWindow_OnClosing"
+        Title="Midi Player" 
+        Closing="MainWindow_OnClosing"
         Height="320" Width="300"
         MinHeight="320" MinWidth="300">
 
     <Grid AllowDrop="True" Drop="Window_OnDrop" Background="White">
-        
-        <cc:MenuBar VerticalAlignment="Top"/>
+
+        <cc:MenuBar VerticalAlignment="Top" />
         <!--<cc:DebugPanel VerticalAlignment="Top" Margin="0,23"/>-->
-        <cc:PlayerControl x:Name="PlayerControl" Height="60" VerticalAlignment="Bottom"/>
+        <cc:PlayerControl x:Name="PlayerControl" Height="60" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

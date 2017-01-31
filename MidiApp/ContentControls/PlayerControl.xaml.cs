@@ -25,7 +25,6 @@ namespace MidiApp.ContentControls
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             AttachAnimation(PlaybackSlider);
-            AttachAnimation(Metronome);
         }
 
         private static void AttachAnimation(RangeBase slider)
