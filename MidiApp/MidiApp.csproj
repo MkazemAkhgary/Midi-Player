@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Animations\DoubleAnimationUsingDataBinding.cs" />
     <Compile Include="Behaviors\Composite\SliderCompositeBehavior.Properties.cs" />
     <Compile Include="Behaviors\Composite\SliderCompositeBehavior.Definitions.cs" />
     <Compile Include="Behaviors\Composite\SliderCompositeBehavior.cs" />

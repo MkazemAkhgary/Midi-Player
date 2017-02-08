@@ -18,7 +18,8 @@
             <SolidColorBrush x:Key="Playback.Slider.BorderBrush" Color="LightCyan" />
             <SolidColorBrush x:Key="Playback.Slider.Foreground" Color="Black" />
 
-            <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="LightGray" />
+            <Color x:Key="Playback.Slider.Thumb.Background">White</Color>
+            <Color x:Key="Playback.Slider.Thumb.MouseOver">LightGray</Color>
 
             <Thickness x:Key="Track.Thickness.Padding">0.5,0</Thickness>
 
@@ -32,6 +33,7 @@
             <system:Double x:Key="Thumb.StrokeThickness">1.5</system:Double>
             <system:Double x:Key="Thumb.StrokeThickness.Expanded">2</system:Double>
 
+            <system:TimeSpan x:Key="Thumb.Animation.BeginTime">00:00:00</system:TimeSpan>
             <KeyTime x:Key="Thumb.Animation.KeyTime">00:00:00.05</KeyTime>
 
             <styles:ThicknessList x:Key="ThicknessModifier">
@@ -98,9 +100,12 @@
 
                                     <Ellipse
                                         x:Name="Thumb_Shadow_Ellipse"
-                                        Fill="{TemplateBinding Background}"
                                         Stroke="{TemplateBinding Foreground}"
-                                        StrokeThickness="{StaticResource Thumb.StrokeThickness}" />
+                                        StrokeThickness="{StaticResource Thumb.StrokeThickness}">
+                                        <Ellipse.Fill>
+                                            <SolidColorBrush Color="{StaticResource Playback.Slider.Thumb.Background}"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
                                 </Border>
                             </Border>
                         </Border>
@@ -130,17 +135,39 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition SourceName="Thumb" Property="Thumb.IsDragging" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Fill"
-                                    Value="{StaticResource Playback.Slider.Thumb.MouseOver}"
-                                    TargetName="Thumb_Shadow_Ellipse" />
+                            
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="{StaticResource Thumb.Animation.BeginTime}"
+                                                TargetName="Thumb_Shadow_Ellipse">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Fill.Color">
+                                            <SplineColorKeyFrame 
+                                                KeyTime="{StaticResource Thumb.Animation.KeyTime}"
+                                                Value="{StaticResource Playback.Slider.Thumb.MouseOver}"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard BeginTime="{StaticResource Thumb.Animation.BeginTime}"
+                                                TargetName="Thumb_Shadow_Ellipse">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Fill.Color">
+                                            <SplineColorKeyFrame 
+                                                KeyTime="{StaticResource Thumb.Animation.KeyTime}"
+                                                Value="{StaticResource Playback.Slider.Thumb.Background}"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
                         </MultiTrigger>
 
                         <DataTrigger Binding="{Binding IsDragging, ElementName=Thumb}" Value="True">
 
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
-                                    <Storyboard BeginTime="00:00:00"
-                                                Storyboard.TargetName="Thumb_Shadow_Ellipse">
+                                    <Storyboard BeginTime="{StaticResource Thumb.Animation.BeginTime}"
+                                                TargetName="Thumb_Shadow_Ellipse">
 
                                         <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
                                             <SplineThicknessKeyFrame
@@ -157,8 +184,8 @@
                             </DataTrigger.EnterActions>
                             <DataTrigger.ExitActions>
                                 <BeginStoryboard>
-                                    <Storyboard BeginTime="00:00:00"
-                                                Storyboard.TargetName="Thumb_Shadow_Ellipse">
+                                    <Storyboard BeginTime="{StaticResource Thumb.Animation.BeginTime}"
+                                                TargetName="Thumb_Shadow_Ellipse">
 
                                         <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin">
                                             <SplineThicknessKeyFrame

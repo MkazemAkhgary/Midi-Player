@@ -25,9 +25,7 @@
                             <Canvas Width="55" Height="115">
 
                                 <!--body background-->
-                                <Path StrokeThickness="3.37511969" Fill="{TemplateBinding Background}"
-                                      StrokeMiterLimit="100" StrokeLineJoin="Round" StrokeStartLineCap="Flat"
-                                      StrokeEndLineCap="Flat" Opacity="0.61509548">
+                                <Path Fill="{TemplateBinding Background}" Opacity="0.61509548">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 14.146873 5.0129641 c 7.407624 -3.880942 16.555092 -3.4828717 24.031152 0 4.005192 35.2633049 8.010385 70.5266109 12.015577 105.7899159 -16.020768 0 -32.041537 0 -48.0623053 0 C 6.1364888 75.539575 10.141681 40.276269 14.146873 5.0129641 Z"
@@ -36,9 +34,7 @@
                                 </Path>
 
                                 <!--scale-->
-                                <Path StrokeThickness="0.54688996" Stroke="{TemplateBinding BorderBrush}"
-                                      Opacity="0.784313725" StrokeMiterLimit="4" StrokeLineJoin="Miter"
-                                      StrokeStartLineCap="Flat" StrokeEndLineCap="Flat">
+                                <Path StrokeThickness="0.54688996" Stroke="{TemplateBinding BorderBrush}" Opacity="0.784313725">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 26.162449 1.9015019 c 0 26.9660571 0 53.9321131 0 80.8981701"
@@ -46,9 +42,8 @@
                                     </Path.Data>
                                 </Path>
                                 <Path StrokeThickness="1.36722493" Stroke="{TemplateBinding Foreground}"
-                                      Opacity="0.56470588" StrokeMiterLimit="4"
-                                      StrokeDashArray="1.36722498, 2.73444996" StrokeLineJoin="Miter"
-                                      StrokeStartLineCap="Square" StrokeEndLineCap="Square">
+                                      Opacity="0.56470588"
+                                      StrokeDashArray="1.36722498, 2.73444996">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 26.162449 1.9015019 c 0 26.6549091 0 53.3098181 0 79.9647271"
@@ -57,9 +52,7 @@
                                 </Path>
 
                                 <!--chassis-->
-                                <Path Fill="{TemplateBinding Foreground}" StrokeThickness="2.73444986"
-                                      Stroke="{TemplateBinding Foreground}" StrokeMiterLimit="4" StrokeLineJoin="Round"
-                                      StrokeStartLineCap="Round" StrokeEndLineCap="Round" Opacity="0.90196078">
+                                <Path Fill="{TemplateBinding Foreground}" Opacity="0.90196078">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 2.1312977 110.80288 c 1.6020769 -9.3344 3.2041538 -18.668805 4.8062307 -28.003208 12.8166136 0 25.6332276 0 38.4498416 0 1.602077 9.334403 3.204154 18.668808 4.806231 28.003208 -16.020768 0 -32.041536 0 -48.0623033 0 z"
@@ -69,8 +62,7 @@
 
                                 <!--legs-->
                                 <Path StrokeThickness="3.28133988" Stroke="{TemplateBinding BorderBrush}"
-                                      StrokeMiterLimit="4" StrokeLineJoin="Round" StrokeStartLineCap="Round"
-                                      StrokeEndLineCap="Round">
+                                      StrokeStartLineCap="Round">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 9.3406425 113.29206 c 0 -0.82973 0 -1.65945 0 -2.48918"
@@ -78,8 +70,7 @@
                                     </Path.Data>
                                 </Path>
                                 <Path StrokeThickness="3.28133988" Stroke="{TemplateBinding BorderBrush}"
-                                      StrokeMiterLimit="4" StrokeLineJoin="Round" StrokeStartLineCap="Round"
-                                      StrokeEndLineCap="Round">
+                                      StrokeStartLineCap="Round">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 42.984256 113.29206 c 0 -0.82973 0 -1.65945 0 -2.48918"
@@ -88,9 +79,7 @@
                                 </Path>
 
                                 <!--hook-->
-                                <Path StrokeThickness="3.28133988" Stroke="{TemplateBinding BorderBrush}"
-                                      StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat"
-                                      StrokeEndLineCap="Flat">
+                                <Path StrokeThickness="3.28133988" Stroke="{TemplateBinding BorderBrush}">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 14.146873 5.0129641 c 8.010384 0 16.020768 0 24.031152 0"
@@ -100,8 +89,7 @@
 
                                 <!--body-->
                                 <Path StrokeThickness="3.37511969" Stroke="{TemplateBinding BorderBrush}"
-                                      StrokeMiterLimit="100" StrokeLineJoin="Round" StrokeStartLineCap="Flat"
-                                      StrokeEndLineCap="Flat" Opacity="1">
+                                      StrokeLineJoin="Round">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 14.146873 5.0129641 c 7.407624 -3.880942 16.555092 -3.4828717 24.031152 0 4.005192 35.2633049 8.010385 70.5266109 12.015577 105.7899159 -16.020768 0 -32.041537 0 -48.0623053 0 C 6.1364888 75.539575 10.141681 40.276269 14.146873 5.0129641 Z"
@@ -110,9 +98,7 @@
                                 </Path>
 
                                 <!--winding key-->
-                                <Path StrokeThickness="0.98660916" Stroke="{TemplateBinding BorderBrush}"
-                                      StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Flat"
-                                      StrokeEndLineCap="Flat">
+                                <Path StrokeThickness="0.98660916" Stroke="{TemplateBinding BorderBrush}" StrokeStartLineCap="Square">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 50.193602 93.039218 c 1.281661 0 2.563323 0 3.844984 0"
@@ -120,8 +106,7 @@
                                     </Path.Data>
                                 </Path>
                                 <Path StrokeThickness="1.97321832" Stroke="{TemplateBinding BorderBrush}"
-                                      StrokeMiterLimit="4" StrokeLineJoin="Miter" StrokeStartLineCap="Round"
-                                      StrokeEndLineCap="Round">
+                                      StrokeStartLineCap="Round" StrokeEndLineCap="Round">
                                     <Path.Data>
                                         <PathGeometry
                                             Figures="m 54.038586 90.001294 c 0 2.025283 0 4.050565 0 6.075848"

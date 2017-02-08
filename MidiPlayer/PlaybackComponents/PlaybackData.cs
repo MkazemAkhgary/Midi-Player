@@ -97,13 +97,13 @@ namespace MidiPlayer.PlaybackComponents
         public bool IsPlaying
         {
             get { return _play; }
-            set { SetValue(ref _play, value, target: nameof(PlayerVM.IsPlaybackPlaying)); }
+            set { SetValue(ref _play, value && _load, target: nameof(PlayerVM.IsPlaybackPlaying), forceNotify:true); }
         }
 
         public bool IsLoaded
         {
             get { return _load; }
-            set { SetValue(ref _load, value, target: nameof(PlayerVM.IsPlaybackLoaded)); }
+            set { SetValue(ref _load, value, target: nameof(PlayerVM.IsPlaybackLoaded), forceNotify:true); }
         }
 
         #endregion

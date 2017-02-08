@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace MidiApp.ContentControls
@@ -31,10 +32,8 @@ namespace MidiApp.ContentControls
         {
             var track = (Track)slider.Template.FindName("PART_Track", slider);
             var thumb = (Thumb)slider.Template.FindName("Thumb", slider);
-            var shadow = (Border)slider.Template.FindName("Thumb_Shadow", slider);
             var selection = (RepeatButton)slider.Template.FindName("PART_SelectionRange", slider);
             var border = (Border)slider.Template.FindName("Track_Border", slider);
-            var center = shadow.Width / 2;
 
             var animation = new DoubleAnimation
             {

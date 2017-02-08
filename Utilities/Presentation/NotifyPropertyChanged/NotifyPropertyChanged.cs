@@ -49,21 +49,20 @@ namespace Utilities.Presentation.NotifyPropertyChanged
         /// <summary>
         /// Sets the value of field. and notifies the target or caller if value changed.
         /// </summary>
-        protected void SetValue<T>(ref T field, T value, [CallerMemberName, NotNull] string name = "", [CanBeNull]string target = null)
+        protected void SetValue<T>(ref T field, T value, [CallerMemberName, NotNull] string name = "", [CanBeNull]string target = null, bool forceNotify = false)
         {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return;
+            if (EqualityComparer<T>.Default.Equals(field, value) && !forceNotify) return;
             field = value;
             if (_provider != null) OnPropertyChanged(name, target);
         }
 
         /// <summary>
-        /// Sets the value of field. and notifies the target or caller if value changed and aquires a wait for specified amount of time if wait is not aquired.
+        /// Sets the value of field. reserves notify property changed for next time after wait period is elapsed. note that final value of property is notified to the target regardless of what value was passed to this method.
         /// </summary>
         protected void SetValueDelayed<T>(ref T field, T value, int wait, [CallerMemberName, NotNull] string name = "", [CanBeNull]string target = null)
         {
             if (wait < 0) throw new ArgumentOutOfRangeException(nameof(wait));
-
-            if (EqualityComparer<T>.Default.Equals(field, value)) return;
+            
             field = value;
             if(_provider != null) OnPropertyChangedAsync(wait, name, target);
         }

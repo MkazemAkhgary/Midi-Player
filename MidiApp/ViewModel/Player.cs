@@ -58,10 +58,12 @@ namespace MidiApp.ViewModel
             if (!PlaybackList.Any())
             {
                 await Open.RaiseCommandAsync();
+                
+                if(MidiPlayer.IsLoaded) MidiPlayer.Start();
             }
 
-            if (MidiPlayer.IsPlaying) MidiPlayer.Pause();
-            else MidiPlayer.Start();
+            if (MidiPlayer.IsPlaying) MidiPlayer.Start(); 
+            else MidiPlayer.Pause();
         }
 
         private void StopImpl()

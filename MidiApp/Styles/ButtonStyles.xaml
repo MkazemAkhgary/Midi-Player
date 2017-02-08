@@ -19,54 +19,61 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
 
-                    <Border x:Name="border"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}"
-                            SnapsToDevicePixels="True"
-                            UseLayoutRounding="True">
-
-                        <ContentPresenter x:Name="contentPresenter"
-                                          Focusable="False"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          Margin="{TemplateBinding Padding}"
-                                          RecognizesAccessKey="True"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
-                    </Border>
+                    <Viewbox Stretch="Uniform">
+                        <Canvas Width="100" Height="100">
+                            <Ellipse Stroke="Black" StrokeThickness="6" Fill="#ACFFFFFF" Width="100" Height="100"/>
+                            <Path x:Name="PlayContent" Fill="White" StrokeThickness="4" Stroke="Black">
+                                <Path.Data>
+                                    M 70.5979,50.0001 
+                                    C 70.5979,51.3886 68.9055,53.362 66.2881,55.4977 
+                                    63.6706,57.6333 60.1282,59.9312 56.4281,61.9687 
+                                    49.028,66.0437 40.9975,69.0773 38.476,67.6888 
+                                    35.9544,66.3002 34.6936,58.1501 34.6936,50.0001 
+                                    34.6936,41.85 35.9544,33.6999 38.476,32.3114 
+                                    40.9975,30.9228 49.028,33.9564 56.4281,38.0315
+                                    60.1282,40.069 63.6706,42.3668 66.2881,44.5025 
+                                    68.9055,46.6381 70.5979,48.6115 70.5979,50.0001 
+                                    Z
+                                </Path.Data>
+                            </Path>
+                            <Path x:Name="TransContent" Fill="White" StrokeThickness="4" Stroke="Black" Visibility="Hidden" >
+                                <Path.Data>
+                                    M 59,50.0001
+                                    C 59,52.4854 57.9926,54.7354 56.3639,56.3641 
+                                    54.7352,57.9928 52.4852,59.0001 49.9999,59.0001 
+                                    47.5146,59.0001 45.2646,57.9928 43.6359,56.3641 
+                                    42.0072,54.7354 40.9999,52.4854 40.9999,50.0001
+                                    40.9999,47.5148 42.0072,45.2648 43.6359,43.6361 
+                                    45.2646,42.0074 47.5146,41 49.9999,41 
+                                    52.4852,41 54.7352,42.0074 56.3639,43.6361 
+                                    57.9926,45.2648 59,47.5148 59,50.0001
+                                    Z
+                                </Path.Data>
+                            </Path>
+                            <Path x:Name="PauseContent" Fill="White" StrokeThickness="4" Stroke="Black" StrokeLineJoin="Round" Visibility="Hidden">
+                                <Path.Data>
+                                    M 37.0001,32 
+                                    V 67.9999 
+                                    H 44.1302 
+                                    V 32 
+                                    Z
+                                    M 55.8694,32 
+                                    V 67.9999 
+                                    H 63 
+                                    V 32 
+                                    Z
+                                </Path.Data>
+                            </Path>
+                        </Canvas>
+                    </Viewbox>
+                    <!-- =================================== Play Animation =================================== -->
                     <ControlTemplate.Triggers>
-                        
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Content" Value="Play" />
-                        </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Content" Value="Pause" />
-                        </Trigger>
-                        
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="border"
-                                    Value="{StaticResource Button.MouseOver.Background}" />
-                            <Setter Property="BorderBrush" TargetName="border"
-                                    Value="{StaticResource Button.MouseOver.Border}" />
-                        </Trigger>
-                        
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="border"
-                                    Value="{StaticResource Button.Pressed.Background}" />
-                            <Setter Property="BorderBrush" TargetName="border"
-                                    Value="{StaticResource Button.Pressed.Border}" />
-                        </Trigger>
-                        
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="border"
-                                    Value="{StaticResource Button.Disabled.Background}" />
-                            <Setter Property="BorderBrush" TargetName="border"
-                                    Value="{StaticResource Button.Disabled.Border}" />
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter"
-                                    Value="{StaticResource Button.Disabled.Foreground}" />
+                            <Setter Property="Visibility" Value="Hidden" TargetName="PlayContent"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="PauseContent"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
