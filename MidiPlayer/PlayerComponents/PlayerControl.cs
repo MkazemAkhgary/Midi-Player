@@ -40,7 +40,7 @@ namespace MidiPlayer.PlayerComponents
                 throw new InvalidOperationException("Player is already initialized and must be closed before re-initialization.");
             
             _isInitialized = true;
-            _timer.ReInitialize(stream.Format.TimeDivision);
+            _timer.Initialize(stream.Format.TimeDivision);
             _control.Initialize(stream.Tracks);
         }
 

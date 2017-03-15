@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using JetBrains.Annotations;
 
 namespace MidiStream.Components.Containers.Events
@@ -8,6 +9,7 @@ namespace MidiStream.Components.Containers.Events
     /// <summary>
     /// Initializes a new instance of <see cref="MidiEvent{TMessage}"/> which containins data required to sent over MIDI device at a certain time.
     /// </summary>
+    [DebuggerDisplay("MidiEvent<{this.GetType().GenericTypeArguments[0].Name}>")]
     public class MidiEvent<TMessage> : IMidiEvent<TMessage> where TMessage : MidiMessage
     {
         internal MidiEvent(long ticks, [NotNull] TMessage message)

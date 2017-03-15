@@ -118,7 +118,7 @@
 
                         <Track Orientation="Vertical" x:Name="PART_Track">
                             <Track.Thumb>
-                                <Thumb x:Name="Thumb" Style="{DynamicResource HiddenThumbStyle}" />
+                                <Thumb x:Name="Thumb" Style="{DynamicResource MetronomeThumbStyle}" />
                             </Track.Thumb>
                             <Track.DecreaseRepeatButton>
                                 <RepeatButton x:Name="PART_SelectionRange"

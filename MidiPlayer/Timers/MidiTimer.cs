@@ -29,10 +29,10 @@ namespace MidiPlayer.Timers
             _stopwatch = new Stopwatch();
             _timer = new SafeTimer();
             _timer.Elapsed += OnTimerTick;
-            ReInitialize(TimeDivision.Default);
+            Initialize(TimeDivision.Default);
         }
 
-        public void ReInitialize([NotNull] TimeDivision division)
+        public void Initialize([NotNull] TimeDivision division)
         {
             if (division == null) throw new ArgumentNullException(nameof(division));
 

@@ -90,7 +90,10 @@ namespace MidiStream.Components.Containers.Tracks
             {
                 {typeof(MidiEvent<VoiceMessage>), e => voiceEvents.Add((MidiEvent<VoiceMessage>) e)},
                 {typeof(MidiEvent<MetaMessage>), e => metaEvents.Add((MidiEvent<MetaMessage>) e)},
-                {typeof(IMidiEvent<MidiMessage>), e => unknownEvents.Add((IMidiEvent<MidiMessage>) e)}
+
+                {typeof(MidiEvent<SysexMessage>), e => unknownEvents.Add((IMidiEvent<MidiMessage>) e)},
+                {typeof(MidiEvent<SysRealtimeMessage>), e => unknownEvents.Add((IMidiEvent<MidiMessage>) e)},
+                {typeof(MidiEvent<SysCommonMessage>), e => unknownEvents.Add((IMidiEvent<MidiMessage>) e)},
             };
 
             // filter different events into their respective collection.

@@ -20,7 +20,7 @@ namespace Utilities.Presentation.Commands
         private DelegateCommand(Predicate<object> canExecute)
         {
             if (canExecute == null) throw new ArgumentNullException(nameof(canExecute));
-            
+
             _canExecute = canExecute;
         }
 
@@ -42,7 +42,7 @@ namespace Utilities.Presentation.Commands
 
         [NotNull]
         public static DelegateCommand CreateCommand<T>(
-            [NotNull] Action<T> execute, 
+            [NotNull] Action<T> execute,
             [CanBeNull] Predicate<T> canExecute = null)
         {
             return new DelegateCommand(
@@ -65,7 +65,7 @@ namespace Utilities.Presentation.Commands
         {
             return new DelegateCommand(
                 o => executeAsync((T) o),
-                canExecute != null ? o => canExecute((T)o) : new Predicate<object>(o => true));
+                canExecute != null ? o => canExecute((T) o) : new Predicate<object>(o => true));
         }
 
         [NotNull]
@@ -111,7 +111,14 @@ namespace Utilities.Presentation.Commands
 
         private async Task ExecuteAsync(object parameter = null)
         {
-            await _executeAsync(parameter);
+            try
+            {
+                await _executeAsync(parameter);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
