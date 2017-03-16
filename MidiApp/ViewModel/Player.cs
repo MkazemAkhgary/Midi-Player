@@ -112,6 +112,7 @@ namespace MidiApp.ViewModel
             }
 
             _current = PlaybackList.First();
+            _currentPlayback = 0;
             await Play(_current);
 
             foreach (var trackInfo in PlaybackList)
