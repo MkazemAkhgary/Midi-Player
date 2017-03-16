@@ -51,9 +51,19 @@ namespace MidiPlayer.Timers
             _stopwatch.Restart();
         }
 
+        /// <summary>
+        /// fires at every interval.
+        /// </summary>
         public event EventArgs<double, double> Beat;
-        public event EventArgs<double> TempoChanged; 
+        /// <summary>
+        /// fires when tempo is changed.
+        /// </summary>
+        public event EventArgs<double> TempoChanged;
 
+        /// <summary>
+        /// Sets new tempo and fires <see cref="TempoChanged"/> event. passes new calculated interval to this event.
+        /// </summary>
+        /// <param name="tempo">new tempo to set.</param>
         public void SetTempo(double tempo)
         {
             if (tempo <= 0) throw new ArgumentOutOfRangeException(nameof(tempo));
@@ -66,12 +76,18 @@ namespace MidiPlayer.Timers
 
         #endregion Events
 
+        /// <summary>
+        /// start the timer.
+        /// </summary>
         public void Start()
         {
             _stopwatch.Restart();
             _timer.Start();
         }
 
+        /// <summary>
+        /// stop the timer.
+        /// </summary>
         public void Stop()
         {
             _stopwatch.Stop();

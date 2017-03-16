@@ -2,12 +2,20 @@
 {
     public static class NumericExtensions
     {
-        // this overload is here to prevent using other overloads when byte is passed as parameter.
+        /// <summary>
+        /// bytewise (8 bit by 8 bit) reverse the number.
+        /// this overload is used to prevent using other overloads when byte is passed as parameter.
+        /// </summary>
+        /// <param name="input">number to reverse.</param>
         public static byte Reverse(byte input)
         {
             return input;
         }
 
+        /// <summary>
+        /// bytewise (8 bit by 8 bit) reverse the number.
+        /// </summary>
+        /// <param name="input">number to reverse.</param>
         public static short Reverse(short input)
         {
             var uinput = (ushort)input;
@@ -15,6 +23,10 @@
                            ((uinput & 0xFF00) >> 8));
         }
 
+        /// <summary>
+        /// bytewise (8 bit by 8 bit) reverse the number.
+        /// </summary>
+        /// <param name="input">number to reverse.</param>
         public static int Reverse(int input)
         {
             var uinput = (uint)input;
@@ -24,6 +36,10 @@
                          ((uinput & 0xFF000000) >> (32 - 08 - 0)));
         }
 
+        /// <summary>
+        /// bytewise (8 bit by 8 bit) reverse the number.
+        /// </summary>
+        /// <param name="input">number to reverse.</param>
         public static long Reverse(long input)
         {
             var uinput = (ulong)input;

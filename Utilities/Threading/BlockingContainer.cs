@@ -4,6 +4,10 @@ using JetBrains.Annotations;
 
 namespace Utilities.Threading
 {
+    /// <summary>
+    /// Encapsulates an object. can block or release access to containing object.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public sealed class BlockingContainer<T> where T : class
     {
         private volatile bool _isFree = true;

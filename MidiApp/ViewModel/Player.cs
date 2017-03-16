@@ -8,19 +8,22 @@ using Utilities.Presentation.Commands;
 
 namespace MidiApp.ViewModel
 {
-    using MidiPlayer.PlayerComponents;
-
+    /// <summary>
+    /// provides control over <see cref="MidiPlayer"/>.
+    /// </summary>
     public class Player : IDisposable
     {
         private readonly OpenFileDialog _openFileDialog;
 
-        private int _currentPlayback = -1;
+        public int CurrentPlayback = -1;
+        private bool _repeatTrack = false;
+        private bool _repeatList = false;
 
         [NotNull, ItemNotNull]
         public ObservableCollection<string> PlaybackList { get; }
 
         [NotNull]
-        public MidiPlayer MidiPlayer { get; }
+        public MidiPlayer.MidiPlayer MidiPlayer { get; }
 
         public Player()
         {
@@ -35,19 +38,23 @@ namespace MidiApp.ViewModel
             Stop = DelegateCommand.CreateCommand(StopImpl);
 
             Open = DelegateCommand.CreateAsyncCommand<string[]>(OpenImpl);
+            Select = DelegateCommand.CreateAsyncCommand<int>(SelectImpl);
             Close = DelegateCommand.CreateCommand(CloseImpl);
 
             Next = DelegateCommand.CreateAsyncCommand(NextImpl);
             Previous = DelegateCommand.CreateAsyncCommand(PreviousImpl);
 
             PlaybackList = new ObservableCollection<string>();
-            MidiPlayer = new MidiPlayer();
+            MidiPlayer = new MidiPlayer.MidiPlayer();
+
+            MidiPlayer.PlaybackEnds += OnPlaybackEnds;
         }
 
         [NotNull] public DelegateCommand OpenOrToggle { get; }
         [NotNull] public DelegateCommand Stop { get; }
 
         [NotNull] public DelegateCommand Open { get; }
+        [NotNull] public DelegateCommand Select { get; }
         [NotNull] public DelegateCommand Close { get; }
 
         [NotNull] public DelegateCommand Next { get; }
@@ -93,6 +100,12 @@ namespace MidiApp.ViewModel
             await Next.RaiseCommandAsync();
         }
 
+        private async Task SelectImpl(int index)
+        {
+            CurrentPlayback = index - 1;
+            await Next.RaiseCommandAsync();
+        }
+
         private void CloseImpl()
         {
             PlaybackList.Clear();
@@ -101,12 +114,34 @@ namespace MidiApp.ViewModel
 
         private async Task NextImpl()
         {
-            await MidiPlayer.Open(PlaybackList[++_currentPlayback]);
+            if(PlaybackList.Count == 0) return;
+
+            CurrentPlayback++;
+            if (CurrentPlayback == PlaybackList.Count) CurrentPlayback = 0;
+            await MidiPlayer.Open(PlaybackList[CurrentPlayback]);
+
+            MidiPlayer.Start();
         }
 
         private async Task PreviousImpl()
         {
-            await MidiPlayer.Open(PlaybackList[--_currentPlayback]);
+            if (PlaybackList.Count == 0) return;
+
+            CurrentPlayback--;
+            if (CurrentPlayback < 0) CurrentPlayback = PlaybackList.Count - 1;
+            await MidiPlayer.Open(PlaybackList[CurrentPlayback]);
+
+            MidiPlayer.Start();
+        }
+
+        private async void OnPlaybackEnds(object sender, EventArgs e)
+        {
+            await Task.Delay(500); // bug, slider reaches end when next track plays. this delay fixes bug temporary.
+            if (_repeatTrack) CurrentPlayback--;
+
+            if (CurrentPlayback + 1 == PlaybackList.Count && !_repeatList) return;
+
+            await Next.RaiseCommandAsync();
         }
 
         public void Dispose()

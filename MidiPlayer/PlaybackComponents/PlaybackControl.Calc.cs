@@ -16,7 +16,7 @@ namespace MidiPlayer.PlaybackComponents
         {
             double runtime, fixedtime;
             ApproximatePosition(out runtime, out fixedtime, kind: out fixedtime, target: position);
-            return runtime - (fixedtime - position) * _data.TickLength;
+            return runtime - (fixedtime - position) * _data.TickLength; // calculate exact position
         }
         
         /// <summary>
@@ -28,7 +28,7 @@ namespace MidiPlayer.PlaybackComponents
         {
             double runtime, fixedtime;
             ApproximatePosition(out runtime, out fixedtime, kind: out runtime, target: position);
-            return fixedtime - (runtime - position) / _data.TickLength;
+            return fixedtime - (runtime - position) / _data.TickLength; // calculate exact position
         }
 
         private void ApproximatePosition(out double runtime, out double fixedtime, out double kind, double target)

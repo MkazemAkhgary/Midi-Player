@@ -7,6 +7,9 @@ using Utilities.Extensions;
 namespace MidiStream.Exceptions
 {
     using Enums;
+    /// <summary>
+    /// provides exception details for midi stream exceptions.
+    /// </summary>
     [Serializable]
     public sealed class MidiStreamException : Exception
     {

@@ -7,6 +7,10 @@ using JetBrains.Annotations;
 
 namespace Utilities.IO
 {
+    /// <summary>
+    /// Initializes a new instance of <see cref="BinaryReaderAsync"/>.
+    /// provides sync and async methods to read primitive data types from binary file.
+    /// </summary>
     public sealed class BinaryReaderAsync : IDisposable
     {
         #region Fields

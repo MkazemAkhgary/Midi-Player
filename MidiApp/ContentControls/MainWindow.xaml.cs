@@ -13,6 +13,7 @@ namespace MidiApp.ContentControls
             InitializeComponent();
 
             DataContext = PlayerControl.Player;
+            PlayList.DataContext = PlayerControl.Player;
         }
 
         private void Window_OnDrop(object sender, DragEventArgs e)

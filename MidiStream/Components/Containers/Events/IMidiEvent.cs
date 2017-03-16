@@ -7,6 +7,9 @@ namespace MidiStream.Components.Containers.Events
 
     #region Non Generic IMidiEvent
 
+    /// <summary>
+    /// <see cref="IMidiEvent"/> which containins data required to sent over MIDI device at a certain time.
+    /// </summary>
     public interface IMidiEvent : IComparable
     {
         long AbsoluteTicks { get; }
@@ -22,7 +25,7 @@ namespace MidiStream.Components.Containers.Events
     /// <summary>
     /// <see cref="IMidiEvent{TMessage}"/> which containins data required to sent over MIDI device at a certain time.
     /// </summary>
-    /// <typeparam name="TMessage"></typeparam>
+    /// <typeparam name="TMessage">type of message within midi event.</typeparam>
     public interface IMidiEvent<out TMessage> : IMidiEvent, IComparable<IMidiEvent>, IEquatable<IMidiEvent> where TMessage : MidiMessage
     {
         [NotNull]

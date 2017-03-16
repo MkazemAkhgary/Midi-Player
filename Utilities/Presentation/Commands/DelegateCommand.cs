@@ -10,7 +10,7 @@ namespace Utilities.Presentation.Commands
     /// <summary>
     /// An <see cref="ICommand"/> whose delegates can be attached for Execute and CanExecute.
     /// </summary>
-    public class DelegateCommand : ICommand
+    public sealed class DelegateCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Func<object, Task> _executeAsync;
@@ -40,6 +40,12 @@ namespace Utilities.Presentation.Commands
             _executeAsync = executeAsync;
         }
 
+        /// <summary>
+        /// creates new instance of <see cref="DelegateCommand"/>.
+        /// </summary>
+        /// <typeparam name="T">type of parameter passed to execute and canExecute delegates.</typeparam>
+        /// <param name="execute">delegate that takes object of type <see cref="T"/> to execute command.</param>
+        /// <param name="canExecute">delegate that takes object of type <see cref="T"/> to check whether command can be executed or not. can be null if command should be always executed.</param>
         [NotNull]
         public static DelegateCommand CreateCommand<T>(
             [NotNull] Action<T> execute,
@@ -50,6 +56,11 @@ namespace Utilities.Presentation.Commands
                 canExecute != null ? o => canExecute((T) o) : new Predicate<object>(o => true));
         }
 
+        /// <summary>
+        /// creates new instance of <see cref="DelegateCommand"/>.
+        /// </summary>
+        /// <param name="execute">delegate to execute command.</param>
+        /// <param name="canExecute">delegate that takes an object to check whether command can be executed or not. can be null if command should be always executed.</param>
         [NotNull]
         public static DelegateCommand CreateCommand(
             [NotNull] Action execute,
@@ -58,6 +69,12 @@ namespace Utilities.Presentation.Commands
             return new DelegateCommand(o => execute(), canExecute ?? (o => true));
         }
 
+        /// <summary>
+        /// creates new instance of <see cref="DelegateCommand"/> that executes asynchronously.
+        /// </summary>
+        /// <typeparam name="T">type of parameter passed to execute and canExecute delegates.</typeparam>
+        /// <param name="executeAsync">delegate that takes object of type <see cref="T"/> to execute command.</param>
+        /// <param name="canExecute">delegate that takes object of type <see cref="T"/> to check whether command can be executed or not. can be null if command should be always executed.</param>
         [NotNull]
         public static DelegateCommand CreateAsyncCommand<T>(
             [NotNull] Func<T, Task> executeAsync,
@@ -68,6 +85,12 @@ namespace Utilities.Presentation.Commands
                 canExecute != null ? o => canExecute((T) o) : new Predicate<object>(o => true));
         }
 
+
+        /// <summary>
+        /// creates new instance of <see cref="DelegateCommand"/> that executes asynchronously.
+        /// </summary>
+        /// <param name="executeAsync">delegate to execute command.</param>
+        /// <param name="canExecute">delegate that takes an object to check whether command can be executed or not. can be null if command should be always executed.</param>
         [NotNull]
         public static DelegateCommand CreateAsyncCommand(
             [NotNull] Func<Task> executeAsync,
@@ -82,7 +105,7 @@ namespace Utilities.Presentation.Commands
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
-
+        
         public void RaiseCommand(object parameter = null, object canExecuteParameter = null)
         {
             if (((ICommand) this).CanExecute(canExecuteParameter ?? parameter))
@@ -115,7 +138,7 @@ namespace Utilities.Presentation.Commands
             {
                 await _executeAsync(parameter);
             }
-            catch (Exception)
+            catch (Exception) // todo catch exceptions!
             {
                 throw;
             }

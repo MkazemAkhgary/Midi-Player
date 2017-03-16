@@ -13,11 +13,14 @@ namespace MidiPlayer.PlaybackComponents
     using EventArgs = Extensions.EventArgs;
     using Dispatchers;
 
+    /// <summary>
+    /// provides basic control over <see cref="Playback"/>
+    /// </summary>
     internal partial class PlaybackControl : IDisposable
     {
         private static readonly IReadOnlyCollection<Playback> NoPlayback;
 
-        public event EventArgs OnPlaybackEnds;
+        internal event EventArgs PlaybackEnds;
 
         private IReadOnlyCollection<Playback> _tracks;
         private readonly PlaybackData _data;
@@ -85,6 +88,9 @@ namespace MidiPlayer.PlaybackComponents
             }
         }
 
+        /// <summary>
+        /// Move sequence forward. this handler firest at every midi timer interval.
+        /// </summary>
         public void Move(double sta, double dyn)
         {
             _data.RuntimePosition += dyn;
@@ -97,7 +103,7 @@ namespace MidiPlayer.PlaybackComponents
             }
 
             if (_tracks.All(t => t.Ends))
-                OnPlaybackEnds?.Invoke();
+                PlaybackEnds?.Invoke();
         }
         
         public void SetPlaybackSpeed(double mspb)

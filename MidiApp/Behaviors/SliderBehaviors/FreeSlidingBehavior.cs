@@ -9,7 +9,7 @@ using MidiApp.Behaviors.Composite;
 namespace MidiApp.Behaviors.SliderBehaviors
 {
     /// <summary>
-    /// when IsMoveToPointEnabled is true user can grab thumb anywhere from slider and drag.
+    /// when IsMoveToPointEnabled is true user can grab thumb anywhere from slider and drag slider.
     /// </summary>
     public sealed class FreeSlidingBehavior : Behavior<Slider>
     {

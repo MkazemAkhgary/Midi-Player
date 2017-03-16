@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Synthesizer.Device.Output.Managed
 {
+    /// <summary>
+    /// Midi header
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     internal struct MIDIHDR
     {

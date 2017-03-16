@@ -7,7 +7,7 @@ namespace Synthesizer.Extensions
 {
     using Device.Output.Callback;
     using Device.Output.Managed;
-
+    
     internal static class NativeMethods
     {
         private const string WinmmDll = "winmm.dll";

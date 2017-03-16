@@ -34,6 +34,12 @@ namespace Utilities.Extensions
             }
         }
 
+        /// <summary>
+        /// Awaits for each <see cref="Task"/> of given IEnumerable&lt;Task&lt;T out>>
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="awaitableEnumerable">IEnumerable&lt;Task&lt;T out>> to perform foreach on.</param>
+        /// <param name="callback">the action to perform on each result of <see cref="Task{T}"/>.</param>
         public static async Task AwaitForeach<TResult>(
             [NotNull] this IEnumerable<Task<TResult>> awaitableEnumerable, 
             [NotNull] Action<TResult> callback)
@@ -49,6 +55,9 @@ namespace Utilities.Extensions
             }
         }
 
+        /// <summary>
+        /// performs select and converts <see cref="IEnumerable{T}"/> To <see cref="ReadOnlyCollection{T}"/>.
+        /// </summary>
         public static ReadOnlyCollection<TResult> ToReadOnlyCollection<TSource, TResult>(
             [NotNull] this IEnumerable<TSource> source,
             [NotNull] Func<TSource, TResult> selector)

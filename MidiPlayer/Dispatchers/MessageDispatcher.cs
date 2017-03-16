@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using JetBrains.Annotations;
 using MidiStream.Components.Containers.Messages;
 using MidiStream.Enums;
 using Synthesizer.Device.Output;
-using Utilities.Extensions;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable RedundantEmptyDefaultSwitchBranch
@@ -15,6 +13,9 @@ namespace MidiPlayer.Dispatchers
 {
     using PlaybackComponents;
 
+    /// <summary>
+    /// Dispatches midi messages over Midi output device.
+    /// </summary>
     internal static class MessageDispatcher
     {
         public static void DispatchTo([NotNull] this IEnumerable<VoiceMessage> soruce, [NotNull] MidiOutput output)
@@ -52,6 +53,7 @@ namespace MidiPlayer.Dispatchers
             Debug.Assert(message != null, "message != null");
             Debug.Assert(control != null, "control != null");
 
+            // todo implement other actions for meta messages.
             switch (message.MetaType)
             {
                 case MetaType.SetTempo:

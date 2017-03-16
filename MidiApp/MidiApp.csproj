@@ -61,7 +61,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Animations\DoubleAnimationUsingDataBinding.cs" />
     <Compile Include="Behaviors\Composite\SliderCompositeBehavior.Properties.cs" />
     <Compile Include="Behaviors\Composite\SliderCompositeBehavior.Definitions.cs" />
     <Compile Include="Behaviors\Composite\SliderCompositeBehavior.cs" />
@@ -70,13 +69,10 @@
     <Compile Include="Behaviors\SliderBehaviors\FreeSlidingBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\KeepRatioBehavior.cs" />
     <Compile Include="Behaviors\SliderBehaviors\LockOnDragBehavior.cs" />
-    <Compile Include="ContentControls\DebugPanel.xaml.cs">
-      <DependentUpon>DebugPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ContentControls\MenuBar.xaml.cs">
       <DependentUpon>MenuBar.xaml</DependentUpon>
     </Compile>
-    <Page Include="ContentControls\DebugPanel.xaml">
+    <Page Include="ContentControls\PlayList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -87,6 +83,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ContentControls\PlayList.xaml.cs">
+      <DependentUpon>PlayList.xaml</DependentUpon>
     </Compile>
     <Compile Include="ContentControls\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -171,7 +170,6 @@
       <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

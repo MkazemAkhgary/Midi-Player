@@ -8,6 +8,10 @@ using System.Windows.Markup;
 
 namespace MidiApp.Behaviors.Composite
 {
+    /// <summary>
+    /// Behavior that can be composed from multiple behaviors. (behaviros must be compatible)
+    /// </summary>
+    /// <typeparam name="T">type of sub-behaviors</typeparam>
     [ContentProperty(nameof(BehaviorCollection))]
     public abstract class CompositeBehavior<T> : Behavior<T>
         where T : DependencyObject
@@ -26,6 +30,9 @@ namespace MidiApp.Behaviors.Composite
 
         private static readonly DependencyProperty ReferenceProperty = ReferenceKey.DependencyProperty;
 
+        /// <summary>
+        /// retrives the reference of composite behavior using host.
+        /// </summary>
         protected static CompositeBehavior<T> GetReference(T host)
         {
             var reference = (CompositeBehavior<T>)host.GetValue(ReferenceProperty);
@@ -39,11 +46,17 @@ namespace MidiApp.Behaviors.Composite
             return reference;
         }
 
+        /// <summary>
+        /// retrives value of dependency property using host.
+        /// </summary>
         protected static TOut GetValueByRef<TOut>(T host, DependencyProperty dp)
         {
             return (TOut)GetReference(host).GetValue(dp);
         }
 
+        /// <summary>
+        /// sets value of dependency property using host.
+        /// </summary>
         protected static void SetValueByRef<TIn>(T host, DependencyProperty dp, TIn value)
         {
             GetReference(host).SetValue(dp, value);
@@ -53,6 +66,9 @@ namespace MidiApp.Behaviors.Composite
 
         #region Behavior Collection
 
+        /// <summary>
+        /// contains sub-behaviors to compose composite behavior.
+        /// </summary>
         public static readonly DependencyProperty BehaviorCollectionProperty =
             DependencyProperty.Register(
                 $"{nameof(CompositeBehavior<T>)}<{typeof(T).Name}>",
@@ -83,6 +99,9 @@ namespace MidiApp.Behaviors.Composite
             }
         }
 
+        /// <summary>
+        /// Verify that duplicate behavior is not attached.
+        /// </summary>
         private void VerifyDistinct()
         {
             var hashset = new HashSet<Type>();

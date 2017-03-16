@@ -13,14 +13,30 @@ namespace Utilities.Collections
     #region Interface
     public interface IGrouping<in TKey, TValue> : IList<TValue> where TValue : IComparable<TValue>
     {
+        /// <summary>
+        /// Queries collections with these keys included.
+        /// </summary>
+        /// <returns>Ordered enumerable of TValues from selected collections.</returns>
         [NotNull]
         IEnumerable<TValue> Including([NotNull] params TKey[] keys);
 
+        /// <summary>
+        /// Queries collections with these keys excluded.
+        /// </summary>
+        /// <returns>Ordered enumerable of TValues from rest of collections.</returns>
         [NotNull]
         IEnumerable<TValue> Excluding([NotNull] params TKey[] keys);
 
+        /// <summary>
+        /// performs binary search to find closest item in collection.
+        /// </summary>
+        /// <param name="item">item to find.</param>
+        /// <param name="comparer">default comparer will be used if null is passed.</param>
         int BinarySearch([NotNull] TValue item, [CanBeNull] IComparer<TValue> comparer = null);
 
+        /// <summary>
+        /// cleans up buffers used to speed up queries.
+        /// </summary>
         void ReleaseBuffer();
     }
     #endregion Interface
@@ -89,11 +105,7 @@ namespace Utilities.Collections
         #endregion Methods
 
         #region IGrouping Impl
-
-        /// <summary>
-        /// Queries collections with these keys included.
-        /// </summary>
-        /// <returns>Ordered enumerable of TValues from selected collections.</returns>
+        
         public IEnumerable<TValue> Including(params TKey[] keys)
         {
             if (keys == null) throw new ArgumentNullException(nameof(keys));
@@ -111,11 +123,7 @@ namespace Utilities.Collections
             }
             return list;
         }
-
-        /// <summary>
-        /// Queries collections with these keys excluded.
-        /// </summary>
-        /// <returns>Ordered enumerable of TValues from rest of collections.</returns>
+        
         public IEnumerable<TValue> Excluding(params TKey[] keys)
         {
             if (keys == null) throw new ArgumentNullException(nameof(keys));

@@ -8,6 +8,9 @@ using Utilities.Threading;
 
 namespace Utilities.Presentation.NotifyPropertyChanged
 {
+    /// <summary>
+    /// Provides list of properties event arguments for <see cref="NotifyPropertyChanged"/>.
+    /// </summary>
     internal sealed class NotifyPropertyChangedProvider
     {
         private const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
@@ -54,7 +57,13 @@ namespace Utilities.Presentation.NotifyPropertyChanged
             if(container == null) throw new InvalidOperationException($"Invalid target name for provided type, could not find property in {_callee}.");
             return container;
         }
-        
+
+        /// <summary>
+        /// retrives property event argument synchronously.
+        /// </summary>
+        /// <param name="caller">name of property changed.</param>
+        /// <param name="target">name of target property of next view model. can be null if client should be notified of value change instead.</param>
+        /// <returns></returns>
         public PropertyChangedEventArgs GetPropertyChangedEventArgs([NotNull] string caller, [CanBeNull] string target = null)
         {
             if (caller == null)
@@ -62,7 +71,14 @@ namespace Utilities.Presentation.NotifyPropertyChanged
 
             return GetEventArgsContainer(caller, target).RequestItem();
         }
-        
+
+        /// <summary>
+        /// retrives property event argument asynchronously. value will be returned after specified amount of time.
+        /// returns null if property event argument is already requested.
+        /// </summary>
+        /// <param name="wait">wait time in milliseconds before returning back to caller.</param>
+        /// <param name="caller">name of property changed.</param>
+        /// <param name="target">name of target property of next view model. can be null if client should be notified of value change instead.</param>
         public async Task<PropertyChangedEventArgs> GetPropertyChangedEventArgsAsync(int wait, [NotNull]string caller, [CanBeNull] string target = null)
         {
             if (wait < 0) throw new ArgumentOutOfRangeException(nameof(wait));

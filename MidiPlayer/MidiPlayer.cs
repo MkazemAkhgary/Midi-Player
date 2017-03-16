@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using MidiStream;
 using Utilities.Presentation.Commands;
 
-namespace MidiPlayer.PlayerComponents
+namespace MidiPlayer
 {
-    using MidiStream;
     using PlaybackComponents;
+    using PlayerComponents;
 
     /// <summary>
     /// Controls playback of a sound from a .mid file.
@@ -14,6 +15,8 @@ namespace MidiPlayer.PlayerComponents
     public sealed class MidiPlayer : IDisposable
     {
         private readonly PlayerControl _control;
+
+        public event EventHandler PlaybackEnds;
 
         [NotNull]
         public PlayerVM Context { get; }
@@ -27,25 +30,41 @@ namespace MidiPlayer.PlayerComponents
             var data = new PlaybackData();
             Context = new PlayerVM(data);
             _control = new PlayerControl(data);
-            
+
+            _control.PlaybackEnds += () => PlaybackEnds?.Invoke(this, EventArgs.Empty);
+
             Context.SeekTo = DelegateCommand.CreateCommand<double>(_control.SeekTo);
         }
 
+        /// <summary>
+        /// Start playing.
+        /// </summary>
         public void Start()
         {
             if (Context.IsPlaybackLoaded) _control.Start();
         }
 
+        /// <summary>
+        /// Pause.
+        /// </summary>
         public void Pause()
         {
             if (Context.IsPlaybackLoaded) _control.Pause();
         }
 
+        /// <summary>
+        /// Stop playing and set cue to begining.
+        /// </summary>
         public void Stop()
         {
             if (Context.IsPlaybackLoaded) _control.Stop();
         }
 
+        /// <summary>
+        /// Open file.
+        /// </summary>
+        /// <param name="path">file path.</param>
+        /// <returns></returns>
         public async Task<bool> Open([NotNull] string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -59,7 +78,7 @@ namespace MidiPlayer.PlayerComponents
             }
         }
 
-        private bool OpenStream([NotNull] MidiStream stream)
+        private bool OpenStream([NotNull] MidiStream.MidiStream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
@@ -67,6 +86,9 @@ namespace MidiPlayer.PlayerComponents
             return true;
         }
 
+        /// <summary>
+        /// Close current player. in order to play aging must call <see cref="Open"/>
+        /// </summary>
         public void Close()
         {
             if(IsPlaying) _control.Stop();

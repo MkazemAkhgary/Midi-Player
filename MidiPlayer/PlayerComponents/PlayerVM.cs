@@ -9,6 +9,9 @@ namespace MidiPlayer.PlayerComponents
 {
     using PlaybackComponents;
 
+    /// <summary>
+    /// View model for <see cref="MidiPlayer"/>.
+    /// </summary>
     public class PlayerVM : NotifyPropertyChanged
     {
         internal PlayerVM([NotNull] PlaybackData data) : base(

@@ -23,16 +23,21 @@ namespace Utilities.Extensions
                .GetCustomAttribute<TAttribute>();
         }
 
-        public static IEnumerable<Enum> GetAllFlags([NotNull] this Enum values)
+        /// <summary>
+        /// retrieves all flags that single <see cref="Enum"/> value has.
+        /// </summary>
+        /// <param name="value"><see cref="Enum"/> value to retrive its flags.</param>
+        /// <returns></returns>
+        public static IEnumerable<Enum> GetAllFlags([NotNull] this Enum value)
         {
-            if(values == null)
-                throw new ArgumentNullException(nameof(values));
+            if(value == null)
+                throw new ArgumentNullException(nameof(value));
 
-            foreach (Enum value in Enum.GetValues(values.GetType()))
+            foreach (Enum flag in Enum.GetValues(value.GetType()))
             {
-                if (values.HasFlag(value))
+                if (value.HasFlag(flag))
                 {
-                    yield return value;
+                    yield return flag;
                 }
             }
         }

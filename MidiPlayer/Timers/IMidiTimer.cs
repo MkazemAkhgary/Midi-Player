@@ -5,6 +5,9 @@ namespace MidiPlayer.Timers
 {
     using Extensions;
 
+    /// <summary>
+    /// interface for <see cref="MidiTimer"/>
+    /// </summary>
     internal interface IMidiTimer
     {
         event EventArgs<double, double> Beat;

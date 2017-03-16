@@ -35,7 +35,7 @@ namespace Utilities.Presentation.NotifyPropertyChanged
         {
             foreach (var resetter in _resetters)
             {
-                resetter();
+                resetter.Invoke();
             }
         }
 

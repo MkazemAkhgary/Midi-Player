@@ -2,71 +2,64 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--Toggle play pause-->
-    <Style x:Key="PlaybackToggleStyle" TargetType="{x:Type ToggleButton}"
+    <Style x:Key="PlaybackToggleStyle" TargetType="ToggleButton"
            BasedOn="{StaticResource {x:Type ToggleButton}}">
-
-        <Style.Resources>
-            <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD" />
-            <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1" />
-            <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6" />
-            <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B" />
-            <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4" />
-            <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5" />
-            <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" />
-        </Style.Resources>
-
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-
+                <ControlTemplate TargetType="ToggleButton">
+                    
                     <Viewbox Stretch="Uniform">
-                        <Canvas Width="100" Height="100">
-                            <Ellipse Stroke="Black" StrokeThickness="6" Fill="#ACFFFFFF" Width="100" Height="100"/>
-                            <Path x:Name="PlayContent" Fill="White" StrokeThickness="4" Stroke="Black">
+                        <Canvas Width="181.254" Height="181.254" Background="Transparent">
+
+                            <Path Fill="#DCFFFFFF" StrokeThickness="8.891" Stroke="#FF000000">
                                 <Path.Data>
-                                    M 70.5979,50.0001 
-                                    C 70.5979,51.3886 68.9055,53.362 66.2881,55.4977 
-                                    63.6706,57.6333 60.1282,59.9312 56.4281,61.9687 
-                                    49.028,66.0437 40.9975,69.0773 38.476,67.6888 
-                                    35.9544,66.3002 34.6936,58.1501 34.6936,50.0001 
-                                    34.6936,41.85 35.9544,33.6999 38.476,32.3114 
-                                    40.9975,30.9228 49.028,33.9564 56.4281,38.0315
-                                    60.1282,40.069 63.6706,42.3668 66.2881,44.5025 
-                                    68.9055,46.6381 70.5979,48.6115 70.5979,50.0001 
-                                    Z
+                                    <PathGeometry Figures="
+                                                  M 176.809 90.6275 
+                                                  C 176.809 154.98 154.98
+                                                  176.809 90.6273 176.809 
+                                                  26.2749 176.809 4.4455
+                                                  154.98 4.4455 90.6275 
+                                                  4.4455 26.2745 26.2749 
+                                                  4.4455 90.6273 4.4455 
+                                                  154.98 4.4455 176.809 
+                                                  26.2745 176.809 90.6275 
+                                                  Z"/>
                                 </Path.Data>
                             </Path>
-                            <Path x:Name="TransContent" Fill="White" StrokeThickness="4" Stroke="Black" Visibility="Hidden" >
+
+                            <Path x:Name="PlayContent" StrokeThickness="8.891" Stroke="#FF000000">
                                 <Path.Data>
-                                    M 59,50.0001
-                                    C 59,52.4854 57.9926,54.7354 56.3639,56.3641 
-                                    54.7352,57.9928 52.4852,59.0001 49.9999,59.0001 
-                                    47.5146,59.0001 45.2646,57.9928 43.6359,56.3641 
-                                    42.0072,54.7354 40.9999,52.4854 40.9999,50.0001
-                                    40.9999,47.5148 42.0072,45.2648 43.6359,43.6361 
-                                    45.2646,42.0074 47.5146,41 49.9999,41 
-                                    52.4852,41 54.7352,42.0074 56.3639,43.6361 
-                                    57.9926,45.2648 59,47.5148 59,50.0001
-                                    Z
+                                    <PathGeometry Figures="
+                                                  M 128.866 90.6275
+                                                  C 128.866 94.7345 71.096 
+                                                  128.088 67.5391 126.034 
+                                                  63.9822 123.981 63.9822 
+                                                  57.2745 67.5391 55.2205 
+                                                  71.096 53.1665 128.866 
+                                                  86.5205 128.866 90.6275 
+                                                  Z"/>
                                 </Path.Data>
                             </Path>
-                            <Path x:Name="PauseContent" Fill="White" StrokeThickness="4" Stroke="Black" StrokeLineJoin="Round" Visibility="Hidden">
+
+                            <Path x:Name="PauseContent" Visibility="Hidden" StrokeThickness="8.891" Stroke="#FF000000" StrokeLineJoin="Round">
                                 <Path.Data>
-                                    M 37.0001,32 
-                                    V 67.9999 
-                                    H 44.1302 
-                                    V 32 
-                                    Z
-                                    M 55.8694,32 
-                                    V 67.9999 
-                                    H 63 
-                                    V 32 
-                                    Z
+                                    <PathGeometry Figures="
+                                                  M 103.221 55.5365 
+                                                  H 118.034 
+                                                  V 125.718 
+                                                  H 103.221 
+                                                  Z 
+                                                  M 63.2209 55.5365 
+                                                  H 78.0339 
+                                                  V 125.718 
+                                                  H 63.2209
+                                                  Z"/>
                                 </Path.Data>
                             </Path>
+
                         </Canvas>
                     </Viewbox>
-                    <!-- =================================== Play Animation =================================== -->
+                    <!-- =================================== Play Pause triggers =================================== -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Visibility" Value="Hidden" TargetName="PlayContent"/>
@@ -74,6 +67,68 @@
                         </Trigger>
                     </ControlTemplate.Triggers>
                     
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="PlaybackNextStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Viewbox Stretch="Uniform">
+                        <Canvas Width="181.254" Height="181.254" Background="Transparent">
+
+                            <Path Fill="#DCFFFFFF" StrokeThickness="9.016" Stroke="#FF000000">
+                                <Path.Data>
+                                    <PathGeometry Figures="
+                                                  M 136.859 51.862 
+                                                  V 129.398 
+                                                  M 125.003 90.6325
+                                                  86.6019 111.086 
+                                                  48.2069 131.52 
+                                                  C 48.2069 131.52 58.1299 
+                                                  104.587 58.1299 90.6325 
+                                                  58.1299 76.6635 48.2069
+                                                  49.74 48.2069 49.74 
+                                                  L 86.6019 70.1865 
+                                                  Z"/>
+                                </Path.Data>
+                            </Path>
+
+                        </Canvas>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PlaybackPrevStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Viewbox Stretch="Uniform">
+                        <Canvas Width="181.254" Height="181.254" Background="Transparent">
+
+                            <Path Fill="#DCFFFFFF" StrokeThickness="9.016006" Stroke="#FF000000">
+                                <Path.Data>
+                                    <PathGeometry Figures="
+                                                  M 44.393 51.8619
+                                                  V 129.398 
+                                                  M 56.2436 90.6314 
+                                                  94.6318 111.086
+                                                  133.047 131.52 
+                                                  C 133.047 131.52 123.116 
+                                                  104.587 123.116 90.6314 
+                                                  123.116 76.6634 133.047 
+                                                  49.7399 133.047 49.7399 
+                                                  L 94.6318 70.1864 
+                                                  Z"/>
+                                </Path.Data>
+                            </Path>
+
+                        </Canvas>
+                    </Viewbox>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

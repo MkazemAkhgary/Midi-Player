@@ -24,7 +24,7 @@ namespace MidiStream
     public sealed partial class MidiStreamReader
     {
         /// <summary>
-        /// gets the parsed midi stream.
+        /// gets the parsed midi stream asynchronously.
         /// </summary>
         [ItemNotNull]
         public async Task<MidiStream> GetStreamAsync()
@@ -54,7 +54,7 @@ namespace MidiStream
             {
                 tracks[i] = await ReadTrackAsync();
             }
-
+            
             var format = new MidiFormat((MidiType) type, timedivision);
 
             return _stream = new MidiStream(tracks, format, name);

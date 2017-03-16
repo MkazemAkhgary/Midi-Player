@@ -9,6 +9,9 @@ namespace MidiPlayer.PlaybackComponents
 {
     using Sequencer;
 
+    /// <summary>
+    /// contains playback data.
+    /// </summary>
     internal class Playback : IDisposable
     {
         private readonly Sequence<VoiceType, VoiceMessage> _voice;

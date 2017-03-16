@@ -6,6 +6,11 @@ using JetBrains.Annotations;
 
 namespace Utilities.Presentation.NotifyPropertyChanged
 {
+    /// <summary>
+    /// This class must be inherited by a View model.
+    /// Notifies clients that any property of view model has been changed.
+    /// Can be used to chain multiple View models. (eg. first view model notifies second view model for new changes. second view model notifies clients.)
+    /// </summary>
     public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
         private readonly NotifyPropertyChangedProvider _provider;
@@ -67,6 +72,9 @@ namespace Utilities.Presentation.NotifyPropertyChanged
             if(_provider != null) OnPropertyChangedAsync(wait, name, target);
         }
 
+        /// <summary>
+        /// resetes properties of view model back to their default state. 
+        /// </summary>
         public void Reset()
         {
             _resetter?.InvokeReset();

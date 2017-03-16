@@ -4,6 +4,10 @@ using JetBrains.Annotations;
 
 namespace Utilities.Threading.Timers
 {
+    /// <summary>
+    /// This timer ensures multiple ticks do not collide with each other (next event only fires when previous event is completed.)
+    /// Also ensures that timer is fully paused before returning from <see cref="Stop"/>.
+    /// </summary>
     public sealed class SafeTimer : IDisposable
     {
         public event ElapsedEventHandler Elapsed;

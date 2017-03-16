@@ -4,16 +4,22 @@ using Synthesizer.Device.Output.Managed;
 
 namespace MidiPlayer.PlayerComponents
 {
+    using EventArgs = Extensions.EventArgs;
     using MidiStream;
     using PlaybackComponents;
     using Timers;
 
+    /// <summary>
+    /// provides basic control over <see cref="PlaybackControl"/>.
+    /// </summary>
     public sealed class PlayerControl : IDisposable
     {
         private bool _isPlaying;
         private bool _isInitialized;
         private readonly MidiTimer _timer;
         private readonly PlaybackControl _control;
+
+        internal event EventArgs PlaybackEnds;
 
         internal MIDIOUTCAPS GetOutputCapabilities => _control.GetOutputCapabilities;
 
@@ -24,7 +30,7 @@ namespace MidiPlayer.PlayerComponents
             _timer = new MidiTimer();
             _control = new PlaybackControl(data);
 
-            _control.OnPlaybackEnds += Stop;
+            _control.PlaybackEnds += OnPlaybackEnds;
 
             data.TempoChanged += _timer.SetTempo; // bind tempo
             _timer.TempoChanged += data.SetTempo;
@@ -82,6 +88,12 @@ namespace MidiPlayer.PlayerComponents
             _isPlaying = false;
             _timer?.Stop();
             _control?.Stop();
+        }
+
+        private void OnPlaybackEnds()
+        {
+            Stop();
+            PlaybackEnds?.Invoke();
         }
 
         /// <summary>
