@@ -47,7 +47,7 @@ namespace MidiApp.ContentControls
         private void MenuItem_Help(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(
-                @"While dragging you can cancel dragging slider with right click at any time!
+                @"While dragging slider you can cancel dragging with right click at any time!
 
 You can select multiple midi files and choose to play them in your play list.
 
