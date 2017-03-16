@@ -16,9 +16,13 @@ namespace MidiApp.ViewModel
     {
         private readonly OpenFileDialog _openFileDialog;
 
-        public int CurrentPlayback = -1;
+        private int _currentPlayback = -1;
         private bool _repeatTrack = false;
         private bool _repeatList = false;
+
+        private TrackInfo _current;
+
+        private object _synchronizingObject; // object used to check if execution of async method must continue or not.
 
         [NotNull, ItemNotNull]
         public ObservableCollection<TrackInfo> PlaybackList { get; }
@@ -94,7 +98,12 @@ namespace MidiApp.ViewModel
                 }
             }
 
+            object sync = new object();
+            _synchronizingObject = sync;
+
+            // reset play list
             PlaybackList.Clear();
+            _currentPlayback = -1;
 
             foreach (var fileName in fileNames.OrderBy(x => x))
             {
@@ -102,18 +111,22 @@ namespace MidiApp.ViewModel
                 PlaybackList.Add(trackInfo);
             }
 
-            await Next.RaiseCommandAsync();
+            _current = PlaybackList.First();
+            await Play(_current);
 
-            foreach (var trackInfo in PlaybackList.ToList()) // todo Tolist used to allow re-opening files.
+            foreach (var trackInfo in PlaybackList)
             {
                 await trackInfo.Initialize().ConfigureAwait(false);
+                if (sync != _synchronizingObject) break;
+
+                if (trackInfo.Status != TrackInfo.TrackStatus.Playing)
+                    trackInfo.Status = TrackInfo.TrackStatus.Ready;
             }
         }
 
         private async Task SelectImpl(TrackInfo track)
         {
-            CurrentPlayback = PlaybackList.IndexOf(track) - 1;
-            await Next.RaiseCommandAsync();
+            await Play(track);
         }
 
         private void CloseImpl()
@@ -125,12 +138,11 @@ namespace MidiApp.ViewModel
         private async Task NextImpl()
         {
             if(PlaybackList.Count == 0) return;
-
-            CurrentPlayback++;
-            if (CurrentPlayback == PlaybackList.Count) CurrentPlayback = 0;
-            await MidiPlayer.Open(PlaybackList[CurrentPlayback].Path);
-
-            MidiPlayer.Start();
+            
+            _currentPlayback++;
+            if (_currentPlayback == PlaybackList.Count) _currentPlayback = 0;
+            
+            await Play(PlaybackList[_currentPlayback]);
         }
 
         private async Task PreviousImpl()
@@ -140,23 +152,32 @@ namespace MidiApp.ViewModel
             // if passed 2 seconds repeat o.w go to previous song.
             if (MidiPlayer.Context.RuntimePosition < 2000D)
             {
-                CurrentPlayback--;
+                _currentPlayback--;
             }
 
-            if (CurrentPlayback < 0) CurrentPlayback = PlaybackList.Count - 1;
-            await MidiPlayer.Open(PlaybackList[CurrentPlayback].Path);
+            if (_currentPlayback < 0) _currentPlayback = PlaybackList.Count - 1;
 
-            MidiPlayer.Start();
+            await Play(PlaybackList[_currentPlayback]);
         }
 
         private async void OnPlaybackEnds(object sender, EventArgs e)
         {
             await Task.Delay(500); // bug, slider reaches end when next track plays. this delay fixes bug temporary.
-            if (_repeatTrack) CurrentPlayback--;
+            if (_repeatTrack) _currentPlayback--;
 
-            if (CurrentPlayback + 1 == PlaybackList.Count && !_repeatList) return;
+            if (_currentPlayback + 1 == PlaybackList.Count && !_repeatList) return;
 
             await Next.RaiseCommandAsync();
+        }
+
+        private async Task Play(TrackInfo info)
+        {
+            _current.Status = TrackInfo.TrackStatus.Ready;
+            info.Status = TrackInfo.TrackStatus.Playing;
+
+            await MidiPlayer.Open(info.Path);
+            MidiPlayer.Start();
+            _current = info;
         }
 
         public void Dispose()

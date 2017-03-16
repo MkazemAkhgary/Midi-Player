@@ -9,7 +9,7 @@
 
     <Grid AllowDrop="True" Drop="Window_OnDrop" Background="White">
         <cc:MenuBar VerticalAlignment="Top" />
-        <cc:PlayList x:Name="PlayList" Margin="10,23,10,65" />
+        <cc:PlayList x:Name="PlayList" Margin="10,23,10,65"/>
         <cc:PlayerControl x:Name="PlayerControl" Height="60" VerticalAlignment="Bottom" />
     </Grid>
 </Window>

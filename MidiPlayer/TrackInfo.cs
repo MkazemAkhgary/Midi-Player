@@ -11,6 +11,7 @@ namespace MidiPlayer
     public class TrackInfo : NotifyPropertyChanged
     {
         private TimeSpan _duration;
+        private TrackStatus _status = TrackStatus.Loading;
 
         /// <summary>
         /// gets directory of track.
@@ -39,6 +40,15 @@ namespace MidiPlayer
             }
         }
 
+        public TrackStatus Status
+        {
+            get { return _status; }
+            set
+            {
+                SetValue(ref _status, value);
+            }
+        }
+
         public TrackInfo(string fileName) : base(null, false, true)
         {
             var fileInfo = new FileInfo(fileName);
@@ -58,6 +68,11 @@ namespace MidiPlayer
                 await temp.Open(Path, false);
                 Duration = TimeSpan.FromMilliseconds(temp.Context.RuntimeDuration);
             }
+        }
+
+        public enum TrackStatus
+        {
+            Loading, Ready, Playing, Error
         }
     }
 }
