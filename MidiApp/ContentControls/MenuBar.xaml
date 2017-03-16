@@ -10,12 +10,14 @@
         <MenuItem Header="File">
             <MenuItem Header="Open" Command="{Binding Open}" />
             <MenuItem Header="Stop" Command="{Binding Stop}" />
+            <Separator/>
             <MenuItem Header="Exit" Click="MenuItem_Exit" />
         </MenuItem>
         <MenuItem Header="View">
             <MenuItem Header="Device Info" Click="MenuItem_DeviceInfo" />
         </MenuItem>
         <MenuItem Header="Help">
+            <MenuItem Header="View Help" Click="MenuItem_Help" />
             <MenuItem Header="About" Click="MenuItem_About" />
         </MenuItem>
     </Menu>

@@ -43,5 +43,21 @@ namespace MidiApp.ContentControls
                 MessageBoxImage.Information,
                 MessageBoxResult.OK);
         }
+
+        private void MenuItem_Help(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                @"While dragging you can cancel dragging slider with right click at any time!
+
+You can select multiple midi files and choose to play them in your play list.
+
+You can drag and drop midi files in to your play list.
+
+You can change speed of midi playing by slididing up and down over metronome icon.",
+                "Tips",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information,
+                MessageBoxResult.OK);
+        }
     }
 }
