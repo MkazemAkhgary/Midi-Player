@@ -45,7 +45,7 @@ namespace MidiPlayer.PlaybackComponents
             _outputInit = new Lazy<MidiOutput>(() => new MidiOutput());
         }
 
-        public void Initialize([NotNull] IReadOnlyList<MidiTrack> tracks)
+        public void Initialize([NotNull] IReadOnlyList<MidiTrack> tracks, bool initializeMidiDevice = true)
         {
             if (tracks == null) throw new ArgumentNullException(nameof(tracks));
             if(_data.IsLoaded)
@@ -55,7 +55,8 @@ namespace MidiPlayer.PlaybackComponents
             _tracks = tracks.ToReadOnlyCollection(t => new Playback(t));
             _data.StaticDuration = tracks.Max(t => t.TotalTicks);
             _data.RuntimeDuration = CalculateRuntimePosition(_data.StaticDuration);
-            Reset();
+
+            if(initializeMidiDevice) Reset();
         }
 
         public void Seek(double position)

@@ -64,8 +64,8 @@ namespace MidiPlayer
         /// Open file.
         /// </summary>
         /// <param name="path">file path.</param>
-        /// <returns></returns>
-        public async Task<bool> Open([NotNull] string path)
+        /// <param name="initializeMidiDevice">specifies wether initialize midi device before playing file or not.</param>
+        public async Task<bool> Open([NotNull] string path, bool initializeMidiDevice = true)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(path));
@@ -74,15 +74,15 @@ namespace MidiPlayer
             {
                 if(IsLoaded) Close();
                 var stream = await reader.GetStream();
-                return OpenStream(stream);
+                return OpenStream(stream, initializeMidiDevice);
             }
         }
 
-        private bool OpenStream([NotNull] MidiStream.MidiStream stream)
+        private bool OpenStream([NotNull] MidiStream.MidiStream stream, bool initializeMidiDevice = true)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
-            _control?.Initialize(stream);
+            _control?.Initialize(stream, initializeMidiDevice);
             return true;
         }
 

@@ -38,7 +38,7 @@ namespace MidiPlayer.PlayerComponents
             _timer.Beat += _control.Move;
         }
 
-        internal void Initialize([NotNull] MidiStream stream)
+        internal void Initialize([NotNull] MidiStream stream, bool initializeMidiDevice = true)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
@@ -47,7 +47,7 @@ namespace MidiPlayer.PlayerComponents
             
             _isInitialized = true;
             _timer.Initialize(stream.Format.TimeDivision);
-            _control.Initialize(stream.Tracks);
+            _control.Initialize(stream.Tracks, initializeMidiDevice);
         }
 
         /// <summary>

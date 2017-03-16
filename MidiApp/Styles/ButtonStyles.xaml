@@ -67,15 +67,19 @@
                     </Viewbox>
                     <!-- =================================== Play Pause triggers =================================== -->
                     <ControlTemplate.Triggers>
+                        
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Visibility" Value="Hidden" TargetName="PlayContent"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="PauseContent"/>
                         </Trigger>
+                        
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Fill" Value="{StaticResource TransparentButton.Background.Click}" TargetName="Button"/>
                         </Trigger>
+                        
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
+                                
                                 <BeginStoryboard>
                                     <Storyboard TargetName="Button" TargetProperty="Fill.Color">
                                         <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
@@ -85,8 +89,10 @@
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
+                                
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
+                                
                                 <BeginStoryboard>
                                     <Storyboard TargetName="Button" TargetProperty="Fill.Color">
                                         <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
@@ -96,6 +102,7 @@
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
+                                
                             </Trigger.ExitActions>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -132,11 +139,14 @@
                     </Viewbox>
 
                     <ControlTemplate.Triggers>
+                        
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Fill" Value="{StaticResource TransparentButton.Background.Click}" TargetName="Button"/>
                         </Trigger>
+                        
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
+                                
                                 <BeginStoryboard>
                                     <Storyboard TargetName="Button" TargetProperty="Fill.Color">
                                         <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
@@ -146,8 +156,10 @@
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
+                                
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
+                                
                                 <BeginStoryboard>
                                     <Storyboard TargetName="Button" TargetProperty="Fill.Color">
                                         <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
@@ -157,6 +169,7 @@
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
+                                
                             </Trigger.ExitActions>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -193,11 +206,14 @@
                     </Viewbox>
 
                     <ControlTemplate.Triggers>
+                        
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Fill" Value="{StaticResource TransparentButton.Background.Click}" TargetName="Button"/>
                         </Trigger>
+                        
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
+                                
                                 <BeginStoryboard>
                                     <Storyboard TargetName="Button" TargetProperty="Fill.Color">
                                         <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
@@ -207,8 +223,10 @@
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
+                                
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
+                                
                                 <BeginStoryboard>
                                     <Storyboard TargetName="Button" TargetProperty="Fill.Color">
                                         <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
@@ -218,6 +236,7 @@
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
+                                
                             </Trigger.ExitActions>
                         </Trigger>
                     </ControlTemplate.Triggers>

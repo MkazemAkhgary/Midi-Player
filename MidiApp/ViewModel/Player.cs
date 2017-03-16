@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Win32;
+using MidiPlayer;
 using Utilities.Presentation.Commands;
 
 namespace MidiApp.ViewModel
@@ -20,7 +21,7 @@ namespace MidiApp.ViewModel
         private bool _repeatList = false;
 
         [NotNull, ItemNotNull]
-        public ObservableCollection<string> PlaybackList { get; }
+        public ObservableCollection<TrackInfo> PlaybackList { get; }
 
         [NotNull]
         public MidiPlayer.MidiPlayer MidiPlayer { get; }
@@ -38,13 +39,13 @@ namespace MidiApp.ViewModel
             Stop = DelegateCommand.CreateCommand(StopImpl);
 
             Open = DelegateCommand.CreateAsyncCommand<string[]>(OpenImpl);
-            Select = DelegateCommand.CreateAsyncCommand<int>(SelectImpl);
+            Select = DelegateCommand.CreateAsyncCommand<TrackInfo>(SelectImpl);
             Close = DelegateCommand.CreateCommand(CloseImpl);
 
             Next = DelegateCommand.CreateAsyncCommand(NextImpl);
             Previous = DelegateCommand.CreateAsyncCommand(PreviousImpl);
 
-            PlaybackList = new ObservableCollection<string>();
+            PlaybackList = new ObservableCollection<TrackInfo>();
             MidiPlayer = new MidiPlayer.MidiPlayer();
 
             MidiPlayer.PlaybackEnds += OnPlaybackEnds;
@@ -69,6 +70,7 @@ namespace MidiApp.ViewModel
                 if(MidiPlayer.IsLoaded) MidiPlayer.Start();
             }
 
+            // due to two way data binding this condition is inverted.
             if (MidiPlayer.IsPlaying) MidiPlayer.Start(); 
             else MidiPlayer.Pause();
         }
@@ -92,17 +94,25 @@ namespace MidiApp.ViewModel
                 }
             }
 
-            foreach (var fileName in fileNames)
+            PlaybackList.Clear();
+
+            foreach (var fileName in fileNames.OrderBy(x => x))
             {
-                PlaybackList.Add(fileName);
+                var trackInfo = new TrackInfo(fileName);
+                PlaybackList.Add(trackInfo);
             }
 
             await Next.RaiseCommandAsync();
+
+            foreach (var trackInfo in PlaybackList.ToList()) // todo Tolist used to allow re-opening files.
+            {
+                await trackInfo.Initialize().ConfigureAwait(false);
+            }
         }
 
-        private async Task SelectImpl(int index)
+        private async Task SelectImpl(TrackInfo track)
         {
-            CurrentPlayback = index - 1;
+            CurrentPlayback = PlaybackList.IndexOf(track) - 1;
             await Next.RaiseCommandAsync();
         }
 
@@ -118,7 +128,7 @@ namespace MidiApp.ViewModel
 
             CurrentPlayback++;
             if (CurrentPlayback == PlaybackList.Count) CurrentPlayback = 0;
-            await MidiPlayer.Open(PlaybackList[CurrentPlayback]);
+            await MidiPlayer.Open(PlaybackList[CurrentPlayback].Path);
 
             MidiPlayer.Start();
         }
@@ -127,9 +137,14 @@ namespace MidiApp.ViewModel
         {
             if (PlaybackList.Count == 0) return;
 
-            CurrentPlayback--;
+            // if passed 2 seconds repeat o.w go to previous song.
+            if (MidiPlayer.Context.RuntimePosition < 2000D)
+            {
+                CurrentPlayback--;
+            }
+
             if (CurrentPlayback < 0) CurrentPlayback = PlaybackList.Count - 1;
-            await MidiPlayer.Open(PlaybackList[CurrentPlayback]);
+            await MidiPlayer.Open(PlaybackList[CurrentPlayback].Path);
 
             MidiPlayer.Start();
         }

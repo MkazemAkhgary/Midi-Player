@@ -5,17 +5,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ListBox ItemsSource="{Binding PlaybackList}" HorizontalContentAlignment="Stretch">
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Text="{Binding}">
-                    <TextBlock.InputBindings>
-                        <MouseBinding Gesture="LeftDoubleClick" 
-                                      Command="{Binding DataContext.Select, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
-                                      CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"/>
-                    </TextBlock.InputBindings>
-                </TextBlock>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+    <ListView ItemsSource="{Binding PlaybackList}" HorizontalContentAlignment="Stretch">
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler"/>
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.View>
+            <GridView>
+                
+                <GridViewColumn Header="Name">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+
+                <GridViewColumn Header="Duration">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Duration, StringFormat={}{0:hh}:{0:mm}:{0:ss}}"/>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+
+                <GridViewColumn Header="Size">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Size, StringFormat=0 KB, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+            </GridView>
+        </ListView.View>
+    </ListView>
 </UserControl>

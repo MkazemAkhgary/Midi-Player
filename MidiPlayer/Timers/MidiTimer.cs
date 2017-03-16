@@ -52,11 +52,11 @@ namespace MidiPlayer.Timers
         }
 
         /// <summary>
-        /// fires at every interval.
+        /// event that fires at every interval.
         /// </summary>
         public event EventArgs<double, double> Beat;
         /// <summary>
-        /// fires when tempo is changed.
+        /// event that fires when tempo is changed.
         /// </summary>
         public event EventArgs<double> TempoChanged;
 
