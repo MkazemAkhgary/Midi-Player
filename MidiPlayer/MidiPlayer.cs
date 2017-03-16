@@ -33,7 +33,7 @@ namespace MidiPlayer
 
             _control.PlaybackEnds += () => PlaybackEnds?.Invoke(this, EventArgs.Empty);
 
-            Context.SeekTo = DelegateCommand.CreateCommand<double>(_control.SeekTo);
+            Context.SeekTo = DelegateCommand.CreateCommand<double>(t => _control.SeekTo(t < 0 ? 0 : t));
         }
 
         /// <summary>
