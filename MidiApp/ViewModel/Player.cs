@@ -127,6 +127,7 @@ namespace MidiApp.ViewModel
 
         private async Task SelectImpl(TrackInfo track)
         {
+            _currentPlayback = PlaybackList.IndexOf(track);
             await Play(track);
         }
 
