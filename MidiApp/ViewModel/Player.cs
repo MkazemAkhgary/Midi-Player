@@ -55,27 +55,38 @@ namespace MidiApp.ViewModel
             MidiPlayer.PlaybackEnds += OnPlaybackEnds;
         }
 
-        [NotNull] public DelegateCommand OpenOrToggle { get; }
-        [NotNull] public DelegateCommand Stop { get; }
+        [NotNull]
+        public DelegateCommand OpenOrToggle { get; }
 
-        [NotNull] public DelegateCommand Open { get; }
-        [NotNull] public DelegateCommand Select { get; }
-        [NotNull] public DelegateCommand Close { get; }
+        [NotNull]
+        public DelegateCommand Stop { get; }
 
-        [NotNull] public DelegateCommand Next { get; }
-        [NotNull] public DelegateCommand Previous { get; }
+        [NotNull]
+        public DelegateCommand Open { get; }
+
+        [NotNull]
+        public DelegateCommand Select { get; }
+
+        [NotNull]
+        public DelegateCommand Close { get; }
+
+        [NotNull]
+        public DelegateCommand Next { get; }
+
+        [NotNull]
+        public DelegateCommand Previous { get; }
 
         private async Task OpenOrToggleImpl()
         {
             if (!PlaybackList.Any())
             {
                 await Open.RaiseCommandAsync();
-                
-                if(MidiPlayer.IsLoaded) MidiPlayer.Start();
+
+                if (MidiPlayer.IsLoaded) MidiPlayer.Start();
+                return;
             }
 
-            // due to two way data binding this condition is inverted.
-            if (MidiPlayer.IsPlaying) MidiPlayer.Start(); 
+            if (!MidiPlayer.IsPlaying) MidiPlayer.Start();
             else MidiPlayer.Pause();
         }
 
@@ -94,6 +105,7 @@ namespace MidiApp.ViewModel
                 }
                 else
                 {
+                    MidiPlayer.Context.IsPlaybackPlaying = false;
                     return;
                 }
             }
@@ -113,15 +125,24 @@ namespace MidiApp.ViewModel
 
             _current = PlaybackList.First();
             _currentPlayback = 0;
+            await _current.Initialize().ConfigureAwait(false);
             await Play(_current);
 
-            foreach (var trackInfo in PlaybackList)
+            foreach (var trackInfo in PlaybackList.Skip(1))
             {
-                await trackInfo.Initialize().ConfigureAwait(false);
+                var stat = TrackInfo.TrackStatus.Ready;
+                try
+                {
+                    await trackInfo.Initialize().ConfigureAwait(false);
+                }
+                catch (Exception)
+                {
+                    stat = TrackInfo.TrackStatus.Error;
+                }
+
                 if (sync != _synchronizingObject) break;
 
-                if (trackInfo.Status != TrackInfo.TrackStatus.Playing)
-                    trackInfo.Status = TrackInfo.TrackStatus.Ready;
+                trackInfo.Status = stat;
             }
         }
 
@@ -139,11 +160,11 @@ namespace MidiApp.ViewModel
 
         private async Task NextImpl()
         {
-            if(PlaybackList.Count == 0) return;
-            
+            if (PlaybackList.Count == 0) return;
+
             _currentPlayback++;
             if (_currentPlayback == PlaybackList.Count) _currentPlayback = 0;
-            
+
             await Play(PlaybackList[_currentPlayback]);
         }
 
@@ -164,7 +185,6 @@ namespace MidiApp.ViewModel
 
         private async void OnPlaybackEnds(object sender, EventArgs e)
         {
-            await Task.Delay(500); // bug, slider reaches end when next track plays. this delay fixes bug temporary.
             if (_repeatTrack) _currentPlayback--;
 
             if (_currentPlayback + 1 == PlaybackList.Count && !_repeatList) return;
@@ -174,10 +194,21 @@ namespace MidiApp.ViewModel
 
         private async Task Play(TrackInfo info)
         {
+            if(_current.Status == TrackInfo.TrackStatus.Error) return;
+
             _current.Status = TrackInfo.TrackStatus.Ready;
             info.Status = TrackInfo.TrackStatus.Playing;
 
-            await MidiPlayer.Open(info.Path);
+            try
+            {
+                await MidiPlayer.Open(info);
+            }
+            catch (Exception)
+            {
+                info.Status = TrackInfo.TrackStatus.Error;
+                return;
+            }
+
             MidiPlayer.Start();
             _current = info;
         }

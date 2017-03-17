@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
+using MidiStream;
 using Utilities.Presentation.NotifyPropertyChanged;
 
 namespace MidiPlayer
@@ -13,14 +15,21 @@ namespace MidiPlayer
         private TimeSpan _duration;
         private TrackStatus _status = TrackStatus.Loading;
 
+        private const int MaxCacheSize = 1024; // maximum size in KB
+
         /// <summary>
         /// gets directory of track.
         /// </summary>
+        [NotNull]
         public string Path { get; }
+
+        [CanBeNull]
+        public MidiStream.MidiStream Stream { get; private set; }
 
         /// <summary>
         /// gets name of track
         /// </summary>
+        [NotNull]
         public string Name { get; }
         
         /// <summary>
@@ -63,10 +72,17 @@ namespace MidiPlayer
 
         public async Task Initialize()
         {
-            using (var temp = new MidiPlayer())
+            using (var reader = new MidiStreamReader(Path))
             {
-                await temp.Open(Path, false);
-                Duration = TimeSpan.FromMilliseconds(temp.Context.RuntimeDuration);
+                var stream = await reader.GetStream();
+                using (var player = new MidiPlayer())
+                {
+                    player.Open(stream, false);
+                    Duration = TimeSpan.FromMilliseconds(player.Context.RuntimeDuration);
+                }
+
+                if (Size <= MaxCacheSize) // if less than 1mb
+                    Stream = stream;
             }
         }
 

@@ -38,9 +38,9 @@
                 Style="{StaticResource PlaybackSliderStyle}"
                 Grid.Row="0" Grid.ColumnSpan="3"
                 Margin="5,0,36,0"
-                Maximum="{Binding MidiPlayer.Context.RuntimeDuration}">
+                Maximum="{Binding MidiPlayer.Context.RuntimeDuration, UpdateSourceTrigger=Explicit}">
             <i:Interaction.Behaviors>
-                <cs:SliderCompositeBehavior SourceValue="{Binding MidiPlayer.Context.RuntimePosition}"
+                <cs:SliderCompositeBehavior SourceValue="{Binding MidiPlayer.Context.RuntimePosition, UpdateSourceTrigger=Explicit}"
                                             Command="{Binding MidiPlayer.Context.SeekTo}">
                     <sb:FreeSlidingBehavior />
                     <sb:LockOnDragBehavior />
@@ -75,33 +75,28 @@
             </TextBlock.Text>
         </TextBlock>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+        <WrapPanel Grid.Row="1" Grid.Column="1" Margin="-5,0">
 
-            <Button Grid.Column="0" IsTabStop="False"
+            <Button IsTabStop="False"
                     Command="{Binding Previous}"
                     Style="{StaticResource PlaybackPrevStyle}"/>
 
-            <ToggleButton Grid.Column="1" IsTabStop="False"
+            <ToggleButton IsTabStop="False"
                           Command="{Binding OpenOrToggle}"
-                          IsChecked="{Binding MidiPlayer.Context.IsPlaybackPlaying}"
+                          IsChecked="{Binding MidiPlayer.Context.IsPlaybackPlaying, UpdateSourceTrigger=Explicit}"
                           Style="{StaticResource PlaybackToggleStyle}"/>
 
-            <Button Grid.Column="2" IsTabStop="False"
+            <Button IsTabStop="False"
                     Command="{Binding Next}"
                     Style="{StaticResource PlaybackNextStyle}"/>
-        </Grid>
+        </WrapPanel>
 
         <Slider Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
                 Style="{StaticResource MetronomeStyle}"
                 Width="27" IsTabStop="False"
                 HorizontalAlignment="Right"
                 Maximum="1.6" Minimum="0.4" IsSelectionRangeEnabled="False"
-                Value="{Binding MidiPlayer.Context.PlaybackSpeed}"
+                Value="{Binding MidiPlayer.Context.PlaybackSpeed, UpdateSourceTrigger=Explicit}"
                 Margin="0,4,4,0">
             <i:Interaction.Behaviors>
                 <sb:FreeSlidingBehavior />

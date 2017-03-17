@@ -72,15 +72,27 @@ namespace MidiPlayer
 
             using (var reader = new MidiStreamReader(path))
             {
-                if(IsLoaded) Close();
                 var stream = await reader.GetStream();
                 return OpenStream(stream, initializeMidiDevice);
             }
         }
 
+        internal bool Open([NotNull] MidiStream.MidiStream stream, bool initializeMidiDevice = true)
+        {
+            return OpenStream(stream, initializeMidiDevice);
+        }
+
+        public async Task<bool> Open([NotNull] TrackInfo info, bool initializeMidiDevice = true)
+        {
+            if(info.Stream != null) return OpenStream(info.Stream, initializeMidiDevice);
+            else return await Open(info.Path, initializeMidiDevice);
+        }
+
         private bool OpenStream([NotNull] MidiStream.MidiStream stream, bool initializeMidiDevice = true)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+            if (IsLoaded) Close();
 
             _control?.Initialize(stream, initializeMidiDevice);
             return true;

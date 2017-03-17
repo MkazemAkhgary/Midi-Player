@@ -134,14 +134,7 @@ namespace Utilities.Presentation.Commands
 
         private async Task ExecuteAsync(object parameter = null)
         {
-            try
-            {
-                await _executeAsync(parameter);
-            }
-            catch (Exception) // todo catch exceptions!
-            {
-                throw;
-            }
+            await _executeAsync(parameter);
         }
     }
 }
