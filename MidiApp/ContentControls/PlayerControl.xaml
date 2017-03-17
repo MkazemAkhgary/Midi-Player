@@ -36,7 +36,7 @@
                 IsTabStop="False"
                 Style="{StaticResource PlaybackSliderStyle}"
                 Grid.Row="0" Grid.ColumnSpan="3"
-                Margin="5,0,36,0"
+                Margin="5,-5,36,-5"
                 Maximum="{Binding MidiPlayer.Context.RuntimeDuration, UpdateSourceTrigger=Explicit}">
             <i:Interaction.Behaviors>
                 <cs:SliderCompositeBehavior SourceValue="{Binding MidiPlayer.Context.RuntimePosition, UpdateSourceTrigger=Explicit}"

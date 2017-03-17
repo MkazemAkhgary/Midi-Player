@@ -10,14 +10,14 @@
     <!--Player Control Theme-->
     <SolidColorBrush x:Key="PlayerControl.Background" Color="#D8171717" />
 
-     <!--PlaybackSlider Theme-->
-    <SolidColorBrush x:Key="Playback.Slider.Background" Color="#BDBDBD" />
+    <!--PlaybackSlider Theme-->
+    <SolidColorBrush x:Key="Playback.Slider.Background" Color="#CFCFCF" />
     <SolidColorBrush x:Key="Playback.Slider.BorderBrush" Color="White" />
     <SolidColorBrush x:Key="Playback.Slider.Foreground" Color="#3A0707" />
 
-    <SolidColorBrush x:Key="Playback.Slider.Thumb.Background" Color="#6A6A6A"/>
-    <SolidColorBrush x:Key="Playback.Slider.Thumb.BorderBrush" Color="#EDEDED"/>
-    <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="#353535"/>
+    <SolidColorBrush x:Key="Playback.Slider.Thumb.Background" Color="#525252"/> 
+    <SolidColorBrush x:Key="Playback.Slider.Thumb.BorderBrush" Color="#B9B9B9"/>
+    <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="#939393"/>
 
      <!--Metronome Theme--> 
     <SolidColorBrush x:Key="Metronome.Background" Color="#CD959595" />
@@ -25,9 +25,10 @@
     <SolidColorBrush x:Key="Metronome.Foreground" Color="Black" />
 
      <!--Player Buttons Theme-->
-    <SolidColorBrush x:Key="TransparentButton.Background" Color="#6A6A6A" />
-    <SolidColorBrush x:Key="TransparentButton.Background.Click" Color="#434343"/>
-    <SolidColorBrush x:Key="TransparentButton.Background.MouseOver" Color="#353535"/>
-    <SolidColorBrush x:Key="TransparentButton.Border" Color="#EDEDED"/>
+    <SolidColorBrush x:Key="TransparentButton.Background" Color="#525252" />
+    <SolidColorBrush x:Key="TransparentButton.Background.Click" Color="#787878"/>
+    <SolidColorBrush x:Key="TransparentButton.Background.MouseOver" Color="#939393"/>
+    <SolidColorBrush x:Key="TransparentButton.Foreground" Color="#3A0707" />
+    <SolidColorBrush x:Key="TransparentButton.Border" Color="#B9B9B9"/>
     
 </ResourceDictionary>

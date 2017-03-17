@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using MidiApp.ViewModel;
@@ -66,7 +65,9 @@ You can change speed of midi playing by slididing up and down over metronome ico
 
         private void EventSetter_OnHandler(object sender, RoutedEventArgs args)
         {
-            string tag = (string) ((RadioButton) sender).Tag;
+            var item = (MenuItem) sender;
+            string tag = (string) item.Tag;
+            ((RadioButton)item.Icon).IsChecked = true;
 
             var uri = new Uri($"Themes/{tag}.xaml", UriKind.RelativeOrAbsolute);
 

@@ -8,7 +8,7 @@
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Background" Value="{DynamicResource TransparentButton.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource TransparentButton.Border}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TransparentButton.Background}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TransparentButton.Foreground}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
@@ -72,14 +72,14 @@
                             <Setter Property="Visibility" Value="Visible" TargetName="PauseContent"/>
                         </Trigger>
                         
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
-                        </Trigger>
-                        
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.MouseOver}" TargetName="Button"/>
                         </Trigger>
-                        
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                     
                 </ControlTemplate>
@@ -119,11 +119,12 @@
 
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.MouseOver}" TargetName="Button"/>
+                        </Trigger>
+                        
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
                         </Trigger>
                         
                     </ControlTemplate.Triggers>
@@ -164,11 +165,12 @@
 
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.MouseOver}" TargetName="Button"/>
+                        </Trigger>
+                        
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
                         </Trigger>
                         
                     </ControlTemplate.Triggers>

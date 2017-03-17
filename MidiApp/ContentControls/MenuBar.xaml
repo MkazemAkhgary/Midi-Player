@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:MidiApp.Converters"
              mc:Ignorable="d">
     <Menu VerticalAlignment="Top"
           IsMainMenu="True">
@@ -17,10 +18,22 @@
         
         <MenuItem Header="Settings">
             <MenuItem Header="Theme">
-                <RadioButton Content="Light" Tag="LightTheme" IsChecked="True" GroupName="Theme"
-                             Checked="EventSetter_OnHandler"/>
-                <RadioButton Content="Dark" Tag="DarkTheme" GroupName="Theme"
-                             Checked="EventSetter_OnHandler"/>
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Style.Resources>
+                            <converters:NullAsTrueConverter x:Key="NullAsTrueConverter" />
+                            <RadioButton x:Key="RadioButtonResource" x:Shared="False"
+                                 GroupName="ThemeSelector" IsHitTestVisible="False"
+                                 IsChecked="{Binding .,RelativeSource={RelativeSource PreviousData}, 
+                                             Converter={StaticResource NullAsTrueConverter}}"
+                                 VerticalContentAlignment="Center"/>
+                        </Style.Resources>
+                        <Setter Property="Icon" Value="{DynamicResource RadioButtonResource}"/>
+                        <EventSetter Event="Click" Handler="EventSetter_OnHandler"/>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+                <MenuItem Header="Dark" Tag="DarkTheme"/>
+                <MenuItem Header="Light" Tag="LightTheme"/>
             </MenuItem>
         </MenuItem>
         
