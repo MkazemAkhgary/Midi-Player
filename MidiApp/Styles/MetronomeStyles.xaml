@@ -3,20 +3,13 @@
 
 
     <Style x:Key="MetronomeStyle" TargetType="{x:Type Slider}">
-
-        <Style.Resources>
-            <SolidColorBrush x:Key="Metronome.Background" Color="White" />
-            <SolidColorBrush x:Key="Metronome.BorderBrush" Color="Black" />
-            <SolidColorBrush x:Key="Metronome.Foreground" Color="White" />
-        </Style.Resources>
-
         <Setter Property="TickFrequency" Value="0.05" />
         <Setter Property="IsSnapToTickEnabled" Value="True" />
         <Setter Property="IsMoveToPointEnabled" Value="True" />
         <Setter Property="Orientation" Value="Vertical" />
-        <Setter Property="Background" Value="{StaticResource Metronome.Background}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Metronome.BorderBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource Metronome.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource Metronome.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Metronome.BorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Metronome.Foreground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Slider}">

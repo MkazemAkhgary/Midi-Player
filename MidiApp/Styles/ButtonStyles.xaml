@@ -1,15 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="TransparentButton.Background" Color="#CDFFFFFF" />
-    <SolidColorBrush x:Key="TransparentButton.Background.Click" Color="#CDC5C5C5"/>
-    <Color x:Key="TransparentButton.Background.MouseOver.Color" >#B3EDEDED</Color>
-    <Color x:Key="TransparentButton.Background.Color" >#CDFFFFFF</Color>
-    
     <!--Toggle play pause-->
     <Style x:Key="PlaybackToggleStyle" TargetType="ToggleButton"
            BasedOn="{StaticResource {x:Type ToggleButton}}">
-
+        
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Background" Value="{DynamicResource TransparentButton.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TransparentButton.Border}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TransparentButton.Background}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
@@ -17,7 +16,7 @@
                     <Viewbox Stretch="Uniform">
                         <Canvas Width="181.254" Height="181.254" Background="Transparent">
 
-                            <Path x:Name="Button" Fill="{StaticResource TransparentButton.Background}" StrokeThickness="8.891" Stroke="#FF000000">
+                            <Path x:Name="Button" Fill="{TemplateBinding Background}" StrokeThickness="8.891" Stroke="{TemplateBinding BorderBrush}">
                                 <Path.Data>
                                     <PathGeometry Figures="
                                                   M 176.809 90.6275 
@@ -33,7 +32,7 @@
                                 </Path.Data>
                             </Path>
 
-                            <Path x:Name="PlayContent" StrokeThickness="8.891" Stroke="#FF000000">
+                            <Path x:Name="PlayContent" StrokeThickness="8.891" Fill="{TemplateBinding Foreground}" Stroke="{TemplateBinding BorderBrush}">
                                 <Path.Data>
                                     <PathGeometry Figures="
                                                   M 128.866 90.6275
@@ -47,7 +46,7 @@
                                 </Path.Data>
                             </Path>
 
-                            <Path x:Name="PauseContent" Visibility="Hidden" StrokeThickness="8.891" Stroke="#FF000000" StrokeLineJoin="Round">
+                            <Path x:Name="PauseContent" Visibility="Hidden" Fill="{TemplateBinding Foreground}" StrokeThickness="8.891" Stroke="{TemplateBinding BorderBrush}" StrokeLineJoin="Round">
                                 <Path.Data>
                                     <PathGeometry Figures="
                                                   M 103.221 55.5365 
@@ -74,52 +73,32 @@
                         </Trigger>
                         
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" Value="{StaticResource TransparentButton.Background.Click}" TargetName="Button"/>
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
                         </Trigger>
                         
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="Button" TargetProperty="Fill.Color">
-                                        <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
-                                            <SplineColorKeyFrame KeyTime="0:0:0.05"
-                                                                 Value="{StaticResource TransparentButton.Background.MouseOver.Color}">
-                                            </SplineColorKeyFrame>
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                                
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="Button" TargetProperty="Fill.Color">
-                                        <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
-                                            <SplineColorKeyFrame KeyTime="0:0:0.05"
-                                                                 Value="{StaticResource TransparentButton.Background.Color}">
-                                            </SplineColorKeyFrame>
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                                
-                            </Trigger.ExitActions>
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.MouseOver}" TargetName="Button"/>
                         </Trigger>
+                        
                     </ControlTemplate.Triggers>
                     
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="PlaybackNextStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Background" Value="{DynamicResource TransparentButton.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TransparentButton.Border}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Viewbox Stretch="Uniform">
                         <Canvas Width="181.254" Height="181.254" Background="Transparent">
 
-                            <Path x:Name="Button" Fill="{StaticResource TransparentButton.Background}" StrokeThickness="9.016" Stroke="#FF000000">
+                            <Path x:Name="Button" Fill="{TemplateBinding Background}" StrokeThickness="9.016" Stroke="{TemplateBinding BorderBrush}">
                                 <Path.Data>
                                     <PathGeometry Figures="
                                                   M 136.859 51.862 
@@ -139,54 +118,32 @@
                     </Viewbox>
 
                     <ControlTemplate.Triggers>
-                        
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" Value="{StaticResource TransparentButton.Background.Click}" TargetName="Button"/>
-                        </Trigger>
-                        
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="Button" TargetProperty="Fill.Color">
-                                        <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
-                                            <SplineColorKeyFrame KeyTime="0:0:0.05"
-                                                                 Value="{StaticResource TransparentButton.Background.MouseOver.Color}">
-                                            </SplineColorKeyFrame>
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                                
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="Button" TargetProperty="Fill.Color">
-                                        <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
-                                            <SplineColorKeyFrame KeyTime="0:0:0.05"
-                                                                 Value="{StaticResource TransparentButton.Background.Color}">
-                                            </SplineColorKeyFrame>
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                                
-                            </Trigger.ExitActions>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
 
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.MouseOver}" TargetName="Button"/>
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="PlaybackPrevStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Background" Value="{DynamicResource TransparentButton.Background}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TransparentButton.Border}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Viewbox Stretch="Uniform">
                         <Canvas Width="181.254" Height="181.254" Background="Transparent">
 
-                            <Path x:Name="Button" Fill="{StaticResource TransparentButton.Background}" StrokeThickness="9.016006" Stroke="#FF000000">
+                            <Path x:Name="Button" Fill="{TemplateBinding Background}" StrokeThickness="9.016006" Stroke="{TemplateBinding BorderBrush}">
                                 <Path.Data>
                                     <PathGeometry Figures="
                                                   M 44.393 51.8619
@@ -206,39 +163,14 @@
                     </Viewbox>
 
                     <ControlTemplate.Triggers>
-                        
+
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" Value="{StaticResource TransparentButton.Background.Click}" TargetName="Button"/>
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.MouseOver}" TargetName="Button"/>
                         </Trigger>
                         
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="Button" TargetProperty="Fill.Color">
-                                        <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
-                                            <SplineColorKeyFrame KeyTime="0:0:0.05"
-                                                                 Value="{StaticResource TransparentButton.Background.MouseOver.Color}">
-                                            </SplineColorKeyFrame>
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                                
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                
-                                <BeginStoryboard>
-                                    <Storyboard TargetName="Button" TargetProperty="Fill.Color">
-                                        <ColorAnimationUsingKeyFrames BeginTime="0:0:0">
-                                            <SplineColorKeyFrame KeyTime="0:0:0.05"
-                                                                 Value="{StaticResource TransparentButton.Background.Color}">
-                                            </SplineColorKeyFrame>
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                                
-                            </Trigger.ExitActions>
-                        </Trigger>
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>

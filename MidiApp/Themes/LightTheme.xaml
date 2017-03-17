@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!--Player Theme-->
+    <SolidColorBrush x:Key="Player.Background" Color="White" />
+    
+    <!--Playlist Theme-->
+    <SolidColorBrush x:Key="PlayList.Background" Color="White"/>
+    
+    <!--Player Control Theme-->
+    <SolidColorBrush x:Key="PlayerControl.Background" Color="#CC26B0FF" />
+
+    <!--PlaybackSlider Theme-->
+    <SolidColorBrush x:Key="Playback.Slider.Background" Color="White" />
+    <SolidColorBrush x:Key="Playback.Slider.BorderBrush" Color="LightCyan" />
+    <SolidColorBrush x:Key="Playback.Slider.Foreground" Color="Black" />
+    
+    <SolidColorBrush x:Key="Playback.Slider.Thumb.Background" Color="White"/>
+    <SolidColorBrush x:Key="Playback.Slider.Thumb.BorderBrush" Color="Black"/>
+    <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="#F3F3F3"/>
+
+    <!--Metronome Theme -->
+    <SolidColorBrush x:Key="Metronome.Background" Color="White" />
+    <SolidColorBrush x:Key="Metronome.BorderBrush" Color="Black" />
+    <SolidColorBrush x:Key="Metronome.Foreground" Color="White" />
+
+    <!--Player Buttons Theme -->
+    <SolidColorBrush x:Key="TransparentButton.Background" Color="#CDFFFFFF" />
+    <SolidColorBrush x:Key="TransparentButton.Background.Click" Color="#CD7E7E7E"/>
+    <SolidColorBrush x:Key="TransparentButton.Background.MouseOver" Color="#B3E5E5E5"/>
+    <SolidColorBrush x:Key="TransparentButton.Border" Color="#FF000000"/>
+
+</ResourceDictionary>

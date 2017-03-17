@@ -14,13 +14,6 @@
             <converters:MultiplyConverter x:Key="MultiplyConverter" />
             <converters:ThicknessConverter x:Key="ThicknessConverter" />
 
-            <SolidColorBrush x:Key="Playback.Slider.Background" Color="White" />
-            <SolidColorBrush x:Key="Playback.Slider.BorderBrush" Color="LightCyan" />
-            <SolidColorBrush x:Key="Playback.Slider.Foreground" Color="Black" />
-
-            <Color x:Key="Playback.Slider.Thumb.Background">White</Color>
-            <Color x:Key="Playback.Slider.Thumb.MouseOver">LightGray</Color>
-
             <Thickness x:Key="Track.Thickness.Padding">0.5,0</Thickness>
 
             <Thickness x:Key="Track.Border.Thickness">0,1</Thickness>
@@ -44,9 +37,9 @@
 
         </Style.Resources>
 
-        <Setter Property="Background" Value="{StaticResource Playback.Slider.Background}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Playback.Slider.BorderBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource Playback.Slider.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource Playback.Slider.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Playback.Slider.BorderBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource Playback.Slider.Foreground}" />
         <Setter Property="SelectionStart" Value="{Binding Minimum, RelativeSource={RelativeSource Self}}" />
         <Setter Property="SelectionEnd" Value="{Binding Value, RelativeSource={RelativeSource Self}}" />
         <Setter Property="IsSelectionRangeEnabled" Value="True" />
@@ -100,12 +93,9 @@
 
                                     <Ellipse
                                         x:Name="Thumb_Shadow_Ellipse"
-                                        Stroke="{TemplateBinding Foreground}"
-                                        StrokeThickness="{StaticResource Thumb.StrokeThickness}">
-                                        <Ellipse.Fill>
-                                            <SolidColorBrush Color="{StaticResource Playback.Slider.Thumb.Background}"/>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
+                                        Stroke="{DynamicResource Playback.Slider.Thumb.BorderBrush}"
+                                        StrokeThickness="{StaticResource Thumb.StrokeThickness}"
+                                        Fill="{DynamicResource Playback.Slider.Thumb.Background}"/>
                                 </Border>
                             </Border>
                         </Border>
@@ -135,35 +125,12 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition SourceName="Thumb" Property="Thumb.IsDragging" Value="False" />
                             </MultiTrigger.Conditions>
-                            
-                            <MultiTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard BeginTime="{StaticResource Thumb.Animation.BeginTime}"
-                                                TargetName="Thumb_Shadow_Ellipse">
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Fill.Color">
-                                            <SplineColorKeyFrame 
-                                                KeyTime="{StaticResource Thumb.Animation.KeyTime}"
-                                                Value="{StaticResource Playback.Slider.Thumb.MouseOver}"/>
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </MultiTrigger.EnterActions>
-                            <MultiTrigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard BeginTime="{StaticResource Thumb.Animation.BeginTime}"
-                                                TargetName="Thumb_Shadow_Ellipse">
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Fill.Color">
-                                            <SplineColorKeyFrame 
-                                                KeyTime="{StaticResource Thumb.Animation.KeyTime}"
-                                                Value="{StaticResource Playback.Slider.Thumb.Background}"/>
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </MultiTrigger.ExitActions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Fill" TargetName="Thumb_Shadow_Ellipse" Value="{DynamicResource Playback.Slider.Thumb.MouseOver}"/>
+                            </MultiTrigger.Setters>
                         </MultiTrigger>
 
                         <DataTrigger Binding="{Binding IsDragging, ElementName=Thumb}" Value="True">
-
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard BeginTime="{StaticResource Thumb.Animation.BeginTime}"

@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using MidiApp.ViewModel;
 using static System.Windows.Application;
 
@@ -9,13 +13,13 @@ namespace MidiApp.ContentControls
     /// </summary>
     public partial class MenuBar
     {
-        private Player Player => (Player)DataContext;
+        private Player Player => (Player) DataContext;
 
         public MenuBar()
         {
             InitializeComponent();
         }
-        
+
         private void MenuItem_Exit(object sender, RoutedEventArgs e)
         {
             Current.Shutdown();
@@ -58,6 +62,27 @@ You can change speed of midi playing by slididing up and down over metronome ico
                 MessageBoxButton.OK,
                 MessageBoxImage.Information,
                 MessageBoxResult.OK);
+        }
+
+        private void EventSetter_OnHandler(object sender, RoutedEventArgs args)
+        {
+            string tag = (string) ((RadioButton) sender).Tag;
+
+            var uri = new Uri($"Themes/{tag}.xaml", UriKind.RelativeOrAbsolute);
+
+            ResourceDictionary resource;
+
+            try
+            {
+                resource = new ResourceDictionary {Source = uri};
+            }
+            catch(IOException)
+            {
+                return;
+            }
+
+            Current.Resources.MergedDictionaries.RemoveAt(0);
+            Current.Resources.MergedDictionaries.Insert(0, resource);
         }
     }
 }
