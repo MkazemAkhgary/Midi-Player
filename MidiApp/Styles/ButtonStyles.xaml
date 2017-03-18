@@ -134,7 +134,7 @@
     </Style>
 
     <Style x:Key="PlaybackPrevStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-        
+
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Background" Value="{DynamicResource TransparentButton.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource TransparentButton.Border}"/>
@@ -168,11 +168,11 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.MouseOver}" TargetName="Button"/>
                         </Trigger>
-                        
+
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Fill" Value="{DynamicResource TransparentButton.Background.Click}" TargetName="Button"/>
                         </Trigger>
-                        
+
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>

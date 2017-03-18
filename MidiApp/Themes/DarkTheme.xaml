@@ -19,16 +19,20 @@
     <SolidColorBrush x:Key="Playback.Slider.Thumb.BorderBrush" Color="#B9B9B9"/>
     <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="#939393"/>
 
-     <!--Metronome Theme--> 
+    <!--Metronome Theme--> 
     <SolidColorBrush x:Key="Metronome.Background" Color="#CD959595" />
     <SolidColorBrush x:Key="Metronome.BorderBrush" Color="White" />
     <SolidColorBrush x:Key="Metronome.Foreground" Color="Black" />
 
-     <!--Player Buttons Theme-->
+    <!--Player Buttons Theme-->
     <SolidColorBrush x:Key="TransparentButton.Background" Color="#525252" />
     <SolidColorBrush x:Key="TransparentButton.Background.Click" Color="#787878"/>
     <SolidColorBrush x:Key="TransparentButton.Background.MouseOver" Color="#939393"/>
     <SolidColorBrush x:Key="TransparentButton.Foreground" Color="#3A0707" />
     <SolidColorBrush x:Key="TransparentButton.Border" Color="#B9B9B9"/>
-    
+
+    <!--Time Display Theme -->
+    <SolidColorBrush x:Key="TimeDisplay.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="TimeDisplay.Foreground" Color="White" />
+
 </ResourceDictionary>

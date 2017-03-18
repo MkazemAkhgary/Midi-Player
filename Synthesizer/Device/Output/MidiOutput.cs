@@ -34,11 +34,11 @@ namespace Synthesizer.Device.Output
             NumberOfDevices = NativeMethods.MidiOutput.midiOutGetNumDevs();
         }
 
-        public MidiOutput()
+        public MidiOutput(uint deviceId = 0)
         {
             lock (Lock)
             {
-                LastError = NativeMethods.MidiOutput.midiOutOpen(out handle, NumberOfDevices - 1, null, IntPtr.Zero, 0);
+                LastError = NativeMethods.MidiOutput.midiOutOpen(out handle, deviceId, null, IntPtr.Zero, 0);
 
                 // get id
                 IntPtr pointer;

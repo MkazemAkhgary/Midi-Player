@@ -31,4 +31,8 @@
     <SolidColorBrush x:Key="TransparentButton.Foreground" Color="#CDFFFFFF" />
     <SolidColorBrush x:Key="TransparentButton.Border" Color="#FF000000"/>
 
+    <!--Time Display Theme -->
+    <SolidColorBrush x:Key="TimeDisplay.Background" Color="Transparent" />
+    <SolidColorBrush x:Key="TimeDisplay.Foreground" Color="White" />
+
 </ResourceDictionary>

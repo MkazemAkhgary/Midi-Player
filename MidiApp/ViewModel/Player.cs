@@ -14,11 +14,23 @@ namespace MidiApp.ViewModel
     /// </summary>
     public class Player : IDisposable
     {
+        private enum PlaybackMode
+        {
+            PlayAll,
+            PlaySingle,
+            RepeatAll,
+            RepeatSingle,
+            ShuffleAll,
+            Shuffle
+        }
+
+        private PlaybackMode _mode = PlaybackMode.PlayAll;
+
         private readonly OpenFileDialog _openFileDialog;
 
         private int _currentPlayback = -1;
-        private bool _repeatTrack = false;
-        private bool _repeatList = false;
+
+        private Random rng = new Random();
 
         private TrackInfo _current;
 
@@ -161,7 +173,7 @@ namespace MidiApp.ViewModel
         private async Task NextImpl()
         {
             if (PlaybackList.Count == 0) return;
-
+            
             _currentPlayback++;
             if (_currentPlayback == PlaybackList.Count) _currentPlayback = 0;
 
@@ -185,9 +197,7 @@ namespace MidiApp.ViewModel
 
         private async void OnPlaybackEnds(object sender, EventArgs e)
         {
-            if (_repeatTrack) _currentPlayback--;
-
-            if (_currentPlayback + 1 == PlaybackList.Count && !_repeatList) return;
+            if (_currentPlayback + 1 == PlaybackList.Count) return;
 
             await Next.RaiseCommandAsync();
         }

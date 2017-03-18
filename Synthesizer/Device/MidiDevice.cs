@@ -12,6 +12,7 @@ namespace Synthesizer.Device
     public abstract class MidiDevice : SafeHandle
     {
         private static readonly IntPtr InvalidHandle = IntPtr.Zero;
+        private static MMRESULT _error = MMRESULT.MMSYSERR_NOERROR;
 
         protected MidiDevice() : base(InvalidHandle, true)
         {
@@ -23,8 +24,10 @@ namespace Synthesizer.Device
 
         protected static MMRESULT LastError
         {
+            get { return _error; }
             set
             {
+                _error = value;
                 if (value == MMRESULT.MMSYSERR_NOERROR) return;
                 const int maxlength = 256;
                 var builder = new StringBuilder(maxlength);

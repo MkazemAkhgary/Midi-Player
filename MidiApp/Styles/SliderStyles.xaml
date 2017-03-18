@@ -44,6 +44,7 @@
         <Setter Property="SelectionEnd" Value="{Binding Value, RelativeSource={RelativeSource Self}}" />
         <Setter Property="IsSelectionRangeEnabled" Value="True" />
         <Setter Property="IsMoveToPointEnabled" Value="True" />
+        <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">
             <Setter.Value>

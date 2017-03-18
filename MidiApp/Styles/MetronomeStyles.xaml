@@ -3,6 +3,7 @@
 
 
     <Style x:Key="MetronomeStyle" TargetType="{x:Type Slider}">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="TickFrequency" Value="0.05" />
         <Setter Property="IsSnapToTickEnabled" Value="True" />
         <Setter Property="IsMoveToPointEnabled" Value="True" />

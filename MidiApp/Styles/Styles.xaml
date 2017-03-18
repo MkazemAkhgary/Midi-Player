@@ -8,6 +8,7 @@
         <ResourceDictionary Source="ThumbStyles.xaml" />
         <ResourceDictionary Source="SliderStyles.xaml" />
         <ResourceDictionary Source="MetronomeStyles.xaml" />
+        <ResourceDictionary Source="TextBlockStyles.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
