@@ -17,7 +17,7 @@
     
     <SolidColorBrush x:Key="Playback.Slider.Thumb.Background" Color="White"/>
     <SolidColorBrush x:Key="Playback.Slider.Thumb.BorderBrush" Color="Black"/>
-    <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="#F3F3F3"/>
+    <SolidColorBrush x:Key="Playback.Slider.Thumb.MouseOver" Color="#CFCFCF"/>
 
     <!--Metronome Theme -->
     <SolidColorBrush x:Key="Metronome.Background" Color="White" />
