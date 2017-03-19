@@ -101,7 +101,7 @@ namespace MidiPlayer.Dispatchers
 
             if (data == null) throw new ArgumentNullException(nameof(data));
 
-            return (data[3] << 16) | (data[4] << 8) | data[3];
+            return (data[3] << 16) | (data[4] << 8) | data[5];
         }
     }
 }
