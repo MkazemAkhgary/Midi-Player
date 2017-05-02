@@ -44,6 +44,7 @@ namespace MidiPlayer.Timers
 
         private void OnTimerTick(object sender, ElapsedEventArgs e)
         {
+            _stopwatch.Stop();
             var runtime = _stopwatch.ElapsedMilliseconds;
             var fixedtime = runtime * _intervalunit;
 

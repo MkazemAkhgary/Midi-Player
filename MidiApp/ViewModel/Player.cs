@@ -213,7 +213,7 @@ namespace MidiApp.ViewModel
             {
                 await MidiPlayer.Open(info);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 info.Status = TrackInfo.TrackStatus.Error;
                 return;
